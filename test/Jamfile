@@ -45,7 +45,7 @@ rule compile-fail ( sources + : requirements * : target-name ? )
 }
 
 ###############################################################################
-path-constant LEX_DIR : $(BOOST_ROOT)/libs/spirit/test/lex ;
+path-constant LEX_DIR : lex ;
 
 {
     ###########################################################################

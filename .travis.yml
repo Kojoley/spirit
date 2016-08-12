@@ -1,0 +1,140 @@
+language: cpp
+
+sudo: false
+
+compiler:
+  - gcc
+#  - gcc-5
+  - clang
+#  - clang-3.8
+
+os: linux
+
+addons:
+  apt:
+    sources:
+      - llvm-toolchain-precise-3.8
+      - ubuntu-toolchain-r-test
+    packages:
+      - parallel
+      - clang-3.8
+      - gcc-5
+      - g++-5
+
+env:
+  global:
+    - BOOST_ROOT=$HOME/boost
+    # List of libraries required to build
+    #   system: (qi|x3)/tst.cpp
+    - BOOST_BUILD_DEPS=filesystem,regex,system
+
+  # Replace >>>CASES<<< with a list in the following oneliner to generate a build matrix
+  #   for m in {c++03,c++11,c++1y}#{>>>CASES<<<}; do echo "STD=${m//#/ JOB=}"; done
+  # Tests: test,classic/test,repository/test
+  # Headers: repository/test/test_headers,test/test_headers
+  # Examples: example,classic/example,repository/example
+  # Documentation: doc,classic/doc,repository/doc
+  matrix:
+    - STD=c++03 JOB=test
+    - STD=c++03 JOB=repository/test
+    - STD=c++03 JOB=example
+    - STD=c++1y JOB=test
+    - STD=c++1y JOB=example
+    - STD=c++1y JOB=repository/test
+
+#cache:
+#  directories:
+#    - $BOOST_ROOT/bin.v2
+
+before_install:
+  - |
+    # Setting a toolset depend on a compiler
+    if [[ "$CXX" = "g++" ]]; then
+      export TOOLSET=gcc-5
+      export CXX=g++-5
+      export CÑ=gcc-5
+    elif [ "$CXX" = "clang++" ]; then
+      export TOOLSET=clang-3.8
+      export CXX=clang++-3.8
+      export CC=clang-3.8
+    else
+      echo Unknown toolset
+      exit 1
+    fi
+    echo Toolset is $TOOLSET
+  - |
+    # Determining the branch
+    if [[ "$TRAVIS_PULL_REQUEST" == "false" ]]; then
+      export BRANCH=$TRAVIS_BRANCH
+    else
+      # It is a pull request. Retrieve the base branch from GitHub
+      GH_PR_API=https://api.github.com/repos/$TRAVIS_REPO_SLUG/pulls/$TRAVIS_PULL_REQUEST
+      export BRANCH=`curl -s $GH_PR_API | jq -r .head.ref`;
+    fi
+    if [[ "$BRANCH" != "master" && "$BRANCH" != "develop" ]]; then
+      # Travis has been triggered not from our main branches.
+      # Find out the base branch from the git history
+      export BRANCH=develop
+    fi
+    echo Root branch is $BRANCH
+  - travis_retry git clone https://github.com/boostorg/boost.git $BOOST_ROOT
+                           --branch=$BRANCH --depth=1
+  - pushd $BOOST_ROOT
+  
+  - parallel --version
+  - # Checkout Boost submodules
+
+    git submodule init |
+    tee submodule_init.log |
+    awk '{ print substr($2, 2, length($2) - 2) "\t"
+                 substr($3, 2, length($3) - 2) "\t"
+                 substr($7, 2, length($7) - 2) }' |
+    grep -v 'spirit' |
+    tee checkout.list |
+    parallel --gnu --retries 3 -j10 --colsep '\t' -k
+             --joblog checkout.joblog --tagstring "[{1}]"
+             git clone --branch=$BRANCH --depth=1 --recursive {2} {3}
+    || (
+      echo "=== submodule init ===" ;
+      cat submodule_init.log ;
+      echo "=== checkout list ===" ;
+      cat checkout.list ;
+      echo "=== checkout joblog ===" ;
+      cat checkout.joblog ;
+      exit 1 ;
+     )
+
+  # iostreams library produces a lot of unrelated warnings
+  # Info: Trac Ticket #11860; GitHub PR #25 (not merged)
+  - pushd libs/iostreams
+  - PATCH_URL=https://github.com/boostorg/iostreams/pull/25.patch;
+    curl -sL $PATCH_URL | patch -sup 1
+  - popd
+
+  - rm -rf libs/spirit
+  #- ./bootstrap.sh --with-toolset=$TOOLSET || { cat bootstrap.log ; exit 1 ; }
+  - ./bootstrap.sh --with-libraries=$BOOST_BUILD_DEPS
+    || ( cat bootstrap.log ; exit 1 ; )
+  - ./b2 headers
+  #- ./b2 --build-dir=$HOME/build-boost toolset=$TOOLSET stage
+  - ./b2
+
+  #- export BOOST_BUILD_PATH=$(pwd)
+  #- export PATH=$BOOST_BUILD_PATH:$PATH
+
+  #- ln -s $TRAVIS_BUILD_DIR libs/spirit
+
+  - mv $TRAVIS_BUILD_DIR libs/spirit
+  - ln -s libs/spirit $TRAVIS_BUILD_DIR
+
+  #- popd
+  - cd libs/spirit
+  #- touch Jamroot
+  - cd $JOB
+  - # Dump environment variables
+    export
+  - $CXX --version
+  #- export CACHE_NAME=$TOOLSET-$STD
+
+script:
+  - $BOOST_ROOT/b2 -d0 -j`nproc` toolset=$TOOLSET cxxflags="-std=$STD" #include="$BOOST_ROOT"

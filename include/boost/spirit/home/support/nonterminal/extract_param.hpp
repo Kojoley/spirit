@@ -84,7 +84,8 @@ namespace boost { namespace spirit { namespace detail
     struct make_function_type : mpl::identity<T()> {};
 
     ///////////////////////////////////////////////////////////////////////////
-    template <typename Types, typename Encoding, typename Domain>
+    template <typename Types, typename Encoding = unused_type
+      , typename Domain = unused_type>
     struct extract_sig
     {
         typedef typename

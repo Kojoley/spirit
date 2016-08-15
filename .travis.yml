@@ -64,18 +64,16 @@ before_install:
       mkdir -p $HOME/tools
       pushd $HOME/tools
 
-      echo "#!/bin/sh" > clang.sh
-      echo "echo \"$@\"" >> clang.sh
-      echo "clang-3.8 \"$@\"" >> clang.sh
-      chmod +x clang.sh
+      echo "#!/bin/sh" > clang
+      echo "echo \$@" >> clang
+      echo "clang-3.8 \$@" >> clang
+      chmod +x clang
 
-      echo "#!/bin/sh" > clang++.sh
-      echo "echo \"$@\"" >> clang++.sh
-      echo "clang++-3.8 \"$@\"" >> clang++.sh
-      chmod +x clang++.sh
+      echo "#!/bin/sh" > clang++
+      echo "echo \$@" >> clang++
+      echo "clang++-3.8 \$@" >> clang++
+      chmod +x clang++
 
-      ln -s clang.sh clang
-      ln -s clang++.sh clang++
       export PATH=$(pwd):$PATH
       popd
     else

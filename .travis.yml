@@ -55,25 +55,24 @@ before_install:
       export TOOLSET=gcc-5
       export CXX=g++-5
       export CC=gcc-5
+
+      # Workaround for direct calls
+      mkdir -p $HOME/tools
+      pushd $HOME/tools
+      ln -s "$(which $CC)" gcc
+      ln -s "$(which $CXX)" g++
+      export PATH=$(pwd):$PATH
+      popd
     elif [ "$CXX" = "clang++" ]; then
       export TOOLSET=clang-3.8
       export CXX=clang++-3.8
       export CC=clang-3.8
 
-      # Workaroun for `clang` call
+      # Workaround for direct calls
       mkdir -p $HOME/tools
       pushd $HOME/tools
-
-      echo "#!/bin/sh" > clang
-      echo "echo \$@" >> clang
-      echo "clang-3.8 \$@" >> clang
-      chmod +x clang
-
-      echo "#!/bin/sh" > clang++
-      echo "echo \$@" >> clang++
-      echo "clang++-3.8 \$@" >> clang++
-      chmod +x clang++
-
+      ln -s "$(which $CC)" clang
+      ln -s "$(which $CXX)" clang++
       export PATH=$(pwd):$PATH
       popd
     else
@@ -81,13 +80,16 @@ before_install:
       exit 1
     fi
     echo Toolset is $TOOLSET
+
   - export CACHE_NAME=$TOOLSET-$STD
   - # Dump environment variables
     export
   - $CC --version
   - $CXX --version
-  - clang --version
-  - clang++ --version
+  - which clang && clang --version
+  - which clang++ && clang++ --version
+  - which gcc && gcc --version
+  - which g++ && g++ --version
   - |
     # Determining the branch
     if [[ "$TRAVIS_PULL_REQUEST" == "false" ]]; then

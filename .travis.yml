@@ -61,6 +61,7 @@ before_install:
       export CC=clang-3.8
 
       # Workaroun for `clang` call
+      mkdir -p $HOME/tools
       pushd $HOME/tools
 
       echo "#!/bin/sh" > clang.sh

@@ -113,11 +113,11 @@ before_install:
   - popd
 
   - rm -rf libs/spirit
-  #- ./bootstrap.sh --with-toolset=$TOOLSET || { cat bootstrap.log ; exit 1 ; }
-  - ./bootstrap.sh --with-libraries=$BOOST_BUILD_DEPS
+  - ./bootstrap.sh --with-toolset=${TOOLSET%%-*}
+                   --with-libraries=$BOOST_BUILD_DEPS
     || ( cat bootstrap.log ; exit 1 ; )
   - ./b2 headers
-  - ./b2 --build-dir=$BOOST_BUILD_PATH toolset=$TOOLSET
+  - ./b2 -d1 -j`nproc` toolset=$TOOLSET cxxflags="-std=$STD" --build-dir=$BOOST_BUILD_PATH
 
   #- export BOOST_BUILD_PATH=$(pwd)
   #- export PATH=$BOOST_BUILD_PATH:$PATH

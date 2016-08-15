@@ -20,6 +20,7 @@ addons:
       - clang-3.8
       - gcc-5
       - g++-5
+      - libicu-dev  # from: libboost-regex-dev
 
 env:
   global:

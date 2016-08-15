@@ -118,7 +118,7 @@ before_install:
                    --with-libraries=$BOOST_BUILD_DEPS
     || ( cat bootstrap.log ; exit 1 ; )
   - ./b2 headers
-  - ./b2 -d1 -j`nproc` toolset=$TOOLSET cxxflags="-std=$STD" --build-dir=$BOOST_BUILD_PATH
+  - ./b2 -j`nproc` toolset=$TOOLSET cxxflags="-std=$STD" --build-dir=$BOOST_BUILD_PATH
 
   #- export BOOST_BUILD_PATH=$(pwd)
   #- export PATH=$BOOST_BUILD_PATH:$PATH
@@ -138,4 +138,4 @@ before_install:
   - export CACHE_NAME=$TOOLSET-$STD
 
 script:
-  - $BOOST_ROOT/b2 -d1 -j`nproc` toolset=$TOOLSET cxxflags="-std=$STD" define=BOOST_RESULT_OF_USE_TR1 #include="$BOOST_ROOT"
+  - $BOOST_ROOT/b2 -j`nproc` toolset=$TOOLSET cxxflags="-std=$STD" define=BOOST_RESULT_OF_USE_TR1 #include="$BOOST_ROOT"

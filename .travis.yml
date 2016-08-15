@@ -137,4 +137,4 @@ before_install:
   - export CACHE_NAME=$TOOLSET-$STD
 
 script:
-  - $BOOST_ROOT/b2 -d1 -j`nproc` toolset=$TOOLSET cxxflags="-std=$STD" #include="$BOOST_ROOT"
+  - $BOOST_ROOT/b2 -d1 -j`nproc` toolset=$TOOLSET cxxflags="-std=$STD" define=BOOST_RESULT_OF_USE_TR1 #include="$BOOST_ROOT"

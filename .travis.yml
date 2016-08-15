@@ -4,7 +4,7 @@ sudo: false
 
 compiler:
 #  - gcc
-  - gcc-5
+#  - gcc-5
 #  - clang
   - clang-3.8
 
@@ -37,9 +37,9 @@ env:
   # Examples: example,classic/example,repository/example
   # Documentation: doc,classic/doc,repository/doc
   matrix:
-    - STD=c++03 JOB=test
-    - STD=c++03 JOB=repository/test
-    - STD=c++03 JOB=example
+#    - STD=c++03 JOB=test
+#    - STD=c++03 JOB=repository/test
+#    - STD=c++03 JOB=example
     - STD=c++1y JOB=test
     - STD=c++1y JOB=example
     - STD=c++1y JOB=repository/test
@@ -64,6 +64,14 @@ before_install:
       exit 1
     fi
     echo Toolset is $TOOLSET
+  - export CACHE_NAME=$TOOLSET-$STD
+  - # Dump environment variables
+    export
+  - locate $CC
+  - $CC --version
+  - locate $CXX
+  - $CXX --version
+  - update-alternatives --list c++
   - |
     # Determining the branch
     if [[ "$TRAVIS_PULL_REQUEST" == "false" ]]; then
@@ -132,14 +140,6 @@ before_install:
   - cd libs/spirit
   #- touch Jamroot
   - cd $JOB
-  - export CACHE_NAME=$TOOLSET-$STD
-  - # Dump environment variables
-    export
-  - locate $CC
-  - $CC --version
-  - locate $CXX
-  - $CXX --version
-  - update-alternatives --list c++
 
 script:
   - $BOOST_ROOT/b2 -j`nproc` toolset=$TOOLSET cxxflags="-std=$STD" define=BOOST_RESULT_OF_USE_TR1 #include="$BOOST_ROOT"

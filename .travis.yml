@@ -24,6 +24,7 @@ addons:
 env:
   global:
     - BOOST_ROOT=$HOME/boost
+    - BOOST_BUILD_PATH=$HOME/build-boost
     # List of libraries required to build
     #   system: (qi|x3)/tst.cpp
     - BOOST_BUILD_DEPS=filesystem,regex,system
@@ -42,9 +43,9 @@ env:
     - STD=c++1y JOB=example
     - STD=c++1y JOB=repository/test
 
-#cache:
-#  directories:
-#    - $BOOST_ROOT/bin.v2
+cache:
+  directories:
+    - $BOOST_BUILD_PATH
 
 before_install:
   - |
@@ -116,8 +117,7 @@ before_install:
   - ./bootstrap.sh --with-libraries=$BOOST_BUILD_DEPS
     || ( cat bootstrap.log ; exit 1 ; )
   - ./b2 headers
-  #- ./b2 --build-dir=$HOME/build-boost toolset=$TOOLSET stage
-  - ./b2
+  - ./b2 --build-dir=$BOOST_BUILD_PATH toolset=$TOOLSET
 
   #- export BOOST_BUILD_PATH=$(pwd)
   #- export PATH=$BOOST_BUILD_PATH:$PATH
@@ -134,7 +134,7 @@ before_install:
   - # Dump environment variables
     export
   - $CXX --version
-  #- export CACHE_NAME=$TOOLSET-$STD
+  - export CACHE_NAME=$TOOLSET-$STD
 
 script:
-  - $BOOST_ROOT/b2 -d0 -j`nproc` toolset=$TOOLSET cxxflags="-std=$STD" #include="$BOOST_ROOT"
+  - $BOOST_ROOT/b2 -d1 -j`nproc` toolset=$TOOLSET cxxflags="-std=$STD" #include="$BOOST_ROOT"

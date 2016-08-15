@@ -74,6 +74,8 @@ before_install:
       echo "clang++-3.8 \"$@\"" >> clang++.sh
       chmod +x clang++.sh
 
+      ln -s clang.sh clang
+      ln -s clang++.sh clang++
       export PATH=$(pwd):$PATH
       popd
     else

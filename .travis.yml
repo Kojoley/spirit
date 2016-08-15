@@ -3,10 +3,10 @@ language: cpp
 sudo: false
 
 compiler:
-  - gcc
-#  - gcc-5
-  - clang
-#  - clang-3.8
+#  - gcc
+  - gcc-5
+#  - clang
+  - clang-3.8
 
 os: linux
 
@@ -54,7 +54,7 @@ before_install:
     if [[ "$CXX" = "g++" ]]; then
       export TOOLSET=gcc-5
       export CXX=g++-5
-      export CÑ=gcc-5
+      export CC=gcc-5
     elif [ "$CXX" = "clang++" ]; then
       export TOOLSET=clang-3.8
       export CXX=clang++-3.8
@@ -132,10 +132,14 @@ before_install:
   - cd libs/spirit
   #- touch Jamroot
   - cd $JOB
+  - export CACHE_NAME=$TOOLSET-$STD
   - # Dump environment variables
     export
+  - locate $CC
+  - $CC --version
+  - locate $CXX
   - $CXX --version
-  - export CACHE_NAME=$TOOLSET-$STD
+  - update-alternatives --list c++
 
 script:
   - $BOOST_ROOT/b2 -j`nproc` toolset=$TOOLSET cxxflags="-std=$STD" define=BOOST_RESULT_OF_USE_TR1 #include="$BOOST_ROOT"

@@ -59,6 +59,20 @@ before_install:
       export TOOLSET=clang-3.8
       export CXX=clang++-3.8
       export CC=clang-3.8
+
+      # Workaroun for `clang` call
+      pushd $HOME/tools
+
+      echo "#!/bin/sh" > clang.sh
+      echo "echo \"$@\"" >> clang.sh
+      echo "clang-3.8 \"$@\"" >> clang.sh
+
+      echo "#!/bin/sh" > clang++.sh
+      echo "echo \"$@\"" >> clang++.sh
+      echo "clang++-3.8 \"$@\"" >> clang++.sh
+
+      export PATH=$(pwd):$PATH
+      popd
     else
       echo Unknown toolset
       exit 1
@@ -69,7 +83,8 @@ before_install:
     export
   - $CC --version
   - $CXX --version
-  - update-alternatives --list c++
+  - clang --version
+  - clang++ --version
   - |
     # Determining the branch
     if [[ "$TRAVIS_PULL_REQUEST" == "false" ]]; then

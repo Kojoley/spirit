@@ -66,10 +66,12 @@ before_install:
       echo "#!/bin/sh" > clang.sh
       echo "echo \"$@\"" >> clang.sh
       echo "clang-3.8 \"$@\"" >> clang.sh
+      chmod +x clang.sh
 
       echo "#!/bin/sh" > clang++.sh
       echo "echo \"$@\"" >> clang++.sh
       echo "clang++-3.8 \"$@\"" >> clang++.sh
+      chmod +x clang++.sh
 
       export PATH=$(pwd):$PATH
       popd

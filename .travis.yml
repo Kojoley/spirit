@@ -157,6 +157,14 @@ before_install:
   #- popd
   - cd libs/spirit
   #- touch Jamroot
+  - |
+    # Patch Spirit with my own fixes
+    for pr_num in 1 2 3; do
+      PATCH_URL=https://github.com/Kojoley/spirit/pull/$pr_num.patch
+      echo Applying patch $PATCH_URL
+      curl -sL $PATCH_URL | patch -sup 1
+    done
+
   - cd $JOB
 
 script:

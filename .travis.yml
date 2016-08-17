@@ -50,31 +50,16 @@ cache:
 
 before_install:
   - |
+    cat > ~/user-config.jam <<EOL
+      using gcc : 5 : g++-5 ;
+      using clang : 3.8 : clang++-3.8 ;
+    EOL
+  - |
     # Setting a toolset depend on a compiler
     if [[ "$CXX" = "g++" ]]; then
       export TOOLSET=gcc-5
-      export CXX=g++-5
-      export CC=gcc-5
-
-      # Workaround for direct calls
-      mkdir -p $HOME/tools
-      pushd $HOME/tools
-      ln -s "$(which $CC)" gcc
-      ln -s "$(which $CXX)" g++
-      export PATH=$(pwd):$PATH
-      popd
     elif [ "$CXX" = "clang++" ]; then
       export TOOLSET=clang-3.8
-      export CXX=clang++-3.8
-      export CC=clang-3.8
-
-      # Workaround for direct calls
-      mkdir -p $HOME/tools
-      pushd $HOME/tools
-      ln -s "$(which $CC)" clang
-      ln -s "$(which $CXX)" clang++
-      export PATH=$(pwd):$PATH
-      popd
     else
       echo Unknown toolset
       exit 1

@@ -4,7 +4,7 @@ sudo: false
 
 compiler:
 #  - gcc
-#  - gcc-5
+  - gcc-5
 #  - clang
   - clang-3.8
 
@@ -52,18 +52,23 @@ before_install:
   - |
     # Creating ~/user-config.jam file
     cat > ~/user-config.jam <<EOF
-      using gcc : 5 : g++-5 ;
-      using clang : 3.8 : clang++-3.8 ;
-  - cat ~/user-config.jam
+
+    import feature ;
+
+    using gcc : 5 : g++-5 ;
+    using clang : 3.8 : clang++-3.8 ;
+
+    feature coverage : off on : composite propagated ;
+    feature.compose <coverage>on :
+         <toolset>gcc:<cflags>-fprofile-arcs -ftest-coverage
+         <toolset>clang:<cflags>-fprofile-instr-generate -fcoverage-mapping
+         ;
   - |
     # Setting a toolset depend on a compiler
     if [[ "$CXX" = "g++" ]]; then
       export TOOLSET=gcc-5
     elif [ "$CXX" = "clang++" ]; then
       export TOOLSET=clang-3.8
-    else
-      echo Unknown toolset
-      exit 1
     fi
     echo Toolset is $TOOLSET
 
@@ -146,4 +151,4 @@ before_install:
   - cd $JOB
 
 script:
-  - $BOOST_ROOT/b2 -j`nproc` toolset=$TOOLSET cxxflags="-std=$STD" define=BOOST_RESULT_OF_USE_TR1 #include="$BOOST_ROOT"
+  - $BOOST_ROOT/b2 -j`nproc` toolset=$TOOLSET coverage=on cxxflags="-std=$STD" define=BOOST_RESULT_OF_USE_TR1 #include="$BOOST_ROOT"

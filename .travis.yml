@@ -4,7 +4,7 @@ sudo: false
 
 compiler:
 #  - gcc
-  - gcc-5
+#  - gcc-5
 #  - clang
   - clang-3.8
 
@@ -50,10 +50,11 @@ cache:
 
 before_install:
   - |
-    cat > ~/user-config.jam <<EOL
+    # Creating ~/user-config.jam file
+    cat > ~/user-config.jam <<EOF
       using gcc : 5 : g++-5 ;
       using clang : 3.8 : clang++-3.8 ;
-    EOL
+  - cat ~/user-config.jam
   - |
     # Setting a toolset depend on a compiler
     if [[ "$CXX" = "g++" ]]; then

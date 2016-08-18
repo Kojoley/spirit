@@ -53,16 +53,18 @@ before_install:
     # Creating ~/user-config.jam file
     cat > ~/user-config.jam <<EOF
 
-    import feature : feature ;
+    import feature ;
 
     using gcc : 5 : g++-5 ;
     using clang : 3.8 : clang++-3.8 ;
 
-    feature coverage : off on : optional composite propagated ;
+    feature.feature coverage : off on : optional composite propagated ;
     feature.compose <coverage>on :
-         <toolset>gcc:<cflags>-fprofile-arcs -ftest-coverage
-         <toolset>clang:<cflags>-fprofile-instr-generate -fcoverage-mapping
-         ;
+        <toolset>gcc:<cflags>-fprofile-arcs
+        <toolset>gcc:<cflags>-ftest-coverage
+        <toolset>clang:<cflags>-fprofile-instr-generate
+        <toolset>clang:<cflags>-fcoverage-mapping
+      ;
   - |
     # Setting a toolset depend on a compiler
     if [[ "$CXX" = "g++" ]]; then

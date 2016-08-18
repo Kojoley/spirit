@@ -60,10 +60,17 @@ before_install:
 
     feature.feature coverage : off on : optional composite propagated ;
     feature.compose <coverage>on :
-        <toolset>gcc:<cflags>-fprofile-arcs
-        <toolset>gcc:<cflags>-ftest-coverage
-        <toolset>clang:<cflags>-fprofile-instr-generate
-        <toolset>clang:<cflags>-fcoverage-mapping
+        <toolset>gcc:<cxxflags>--coverage  # synonym for -fprofile-arcs -ftest-coverage
+        <toolset>gcc:<linkflags>--coverage  # synonym for -lgcov
+        # We can use --coverage with clang but then
+        # it will produce profiling data in gcc format
+        #<toolset>clang:<cxxflags>-fprofile-instr-generate
+        #<toolset>clang:<cxxflags>-fcoverage-mapping
+        #<toolset>clang:<linkflags>-fprofile-instr-generate
+        #<toolset>clang:<linkflags>-fcoverage-mapping
+        # Codecov does not support clang profiling format
+        <toolset>clang:<cxxflags>--coverage
+        <toolset>clang:<linkflags>--coverage
       ;
   - |
     # Setting a toolset depend on a compiler
@@ -154,3 +161,6 @@ before_install:
 
 script:
   - $BOOST_ROOT/b2 -j`nproc` toolset=$TOOLSET coverage=on cxxflags="-std=$STD" define=BOOST_RESULT_OF_USE_TR1 #include="$BOOST_ROOT"
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)

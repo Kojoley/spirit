@@ -81,7 +81,9 @@ before_install:
     fi
     echo Toolset is $TOOLSET
 
+  - cat $BOOST_BUILD_PATH/cache.name
   - export CACHE_NAME=$TOOLSET-$STD
+  - echo "$CACHE_NAME" > $BOOST_BUILD_PATH/cache.name
   - # Dump environment variables
     export
   - $CC --version

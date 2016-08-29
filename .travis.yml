@@ -38,11 +38,11 @@ env:
   # Documentation: doc,classic/doc,repository/doc
   matrix:
     - STD=c++03 JOB=test
-    - STD=c++03 JOB=repository/test
-    - STD=c++03 JOB=example
-    - STD=c++1y JOB=test
-    - STD=c++1y JOB=example
-    - STD=c++1y JOB=repository/test
+    #- STD=c++03 JOB=repository/test
+    #- STD=c++03 JOB=example
+    #- STD=c++1y JOB=test
+    #- STD=c++1y JOB=example
+    #- STD=c++1y JOB=repository/test
 
 cache:
   directories:

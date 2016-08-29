@@ -47,12 +47,6 @@ rule compile-fail ( sources + : requirements * : target-name ? )
 ###############################################################################
 path-constant LEX_DIR : lex ;
 
-alias nonascii
-    : : : :
-        <toolset>gcc:<cxxflags>-finput-charset=iso8859-1
-        <toolset>clang:<cxxflags>-finput-charset=iso8859-1
-    ;
-
 {
     ###########################################################################
     test-suite spirit_v2/qi :
@@ -70,10 +64,10 @@ alias nonascii
      #[ run qi/bool2.cpp            : : : : qi_bool2 ]
      #[ run qi/char1.cpp            : : : : qi_char1 ]
      #[ run qi/char2.cpp            : : : : qi_char2 ]
-     [ run qi/char_class.cpp nonascii : : : : qi_char_class ]
+     [ run qi/char_class.cpp       : : : : qi_char_class ]
      #[ run qi/debug.cpp            : : : : qi_debug ]
      #[ run qi/difference.cpp       : : : : qi_difference ]
-     [ run qi/encoding.cpp nonascii   : : : : qi_encoding ]
+     [ run qi/encoding.cpp         : : : : qi_encoding ]
      #[ run qi/end.cpp              : : : : qi_end ]
      #[ run qi/eps.cpp              : : : : qi_eps ]
      #[ run qi/expect.cpp           : : : : qi_expect ]
@@ -94,7 +88,7 @@ alias nonascii
      #[ run qi/match_manip3.cpp     : : : : qi_match_manip3 ]
      #[ run qi/match_manip_attr.cpp : : : : qi_match_manip_attr ]
      #[ run qi/matches.cpp          : : : : qi_matches ]
-     [ run qi/no_case.cpp nonascii    : : : : qi_no_case ]
+     [ run qi/no_case.cpp          : : : : qi_no_case ]
      #[ run qi/no_skip.cpp          : : : : qi_no_skip ]
      #[ run qi/not_predicate.cpp    : : : : qi_not_predicate ]
      #[ run qi/optional.cpp         : : : : qi_optional ]
@@ -114,7 +108,7 @@ alias nonascii
      #[ run qi/rule1.cpp            : : : : qi_rule1 ]
      #[ run qi/rule2.cpp            : : : : qi_rule2 ]
      #[ run qi/rule3.cpp            : : : : qi_rule3 ]
-     [ run qi/rule4.cpp nonascii      : : : : qi_rule4 ]
+     [ run qi/rule4.cpp            : : : : qi_rule4 ]
      #[ run qi/sequence.cpp         : : : : qi_sequence ]
      #[ run qi/sequential_or.cpp    : : : : qi_sequential_or ]
      #[ run qi/skip.cpp             : : : : qi_skip ]
@@ -180,18 +174,18 @@ alias nonascii
      #[ run karma/bool.cpp                      : : : : karma_bool ]
      #[ run karma/buffer.cpp                    : : : : karma_buffer ]
      #[ run karma/case_handling1.cpp            : : : : karma_case_handling1 ]
-     [ run karma/case_handling2.cpp nonascii      : : : : karma_case_handling2 ]
-     [ run karma/case_handling3.cpp nonascii      : : : : karma_case_handling3 ]
+     [ run karma/case_handling2.cpp            : : : : karma_case_handling2 ]
+     [ run karma/case_handling3.cpp            : : : : karma_case_handling3 ]
      #[ run karma/center_alignment.cpp          : : : : karma_center_alignment ]
      #[ run karma/char1.cpp                     : : : : karma_char1 ]
      #[ run karma/char2.cpp                     : : : : karma_char2 ]
      #[ run karma/char3.cpp                     : : : : karma_char3 ]
-     [ run karma/char_class.cpp nonascii          : : : : karma_char_class ]
+     [ run karma/char_class.cpp                : : : : karma_char_class ]
      #[ run karma/columns.cpp                   : : : : karma_columns ]
      #[ run karma/debug.cpp                     : : : : karma_debug ]
      #[ run karma/delimiter.cpp                 : : : : karma_delimiter ]
      #[ run karma/duplicate.cpp                 : : : : karma_duplicate ]
-     [ run karma/encoding.cpp nonascii            : : : : karma_encoding ]
+     [ run karma/encoding.cpp                  : : : : karma_encoding ]
      #[ run karma/eol.cpp                       : : : : karma_eol ]
      #[ run karma/eps.cpp                       : : : : karma_eps ]
      #[ run karma/format_manip.cpp              : : : : karma_format_manip ]
@@ -214,7 +208,7 @@ alias nonascii
      #[ run karma/pattern1.cpp                  : : : : karma_pattern1 ]
      #[ run karma/pattern2.cpp                  : : : : karma_pattern2 ]
      #[ run karma/pattern3.cpp                  : : : : karma_pattern3 ]
-     [ run karma/pattern4.cpp nonascii            : : : : karma_pattern4 ]
+     [ run karma/pattern4.cpp                  : : : : karma_pattern4 ]
      #[ run karma/plus.cpp                      : : : : karma_plus ]
      #[ run karma/real1.cpp                     : : : : karma_real1 ]
      #[ run karma/real2.cpp                     : : : : karma_real2 ]

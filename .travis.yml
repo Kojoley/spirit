@@ -42,8 +42,8 @@ env:
     - STD=c++03 JOB=repository/test
     - STD=c++03 JOB=example
     - STD=c++1y JOB=test
-    - STD=c++1y JOB=example
     - STD=c++1y JOB=repository/test
+    - STD=c++1y JOB=example
 
 cache:
   directories:
@@ -55,24 +55,32 @@ before_install:
     cat > ~/user-config.jam <<EOF
 
     import feature ;
+    import toolset ;
 
-    using gcc : 5 : ccache g++-5 : <compileflags>"-Wall -Wextra -pedantic -Wno-long-long -std=$STD" ;
-    using clang : 3.8 : ccache clang++-3.8 : <compileflags>"-Weverything -Wno-long-long -std=$STD" ;
+    using gcc : 5 : ccache g++-5 : <compileflags>-std=$STD ;
+    using clang : 3.8 : ccache clang++-3.8 : <compileflags>-std=$STD ;
 
-    feature.feature coverage : off on : optional composite propagated ;
-    feature.compose <coverage>on :
-        <toolset>gcc:<cxxflags>--coverage  # synonym for -fprofile-arcs -ftest-coverage
-        <toolset>gcc:<linkflags>--coverage  # synonym for -lgcov
-        # We can use --coverage with clang but then
-        # it will produce profiling data in gcc format
-        #<toolset>clang:<cxxflags>-fprofile-instr-generate
-        #<toolset>clang:<cxxflags>-fcoverage-mapping
-        #<toolset>clang:<linkflags>-fprofile-instr-generate
-        #<toolset>clang:<linkflags>-fcoverage-mapping
-        # Codecov does not support clang profiling format
-        <toolset>clang:<cxxflags>--coverage
-        <toolset>clang:<linkflags>--coverage
-      ;
+    feature.extend warnings : extra ;
+    toolset.flags gcc.compile OPTIONS <warnings>extra : -Wall -Wextra -pedantic -Wno-long-long : unchecked ; 
+    toolset.flags clang-linux.compile OPTIONS <warnings>extra : -Weverything -Wno-long-long : unchecked ; 
+
+    feature.feature coverage : off on : optional ;
+
+    # --coverage compiler flag is synonym for -fprofile-arcs -ftest-coverage
+    # --coverage linker flag is synonym for -lgcov
+    toolset.flags gcc.compile OPTIONS <coverage>on : --coverage : unchecked ;
+    toolset.flags gcc.link OPTIONS <coverage>on : --coverage : unchecked ; 
+
+    # `--coverage` flag forces clang to produce profiling data
+    # in gcc format. We need this bacause codecov does not support
+    # clang profiling format
+    #toolset.flags clang-linux.compile OPTIONS <coverage>on : -fprofile-instr-generate -fcoverage-mapping : unchecked ; 
+    #toolset.flags clang-linux.link OPTIONS <coverage>on : -fprofile-instr-generate -fcoverage-mapping : unchecked ; 
+    toolset.flags clang-linux.compile OPTIONS <coverage>on : --coverage : unchecked ; 
+    toolset.flags clang-linux.link OPTIONS <coverage>on : --coverage : unchecked ; 
+
+  - sed 's/^  //' -i ~/user-config.jam
+  - cat ~/user-config.jam
   - |
     # Setting a toolset depend on a compiler
     if [[ "$CXX" = "g++" ]]; then
@@ -157,7 +165,7 @@ before_install:
   - cd $JOB
 
 script:
-  - $BOOST_ROOT/b2 -j`nproc` toolset=$TOOLSET coverage=on define=BOOST_RESULT_OF_USE_TR1 #include="$BOOST_ROOT"
+  - $BOOST_ROOT/b2 -j`nproc` toolset=$TOOLSET coverage=on warnings=extra define=BOOST_RESULT_OF_USE_TR1 #include="$BOOST_ROOT"
 
 after_success:
   - bash <(curl -s https://codecov.io/bash) -e TOOLSET,STD

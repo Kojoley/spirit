@@ -135,13 +135,6 @@ before_install:
       exit 1 ;
      )
 
-  # iostreams library produces a lot of unrelated warnings
-  # Info: Trac Ticket #11860; GitHub PR #25 (not merged)
-  - pushd libs/iostreams
-  - PATCH_URL=https://github.com/boostorg/iostreams/pull/25.patch;
-    curl -sL $PATCH_URL | patch -sup 1
-  - popd
-
   - rm -rf libs/spirit
   - ./bootstrap.sh --with-toolset=${TOOLSET%%-*}
                    --with-libraries=$BOOST_BUILD_DEPS

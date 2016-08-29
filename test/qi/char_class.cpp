@@ -205,9 +205,9 @@ main()
 #if BOOST_WORKAROUND(BOOST_MSVC, BOOST_TESTED_AT(1310))
 #pragma setlocale("german")
 #endif
-        BOOST_TEST(test("\xE9", alpha));
-        BOOST_TEST(test("\xE9", lower));
-        BOOST_TEST(!test("\xE9", upper));
+        BOOST_TEST(test(L"\U00E9", alpha));
+        BOOST_TEST(test(L"\U00E9", lower));
+        BOOST_TEST(!test(L"\U00E9", upper));
 
 #if BOOST_WORKAROUND(BOOST_MSVC, BOOST_TESTED_AT(1310))
 #pragma setlocale("")

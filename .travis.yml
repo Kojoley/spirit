@@ -17,6 +17,7 @@ addons:
       - ubuntu-toolchain-r-test
     packages:
       - parallel
+      - ccache
       - clang-3.8
       - gcc-5
       - g++-5
@@ -46,7 +47,7 @@ env:
 
 cache:
   directories:
-    - $BOOST_BUILD_PATH
+    - $HOME/.ccache
 
 before_install:
   - |
@@ -55,8 +56,8 @@ before_install:
 
     import feature ;
 
-    using gcc : 5 : g++-5 : <compileflags>"-Wall -Wextra -pedantic -Wno-long-long -std=$STD" ;
-    using clang : 3.8 : clang++-3.8 : <compileflags>"-Weverything -Wno-long-long -std=$STD" ;
+    using gcc : 5 : ccache g++-5 : <compileflags>"-Wall -Wextra -pedantic -Wno-long-long -std=$STD" ;
+    using clang : 3.8 : ccache clang++-3.8 : <compileflags>"-Weverything -Wno-long-long -std=$STD" ;
 
     feature.feature coverage : off on : optional composite propagated ;
     feature.compose <coverage>on :

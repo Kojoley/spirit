@@ -62,7 +62,7 @@ before_install:
 
     feature.extend warnings : extra ;
     toolset.flags gcc.compile OPTIONS <warnings>extra : -Wall -Wextra -pedantic -Wno-long-long : unchecked ; 
-    toolset.flags clang-linux.compile OPTIONS <warnings>extra : -Weverything -Wno-long-long -Wno-disabled-macro-expansion : unchecked ; 
+    toolset.flags clang-linux.compile OPTIONS <warnings>extra : -Weverything -Wno-long-long -Wno-disabled-macro-expansion -Wno-c++98-compat-pedantic : unchecked ; 
 
     feature.feature coverage : off on : optional ;
 

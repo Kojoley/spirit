@@ -114,7 +114,7 @@ enum byte_code
     op_sub,         //  subtract top two stack entries
     op_mul,         //  multiply top two stack entries
     op_div,         //  divide top two stack entries
-    op_int,         //  push constant integer into the stack
+    op_int          //  push constant integer into the stack
 };
 
 ///////////////////////////////////////////////////////////////////////////////

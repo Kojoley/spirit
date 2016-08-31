@@ -30,8 +30,8 @@ namespace testns
     struct ops_1_parser
       : boost::spirit::qi::primitive_parser<ops_1_parser<T1> >
     {
-        ops_1_parser(T1 t1)
-          : t1(t1)
+        ops_1_parser(T1 t1_)
+          : t1(t1_)
         {}
 
         template <typename Context, typename Iterator>
@@ -78,9 +78,9 @@ namespace testns
     struct ops_2_parser
       : boost::spirit::qi::primitive_parser<ops_2_parser<T1, T2> >
     {
-        ops_2_parser(T1 t1, T2 t2)
-          : t1(t1)
-          , t2(t2)
+        ops_2_parser(T1 t1_, T2 t2_)
+          : t1(t1_)
+          , t2(t2_)
         {}
 
         template <typename Context, typename Iterator>
@@ -131,10 +131,10 @@ namespace testns
     struct ops_3_parser
       : boost::spirit::qi::primitive_parser<ops_3_parser<T1, T2, T3> >
     {
-        ops_3_parser(T1 t1, T2 t2, T3 t3)
-          : t1(t1)
-          , t2(t2)
-          , t3(t3)
+        ops_3_parser(T1 t1_, T2 t2_, T3 t3_)
+          : t1(t1_)
+          , t2(t2_)
+          , t3(t3_)
         {}
 
         template <typename Context, typename Iterator>

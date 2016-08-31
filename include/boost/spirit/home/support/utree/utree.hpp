@@ -306,8 +306,8 @@ namespace boost { namespace spirit
         }
 
         template <typename T>
-        any_ptr(T* p)
-          : p(p), i(&typeid(T*))
+        any_ptr(T* p_)
+          : p(p_), i(&typeid(T*))
         {}
 
         friend bool operator==(any_ptr const& a, any_ptr const& b)
@@ -317,8 +317,8 @@ namespace boost { namespace spirit
 
     private:
         // constructor is private
-        any_ptr(void* p, std::type_info const* i)
-          : p(p), i(i) {}
+        any_ptr(void* p_, std::type_info const* i_)
+          : p(p_), i(i_) {}
 
         template <typename UTreeX, typename UTreeY>
         friend struct detail::visit_impl;

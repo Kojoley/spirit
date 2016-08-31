@@ -110,8 +110,8 @@ namespace boost { namespace spirit { namespace karma
             type;
         };
 
-        lazy_generator(Function const& func, Modifiers const& modifiers)
-          : func(func), modifiers(modifiers) {}
+        lazy_generator(Function const& func_, Modifiers const& modifiers_)
+          : func(func_), modifiers(modifiers_) {}
 
         template <
             typename OutputIterator, typename Context, 
@@ -188,9 +188,9 @@ namespace boost { namespace spirit { namespace karma
             type;
         };
 
-        lazy_directive(Function const& function, Subject const& subject
-              , Modifiers const& modifiers)
-          : function(function), subject(subject), modifiers(modifiers) {}
+        lazy_directive(Function const& function_, Subject const& subject_
+              , Modifiers const& modifiers_)
+          : function(function_), subject(subject_), modifiers(modifiers_) {}
 
         template <typename OutputIterator, typename Context, typename Delimiter
           , typename Attribute>

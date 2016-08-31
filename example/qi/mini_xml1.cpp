@@ -80,8 +80,8 @@ namespace client
 
     struct mini_xml_printer
     {
-        mini_xml_printer(int indent = 0)
-          : indent(indent)
+        mini_xml_printer(int indent_ = 0)
+          : indent(indent_)
         {
         }
 

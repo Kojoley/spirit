@@ -61,7 +61,7 @@ struct dumper
 {
     typedef bool result_type;
 
-    dumper(std::stringstream& strm) : strm(strm) {}
+    dumper(std::stringstream& strm_) : strm(strm_) {}
 
     template <typename Token>
     bool operator () (Token const &t)

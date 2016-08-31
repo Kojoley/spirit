@@ -36,8 +36,8 @@ using boost::spirit::unused_type;
 ///////////////////////////////////////////////////////////////////////////////
 struct action 
 {
-    action (std::vector<char>& vec) 
-      : vec(vec), it(vec.begin()) 
+    action (std::vector<char>& vec_) 
+      : vec(vec_), it(vec.begin()) 
     {}
 
     void operator()(unsigned& value, unused_type const&, bool& pass) const

@@ -50,16 +50,16 @@ int main()
     // even if omit[] never fails, it has to honor the result of the 
     // embedded generator
     {
-        typedef std::pair<double, double> attribute_type;
-        rule<outiter_type, attribute_type()> r;
+        typedef std::pair<double, double> attribute_type_;
+        rule<outiter_type, attribute_type_()> r_;
 
-        r %= omit[double_(1.0) << double_] | "42";
+        r_ %= omit[double_(1.0) << double_] | "42";
 
-        attribute_type p1 (1.0, 2.0);
-        BOOST_TEST(test("", r, p1));
+        attribute_type_ p1 (1.0, 2.0);
+        BOOST_TEST(test("", r_, p1));
 
-        attribute_type p2 (10.0, 2.0);
-        BOOST_TEST(test("42", r, p2));
+        attribute_type_ p2 (10.0, 2.0);
+        BOOST_TEST(test("42", r_, p2));
      }
 
     // skip[] is not supposed to execute the embedded generator

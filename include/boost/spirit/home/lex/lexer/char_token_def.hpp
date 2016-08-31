@@ -80,8 +80,8 @@ namespace boost { namespace spirit { namespace lex
     {
         typedef typename CharEncoding::char_type char_type;
 
-        char_token_def(char_type ch, IdType const& id) 
-          : ch(ch), id_(id), unique_id_(std::size_t(~0))
+        char_token_def(char_type ch_, IdType const& id) 
+          : ch(ch_), id_(id), unique_id_(std::size_t(~0))
           , token_state_(std::size_t(~0)) 
         {}
 

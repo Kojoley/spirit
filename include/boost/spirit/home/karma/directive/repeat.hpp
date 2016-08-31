@@ -81,8 +81,8 @@ namespace boost { namespace spirit { namespace karma
     template <typename T>
     struct exact_iterator
     {
-        exact_iterator(T const exact)
-          : exact(exact) {}
+        exact_iterator(T const exact_)
+          : exact(exact_) {}
 
         typedef T type;
         T start() const { return 0; }
@@ -100,9 +100,9 @@ namespace boost { namespace spirit { namespace karma
     template <typename T>
     struct finite_iterator
     {
-        finite_iterator(T const min, T const max)
-          : min BOOST_PREVENT_MACRO_SUBSTITUTION (min)
-          , max BOOST_PREVENT_MACRO_SUBSTITUTION (max) {}
+        finite_iterator(T const min_, T const max_)
+          : min BOOST_PREVENT_MACRO_SUBSTITUTION (min_)
+          , max BOOST_PREVENT_MACRO_SUBSTITUTION (max_) {}
 
         typedef T type;
         T start() const { return 0; }
@@ -121,8 +121,8 @@ namespace boost { namespace spirit { namespace karma
     template <typename T>
     struct infinite_iterator
     {
-        infinite_iterator(T const min)
-          : min BOOST_PREVENT_MACRO_SUBSTITUTION (min) {}
+        infinite_iterator(T const min_)
+          : min BOOST_PREVENT_MACRO_SUBSTITUTION (min_) {}
 
         typedef T type;
         T start() const { return 0; }
@@ -190,8 +190,8 @@ namespace boost { namespace spirit { namespace karma
             >
         {};
 
-        base_repeat_generator(Subject const& subject, LoopIter const& iter)
-          : subject(subject), iter(iter) {}
+        base_repeat_generator(Subject const& subject_, LoopIter const& iter_)
+          : subject(subject_), iter(iter_) {}
 
         template <typename OutputIterator, typename Context, typename Delimiter
           , typename Attribute>
@@ -264,8 +264,8 @@ namespace boost { namespace spirit { namespace karma
             Subject, LoopIter, mpl::false_, repeat_generator
         > base_repeat_generator_;
 
-        repeat_generator(Subject const& subject, LoopIter const& iter)
-          : base_repeat_generator_(subject, iter) {}
+        repeat_generator(Subject const& subject_, LoopIter const& iter_)
+          : base_repeat_generator_(subject_, iter_) {}
     };
 
     template <typename Subject, typename LoopIter>
@@ -278,8 +278,8 @@ namespace boost { namespace spirit { namespace karma
             Subject, LoopIter, mpl::true_, strict_repeat_generator
         > base_repeat_generator_;
 
-        strict_repeat_generator(Subject const& subject, LoopIter const& iter)
-          : base_repeat_generator_(subject, iter) {}
+        strict_repeat_generator(Subject const& subject_, LoopIter const& iter_)
+          : base_repeat_generator_(subject_, iter_) {}
     };
 
     ///////////////////////////////////////////////////////////////////////////

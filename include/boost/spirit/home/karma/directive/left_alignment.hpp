@@ -130,8 +130,8 @@ namespace boost { namespace spirit { namespace karma
           : traits::attribute_of<subject_type, Context, Iterator>
         {};
 
-        simple_left_alignment(Subject const& subject, Width width = Width())
-          : subject(subject), width(width) {}
+        simple_left_alignment(Subject const& subject_, Width width_ = Width())
+          : subject(subject_), width(width_) {}
 
         template <typename OutputIterator, typename Context, typename Delimiter
           , typename Attribute>
@@ -176,9 +176,9 @@ namespace boost { namespace spirit { namespace karma
           : traits::attribute_of<subject_type, Context, Iterator>
         {};
 
-        padding_left_alignment(Subject const& subject, Padding const& padding
-              , Width width = Width())
-          : subject(subject), padding(padding), width(width) {}
+        padding_left_alignment(Subject const& subject_
+              , Padding const& padding_, Width width_ = Width())
+          : subject(subject_), padding(padding_), width(width_) {}
 
         template <typename OutputIterator, typename Context, typename Delimiter
           , typename Attribute>

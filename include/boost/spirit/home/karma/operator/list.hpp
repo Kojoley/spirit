@@ -95,8 +95,8 @@ namespace boost { namespace spirit { namespace karma
                 typename traits::attribute_of<Left, Context, Iterator>::type>
         {};
 
-        base_list(Left const& left, Right const& right)
-          : left(left), right(right)
+        base_list(Left const& left_, Right const& right_)
+          : left(left_), right(right_)
         {}
 
         template <
@@ -165,8 +165,8 @@ namespace boost { namespace spirit { namespace karma
     {
         typedef base_list<Left, Right, mpl::false_, list> base_list_;
 
-        list(Left const& left, Right const& right)
-          : base_list_(left, right) {}
+        list(Left const& left_, Right const& right_)
+          : base_list_(left_, right_) {}
     };
 
     template <typename Left, typename Right>
@@ -175,8 +175,8 @@ namespace boost { namespace spirit { namespace karma
     {
         typedef base_list<Left, Right, mpl::true_, strict_list> base_list_;
 
-        strict_list (Left const& left, Right const& right)
-          : base_list_(left, right) {}
+        strict_list (Left const& left_, Right const& right_)
+          : base_list_(left_, right_) {}
     };
 
     ///////////////////////////////////////////////////////////////////////////

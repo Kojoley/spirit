@@ -97,9 +97,9 @@ namespace boost { namespace spirit { namespace repository { namespace karma
         {
         }
 
-        explicit subrule_group(Defs const& defs)
+        explicit subrule_group(Defs const& defs_)
           : base_type(terminal::make(reference_(*this)))
-          , defs(defs)
+          , defs(defs_)
         {
         }
 
@@ -180,7 +180,7 @@ namespace boost { namespace spirit { namespace repository { namespace karma
 
         template <typename Def, typename OutputIterator, typename Context
           , typename Delimiter, typename Attribute>
-        bool generate_subrule(Def const& def, OutputIterator& sink
+        bool generate_subrule(Def const& def_, OutputIterator& sink
           , Context& /*caller_context*/, Delimiter const& delimiter
           , Attribute const& attr) const
         {
@@ -210,12 +210,12 @@ namespace boost { namespace spirit { namespace repository { namespace karma
               , traits::pre_transform<spirit::karma::domain, subrule_attr_type>(
                       make_attribute::call(attr)));
 
-            return def.binder(sink, context, delimiter);
+            return def_.binder(sink, context, delimiter);
         }
 
         template <typename Def, typename OutputIterator, typename Context
           , typename Delimiter, typename Attribute, typename Params>
-        bool generate_subrule(Def const& def, OutputIterator& sink
+        bool generate_subrule(Def const& def_, OutputIterator& sink
           , Context& caller_context, Delimiter const& delimiter
           , Attribute const& attr, Params const& params) const
         {
@@ -245,7 +245,7 @@ namespace boost { namespace spirit { namespace repository { namespace karma
               , traits::pre_transform<spirit::karma::domain, subrule_attr_type>(
                         make_attribute::call(attr)), params, caller_context);
 
-            return def.binder(sink, context, delimiter);
+            return def_.binder(sink, context, delimiter);
         }
 
         template <typename Context>
@@ -308,8 +308,8 @@ namespace boost { namespace spirit { namespace repository { namespace karma
         typedef spirit::karma::detail::generator_binder<
             Subject, auto_type> binder_type;
 
-        subrule_definition(Subject const& subject, std::string const& name)
-          : binder(subject), name(name)
+        subrule_definition(Subject const& subject, std::string const& name_)
+          : binder(subject), name(name_)
         {
         }
 
@@ -375,9 +375,9 @@ namespace boost { namespace spirit { namespace repository { namespace karma
         static size_t const params_size =
             fusion::result_of::size<parameter_types>::type::value;
 
-        explicit subrule(std::string const& name_ = "unnamed-subrule")
+        explicit subrule(std::string const& name = "unnamed-subrule")
           : base_type(terminal::make(reference_(*this)))
-          , name_(name_)
+          , name_(name)
         {
         }
 

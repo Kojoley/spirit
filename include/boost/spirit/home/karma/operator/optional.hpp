@@ -55,8 +55,8 @@ namespace boost { namespace spirit { namespace karma
             >
         {};
 
-        optional(Subject const& subject)
-          : subject(subject) {}
+        optional(Subject const& subject_)
+          : subject(subject_) {}
 
         template <
             typename OutputIterator, typename Context, typename Delimiter

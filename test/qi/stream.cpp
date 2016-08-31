@@ -18,7 +18,7 @@
 
 struct complex
 {
-    complex (double a = 0.0, double b = 0.0) : a(a), b(b) {}
+    complex (double a_ = 0.0, double b_ = 0.0) : a(a_), b(b_) {}
     double a, b;
 };
 

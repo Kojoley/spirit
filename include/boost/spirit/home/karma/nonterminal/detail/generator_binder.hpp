@@ -21,8 +21,8 @@ namespace boost { namespace spirit { namespace karma { namespace detail
     template <typename Generator, typename Auto>
     struct generator_binder
     {
-        generator_binder(Generator const& g)
-          : g(g) {}
+        generator_binder(Generator const& g_)
+          : g(g_) {}
 
         template <typename OutputIterator, typename Delimiter, typename Context>
         bool call(OutputIterator& sink, Context& context
@@ -59,8 +59,8 @@ namespace boost { namespace spirit { namespace karma { namespace detail
     template <typename Generator>
     struct generator_binder<Generator, mpl::true_>
     {
-        generator_binder(Generator const& g)
-          : g(g) {}
+        generator_binder(Generator const& g_)
+          : g(g_) {}
 
         template <typename OutputIterator, typename Delimiter, typename Context>
         bool operator()(OutputIterator& sink, Context& context

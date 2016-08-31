@@ -150,9 +150,9 @@ namespace boost { namespace spirit { namespace karma
           : traits::attribute_of<subject_type, Context, Iterator>
         {};
 
-        maxwidth_width(Subject const& subject, Width const& w = Width()
+        maxwidth_width(Subject const& subject_, Width const& w = Width()
             , Rest const& r = Rest())
-          : subject(subject), width(w), rest(r) {}
+          : subject(subject_), width(w), rest(r) {}
 
         template <typename OutputIterator, typename Context, typename Delimiter
           , typename Attribute>

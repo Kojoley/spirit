@@ -88,14 +88,14 @@ namespace boost { namespace spirit { namespace qi
             typedef TokenId type;
         };
 
-        plain_tokenid(TokenId const& id)
-          : id(id) {}
+        plain_tokenid(TokenId const& id_)
+          : id(id_) {}
 
         template <typename Iterator, typename Context
           , typename Skipper, typename Attribute>
         bool parse(Iterator& first, Iterator const& last
           , Context& /*context*/, Skipper const& skipper
-          , Attribute& attr) const
+          , Attribute& attr_) const
         {
             qi::skip_over(first, last, skipper);   // always do a pre-skip
 
@@ -105,12 +105,12 @@ namespace boost { namespace spirit { namespace qi
 
                 typedef typename
                     boost::detail::iterator_traits<Iterator>::value_type
-                token_type;
-                typedef typename token_type::id_type id_type;
+                token_type_;
+                typedef typename token_type_::id_type id_type;
 
-                token_type const& t = *first;
+                token_type_ const& t = *first;
                 if (id_type(~0) == id_type(id) || id_type(id) == t.id()) {
-                    spirit::traits::assign_to(id, attr);
+                    spirit::traits::assign_to(id, attr_);
                     ++first;
                     return true;
                 }
@@ -139,14 +139,14 @@ namespace boost { namespace spirit { namespace qi
             typedef TokenId type;
         };
 
-        plain_tokenid_range(TokenId const& idmin, TokenId const& idmax)
-          : idmin(idmin), idmax(idmax) {}
+        plain_tokenid_range(TokenId const& idmin_, TokenId const& idmax_)
+          : idmin(idmin_), idmax(idmax_) {}
 
         template <typename Iterator, typename Context
           , typename Skipper, typename Attribute>
         bool parse(Iterator& first, Iterator const& last
           , Context& /*context*/, Skipper const& skipper
-          , Attribute& attr) const
+          , Attribute& attr_) const
         {
             qi::skip_over(first, last, skipper);   // always do a pre-skip
 
@@ -156,13 +156,13 @@ namespace boost { namespace spirit { namespace qi
 
                 typedef typename
                     boost::detail::iterator_traits<Iterator>::value_type
-                token_type;
-                typedef typename token_type::id_type id_type;
+                token_type_;
+                typedef typename token_type_::id_type id_type;
 
-                token_type const& t = *first;
+                token_type_ const& t = *first;
                 if (id_type(idmin) >= t.id() && id_type(idmin) <= t.id())
                 {
-                    spirit::traits::assign_to(t.id(), attr);
+                    spirit::traits::assign_to(t.id(), attr_);
                     ++first;
                     return true;
                 }

@@ -91,9 +91,9 @@ namespace boost { namespace spirit { namespace repository { namespace qi
         {
         }
 
-        explicit subrule_group(Defs const& defs)
+        explicit subrule_group(Defs const& defs_)
           : base_type(terminal::make(reference_(*this)))
-          , defs(defs)
+          , defs(defs_)
         {
         }
 
@@ -175,7 +175,7 @@ namespace boost { namespace spirit { namespace repository { namespace qi
         template <typename Def
           , typename Iterator, typename Context
           , typename Skipper, typename Attribute>
-        bool parse_subrule(Def const& def
+        bool parse_subrule(Def const& def_
           , Iterator& first, Iterator const& last
           , Context& /*caller_context*/, Skipper const& skipper
           , Attribute& attr) const
@@ -213,7 +213,7 @@ namespace boost { namespace spirit { namespace repository { namespace qi
             // without passing values for them.
             context_type context(*this, attr_);
 
-            if (def.binder(first, last, context, skipper))
+            if (def_.binder(first, last, context, skipper))
             {
                 // do up-stream transformation, this integrates the results 
                 // back into the original attribute value, if appropriate
@@ -229,7 +229,7 @@ namespace boost { namespace spirit { namespace repository { namespace qi
         template <typename Def
           , typename Iterator, typename Context
           , typename Skipper, typename Attribute, typename Params>
-        bool parse_subrule(Def const& def
+        bool parse_subrule(Def const& def_
           , Iterator& first, Iterator const& last
           , Context& caller_context, Skipper const& skipper
           , Attribute& attr, Params const& params) const
@@ -267,7 +267,7 @@ namespace boost { namespace spirit { namespace repository { namespace qi
             // passing values of incompatible types for them.
             context_type context(*this, attr_, params, caller_context);
 
-            if (def.binder(first, last, context, skipper))
+            if (def_.binder(first, last, context, skipper))
             {
                 // do up-stream transformation, this integrates the results 
                 // back into the original attribute value, if appropriate
@@ -340,8 +340,8 @@ namespace boost { namespace spirit { namespace repository { namespace qi
         typedef spirit::qi::detail::parser_binder<
             Subject, auto_type> binder_type;
 
-        subrule_definition(Subject const& subject, std::string const& name)
-          : binder(subject), name(name)
+        subrule_definition(Subject const& subject, std::string const& name_)
+          : binder(subject), name(name_)
         {
         }
 
@@ -401,9 +401,9 @@ namespace boost { namespace spirit { namespace repository { namespace qi
         static size_t const params_size =
             fusion::result_of::size<parameter_types>::type::value;
 
-        explicit subrule(std::string const& name_ = "unnamed-subrule")
+        explicit subrule(std::string const& name = "unnamed-subrule")
           : base_type(terminal::make(reference_(*this)))
-          , name_(name_)
+          , name_(name)
         {
         }
 

@@ -53,17 +53,17 @@ struct expression_ast
     expression_ast()
       : expr(nil()) {}
 
-    expression_ast(unary_op const& expr)
-      : expr(expr) {}
+    expression_ast(unary_op const& expr_)
+      : expr(expr_) {}
 
-    expression_ast(binary_op const& expr)
-      : expr(expr) {}
+    expression_ast(binary_op const& expr_)
+      : expr(expr_) {}
 
-    expression_ast(unsigned int expr)
-      : expr(expr) {}
+    expression_ast(unsigned int expr_)
+      : expr(expr_) {}
 
-    expression_ast(type const& expr)
-      : expr(expr) {}
+    expression_ast(type const& expr_)
+      : expr(expr_) {}
 
     expression_ast& operator+=(expression_ast const& rhs);
     expression_ast& operator-=(expression_ast const& rhs);
@@ -112,10 +112,10 @@ struct binary_op
     binary_op() {}
 
     binary_op(
-        char op
-      , expression_ast const& left
-      , expression_ast const& right)
-      : op(op), left(left), right(right) {}
+        char op_
+      , expression_ast const& left_
+      , expression_ast const& right_)
+      : op(op_), left(left_), right(right_) {}
 
     char op;
     expression_ast left;
@@ -125,9 +125,9 @@ struct binary_op
 struct unary_op
 {
     unary_op(
-        char op
-      , expression_ast const& right)
-    : op(op), right(right) {}
+        char op_
+      , expression_ast const& right_)
+    : op(op_), right(right_) {}
 
     char op;
     expression_ast right;

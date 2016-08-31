@@ -49,28 +49,28 @@ namespace boost { namespace spirit { namespace qi
           , typename Skipper, typename Attribute>
         bool parse(Iterator& first, Iterator const& last
           , Context& context, Skipper const& skipper
-          , Attribute& attr_) const
+          , Attribute& attr__) const
         {
-            typedef typename attribute<Context, Iterator>::type attr_type;
-            typedef traits::make_attribute<attr_type, Attribute> make_attribute;
+            typedef typename attribute<Context, Iterator>::type attr_type_;
+            typedef traits::make_attribute<attr_type_, Attribute> make_attribute;
 
             // create an attribute if one is not supplied
             typedef traits::transform_attribute<
-                typename make_attribute::type, attr_type, domain> transform;
+                typename make_attribute::type, attr_type_, domain> transform;
 
-            typename make_attribute::type made_attr = make_attribute::call(attr_);
-            typename transform::type attr = transform::pre(made_attr);
+            typename make_attribute::type made_attr = make_attribute::call(attr__);
+            typename transform::type attr_ = transform::pre(made_attr);
 
             Iterator save = first;
-            if (subject.parse(first, last, context, skipper, attr))
+            if (subject.parse(first, last, context, skipper, attr_))
             {
                 // call the function, passing the attribute, the context.
                 // The client can return false to fail parsing.
-                if (traits::action_dispatch<Subject>()(f, attr, context)) 
+                if (traits::action_dispatch<Subject>()(f, attr_, context)) 
                 {
                     // Do up-stream transformation, this integrates the results
                     // back into the original attribute value, if appropriate.
-                    traits::post_transform(attr_, attr);
+                    traits::post_transform(attr__, attr_);
                     return true;
                 }
 
@@ -85,14 +85,14 @@ namespace boost { namespace spirit { namespace qi
           , typename Skipper, typename Attribute>
         bool parse(Iterator& first, Iterator const& last
           , Context& context, Skipper const& skipper
-          , Attribute& attr) const
+          , Attribute& attr_) const
         {
             Iterator save = first;
-            if (subject.parse(first, last, context, skipper, attr)) // Use the attribute as-is
+            if (subject.parse(first, last, context, skipper, attr_)) // Use the attribute as-is
             {
                 // call the function, passing the attribute, the context.
                 // The client can return false to fail parsing.
-                if (traits::action_dispatch<Subject>()(f, attr, context))
+                if (traits::action_dispatch<Subject>()(f, attr_, context))
                     return true;
 
                 // reset iterators if semantic action failed the match
@@ -108,22 +108,22 @@ namespace boost { namespace spirit { namespace qi
           , Context& context, Skipper const& skipper
           , unused_type) const
         {
-            typedef typename attribute<Context, Iterator>::type attr_type;
-            typedef traits::make_attribute<attr_type, unused_type> make_attribute;
+            typedef typename attribute<Context, Iterator>::type attr_type_;
+            typedef traits::make_attribute<attr_type_, unused_type> make_attribute;
 
             // synthesize the attribute since one is not supplied
             typedef traits::transform_attribute<
-                typename make_attribute::type, attr_type, domain> transform;
+                typename make_attribute::type, attr_type_, domain> transform;
 
             typename make_attribute::type made_attr = make_attribute::call(unused_type());
-            typename transform::type attr = transform::pre(made_attr);
+            typename transform::type attr_ = transform::pre(made_attr);
 
             Iterator save = first;
-            if (subject.parse(first, last, context, skipper, attr))
+            if (subject.parse(first, last, context, skipper, attr_))
             {
                 // call the function, passing the attribute, the context.
                 // The client can return false to fail parsing.
-                if (traits::action_dispatch<Subject>()(f, attr, context))
+                if (traits::action_dispatch<Subject>()(f, attr_, context))
                     return true;
 
                 // reset iterators if semantic action failed the match
@@ -178,8 +178,8 @@ namespace boost { namespace spirit
         operator()(Elements const& elements, unused_type) const
         {
             typename result<make_component(Elements, unused_type)>::type
-                result(elements.car, elements.cdr.car);
-            return result;
+                result_(elements.car, elements.cdr.car);
+            return result_;
         }
     };
 }}

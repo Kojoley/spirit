@@ -103,8 +103,8 @@ namespace boost { namespace spirit { namespace karma
             >
         {};
 
-        base_plus(Subject const& subject)
-          : subject(subject) {}
+        base_plus(Subject const& subject_)
+          : subject(subject_) {}
 
         template <
             typename OutputIterator, typename Context, typename Delimiter
@@ -162,8 +162,8 @@ namespace boost { namespace spirit { namespace karma
     {
         typedef base_plus<Subject, mpl::false_, plus> base_plus_;
 
-        plus(Subject const& subject)
-          : base_plus_(subject) {}
+        plus(Subject const& subject_)
+          : base_plus_(subject_) {}
     };
 
     template <typename Subject>
@@ -172,8 +172,8 @@ namespace boost { namespace spirit { namespace karma
     {
         typedef base_plus<Subject, mpl::true_, strict_plus> base_plus_;
 
-        strict_plus(Subject const& subject)
-          : base_plus_(subject) {}
+        strict_plus(Subject const& subject_)
+          : base_plus_(subject_) {}
     };
 
     ///////////////////////////////////////////////////////////////////////////

@@ -388,8 +388,8 @@ namespace boost { namespace spirit { namespace karma
             template <typename, typename = unused_type>
             struct result { typedef adder const& type; };
 
-            adder(symbols& sym)
-              : sym(sym)
+            adder(symbols& sym_)
+              : sym(sym_)
             {
             }
 
@@ -421,8 +421,8 @@ namespace boost { namespace spirit { namespace karma
             template <typename>
             struct result { typedef remover const& type; };
 
-            remover(symbols& sym)
-              : sym(sym)
+            remover(symbols& sym_)
+              : sym(sym_)
             {
             }
 
@@ -647,8 +647,8 @@ namespace boost { namespace spirit { namespace karma
             template <typename, typename = unused_type>
             struct result { typedef adder const& type; };
 
-            adder(symbols& sym)
-              : sym(sym)
+            adder(symbols& sym_)
+              : sym(sym_)
             {
             }
 
@@ -680,8 +680,8 @@ namespace boost { namespace spirit { namespace karma
             template <typename>
             struct result { typedef remover const& type; };
 
-            remover(symbols& sym)
-              : sym(sym)
+            remover(symbols& sym_)
+              : sym(sym_)
             {
             }
 

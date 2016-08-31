@@ -46,8 +46,8 @@ namespace boost { namespace spirit { namespace karma
           : traits::attribute_of<subject_type, Context, Iterator>
         {};
 
-        not_predicate(Subject const& subject)
-          : subject(subject) {}
+        not_predicate(Subject const& subject_)
+          : subject(subject_) {}
 
         template <
             typename OutputIterator, typename Context, typename Delimiter

@@ -60,9 +60,9 @@ namespace boost { namespace spirit { namespace repository { namespace karma
           : traits::attribute_of<subject_type, Context, Iterator>
         {};
 
-        confix_generator(Subject const& subject, Prefix const& prefix
-              , Suffix const& suffix)
-          : subject(subject), prefix(prefix), suffix(suffix) {}
+        confix_generator(Subject const& subject_, Prefix const& prefix_
+              , Suffix const& suffix_)
+          : subject(subject_), prefix(prefix_), suffix(suffix_) {}
 
         ///////////////////////////////////////////////////////////////////////
         template <typename OutputIterator, typename Context, typename Delimiter

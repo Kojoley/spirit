@@ -39,7 +39,7 @@ struct backwards_bool_policies : boost::spirit::qi::bool_policies<>
 ///////////////////////////////////////////////////////////////////////////////
 struct test_bool_type
 {
-    test_bool_type(bool b) : b(b) {}    // provide conversion
+    test_bool_type(bool b_) : b(b_) {}    // provide conversion
     bool b;
 };
 

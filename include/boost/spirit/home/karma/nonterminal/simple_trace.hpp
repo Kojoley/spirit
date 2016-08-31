@@ -50,13 +50,13 @@ namespace boost { namespace spirit { namespace karma
         }
 
         template <typename Buffer>
-        void print_some(char const* tag, Buffer const& buffer) const
+        void print_some(char const* tag, Buffer const& buffer_) const
         {
             print_indent();
             BOOST_SPIRIT_DEBUG_OUT << '<' << tag << '>' << std::flush;
             {
                 std::ostreambuf_iterator<char> out(BOOST_SPIRIT_DEBUG_OUT);
-                buffer.buffer_copy_to(out, BOOST_SPIRIT_DEBUG_PRINT_SOME);
+                buffer_.buffer_copy_to(out, BOOST_SPIRIT_DEBUG_PRINT_SOME);
             }
             BOOST_SPIRIT_DEBUG_OUT << "</" << tag << '>' << std::endl;
         }
@@ -66,7 +66,7 @@ namespace boost { namespace spirit { namespace karma
         void operator()(
             OutputIterator&, Context const& context
           , State state, std::string const& rule_name
-          , Buffer const& buffer) const
+          , Buffer const& buffer_) const
         {
             switch (state)
             {
@@ -101,7 +101,7 @@ namespace boost { namespace spirit { namespace karma
                     print_indent();
                     ++get_indent();
                     BOOST_SPIRIT_DEBUG_OUT << "<success>" << std::endl;
-                    print_some("result", buffer);
+                    print_some("result", buffer_);
                     if (!fusion::empty(context.locals))
                     {
                         print_indent();

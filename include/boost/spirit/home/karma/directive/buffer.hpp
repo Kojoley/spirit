@@ -52,8 +52,8 @@ namespace boost { namespace spirit { namespace karma
             generator_properties::countingbuffer
         > properties;
 
-        buffer_directive(Subject const& subject)
-          : subject(subject) {}
+        buffer_directive(Subject const& subject_)
+          : subject(subject_) {}
 
         template <typename Context, typename Iterator>
         struct attribute

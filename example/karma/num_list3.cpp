@@ -44,7 +44,7 @@ namespace client
     // a simple complex number representation z = a + bi
     struct complex
     {
-        complex (double a, double b = 0.0) : a(a), b(b) {}
+        complex (double a_, double b_ = 0.0) : a(a_), b(b_) {}
 
         double a;
         double b;

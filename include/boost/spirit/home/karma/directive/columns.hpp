@@ -134,9 +134,9 @@ namespace boost { namespace spirit { namespace karma
           : traits::attribute_of<subject_type, Context, Iterator>
         {};
 
-        columns_generator(Subject const& subject, NumColumns const& cols
+        columns_generator(Subject const& subject_, NumColumns const& cols
               , ColumnsDelimiter const& cdelimiter)
-          : subject(subject), numcolumns(cols), column_delimiter(cdelimiter) 
+          : subject(subject_), numcolumns(cols), column_delimiter(cdelimiter) 
         {
             // having zero number of columns doesn't make any sense
             BOOST_ASSERT(numcolumns > 0);

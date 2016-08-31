@@ -41,7 +41,7 @@ struct special_bool_policy : boost::spirit::karma::bool_policies<>
 // special policy allowing to use any type as a boolean
 struct test_bool_data
 {
-    explicit test_bool_data(bool b) : b(b) {}
+    explicit test_bool_data(bool b_) : b(b_) {}
 
     bool b;
 

@@ -638,8 +638,8 @@ namespace boost { namespace spirit { namespace lex { namespace lexertl
 
         std::size_t const lookups_ = sm_.data()._lookup->front ()->size ();
         iterator_type iter_ = sm_.begin();
-        iterator_type labeliter_ = iter_;
-        iterator_type end_ = sm_.end();
+//        iterator_type labeliter_ = iter_;
+//        iterator_type end_ = sm_.end();
         std::size_t const dfas_ = sm_.data()._dfa->size ();
 
         os_ << "    static std::size_t const npos = "

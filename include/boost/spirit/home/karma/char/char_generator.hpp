@@ -97,8 +97,8 @@ namespace boost { namespace spirit { namespace karma
       : char_generator<negated_char_generator<Positive>
           , typename Positive::char_encoding, typename Positive::tag>
     {
-        negated_char_generator(Positive const& positive)
-          : positive(positive) {}
+        negated_char_generator(Positive const& positive_)
+          : positive(positive_) {}
 
         template <typename Attribute, typename CharParam, typename Context>
         bool test(Attribute const& attr, CharParam& ch, Context& context) const

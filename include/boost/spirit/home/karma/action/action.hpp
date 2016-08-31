@@ -43,8 +43,8 @@ namespace boost { namespace spirit { namespace karma
           : traits::attribute_of<Subject, Context, Iterator>
         {};
 
-        action(Subject const& subject, Action f)
-          : subject(subject), f(f) {}
+        action(Subject const& subject_, Action f_)
+          : subject(subject_), f(f_) {}
 
         template <
             typename OutputIterator, typename Context, typename Delimiter
@@ -113,8 +113,8 @@ namespace boost { namespace spirit
         operator()(Elements const& elements, unused_type) const
         {
             typename result<make_component(Elements, unused_type)>::type
-                result(elements.car, elements.cdr.car);
-            return result;
+                result_(elements.car, elements.cdr.car);
+            return result_;
         }
     };
 }}

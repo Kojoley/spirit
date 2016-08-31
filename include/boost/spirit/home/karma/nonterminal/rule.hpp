@@ -164,9 +164,9 @@ namespace boost { namespace spirit { namespace karma
             >::type
         encoding_modifier_type;
 
-        explicit rule(std::string const& name_ = "unnamed-rule")
+        explicit rule(std::string const& name = "unnamed-rule")
           : base_type(terminal::make(reference_(*this)))
-          , name_(name_)
+          , name_(name)
         {
         }
 
@@ -194,9 +194,9 @@ namespace boost { namespace spirit { namespace karma
         }
 
         template <typename Expr>
-        rule (Expr const& expr, std::string const& name_ = "unnamed-rule")
+        rule (Expr const& expr, std::string const& name = "unnamed-rule")
           : base_type(terminal::make(reference_(*this)))
-          , name_(name_)
+          , name_(name)
         {
             define<mpl::false_>(*this, expr, traits::matches<karma::domain, Expr>());
         }
@@ -370,8 +370,8 @@ namespace boost { namespace spirit { namespace karma
 
         typename proto::terminal<this_type>::type copy() const
         {
-            typename proto::terminal<this_type>::type result = {*this};
-            return result;
+            typename proto::terminal<this_type>::type result_ = {*this};
+            return result_;
         }
 
         // bring in the operator() overloads

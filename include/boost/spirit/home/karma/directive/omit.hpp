@@ -56,8 +56,8 @@ namespace boost { namespace spirit { namespace karma
             generator_properties::disabling | subject_type::properties::value
         > properties;
 
-        omit_directive(Subject const& subject)
-          : subject(subject) {}
+        omit_directive(Subject const& subject_)
+          : subject(subject_) {}
 
         template <typename Context, typename Iterator = unused_type>
         struct attribute

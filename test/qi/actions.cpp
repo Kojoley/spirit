@@ -49,7 +49,7 @@ void fail (int, boost::spirit::unused_type, bool& pass)
 
 struct setnext
 {
-    setnext(char& next) : next(next) {}
+    setnext(char& next_) : next(next_) {}
 
     void operator()(char c, unused_type, unused_type) const
     {

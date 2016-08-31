@@ -200,7 +200,7 @@ namespace boost { namespace spirit
         typedef void result_type;
 
         std::ostream& out;
-        utree_print(std::ostream& out) : out(out) {}
+        utree_print(std::ostream& out_) : out(out_) {}
 
         void operator()(utree::invalid_type) const
         {

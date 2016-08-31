@@ -55,8 +55,8 @@ namespace boost { namespace spirit { namespace karma
           : traits::attribute_of<subject_type, Context, Iterator>
         {};
 
-        verbatim_generator(Subject const& subject)
-          : subject(subject) {}
+        verbatim_generator(Subject const& subject_)
+          : subject(subject_) {}
 
         template <typename OutputIterator, typename Context, typename Delimiter
           , typename Attribute>

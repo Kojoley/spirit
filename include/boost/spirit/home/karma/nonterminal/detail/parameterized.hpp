@@ -29,8 +29,8 @@ namespace boost { namespace spirit { namespace karma
     {
         typedef mpl::int_<generator_properties::all_properties> properties;
 
-        parameterized_nonterminal(Subject const& subject, Params const& params)
-          : ref(subject), params(params)
+        parameterized_nonterminal(Subject const& subject, Params const& params_)
+          : ref(subject), params(params_)
         {
         }
 

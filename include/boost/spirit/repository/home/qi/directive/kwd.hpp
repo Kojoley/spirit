@@ -174,8 +174,8 @@ template <typename T>
     template <typename T>
     struct kwd_exact_iterator // handles kwd(exact)[p]
     {
-        kwd_exact_iterator(T const exact)
-          : exact(exact){}
+        kwd_exact_iterator(T const exact_)
+          : exact(exact_){}
 
         typedef T type;
         bool flag_init() const { return false; }
@@ -205,9 +205,9 @@ template <typename T>
     template <typename T>
     struct kwd_finite_iterator // handles kwd(min, max)[p]
     {
-        kwd_finite_iterator(T const min, T const max)
-          : min BOOST_PREVENT_MACRO_SUBSTITUTION (min)
-          , max BOOST_PREVENT_MACRO_SUBSTITUTION (max)
+        kwd_finite_iterator(T const min_, T const max_)
+          : min BOOST_PREVENT_MACRO_SUBSTITUTION (min_)
+          , max BOOST_PREVENT_MACRO_SUBSTITUTION (max_)
             {}
 
         typedef T type;
@@ -237,8 +237,8 @@ template <typename T>
     template <typename T>
     struct kwd_infinite_iterator // handles kwd(min, inf)[p]
     {
-        kwd_infinite_iterator(T const min)
-          : min BOOST_PREVENT_MACRO_SUBSTITUTION (min) {}
+        kwd_infinite_iterator(T const min_)
+          : min BOOST_PREVENT_MACRO_SUBSTITUTION (min_) {}
 
         typedef T type;
         bool flag_init() const { return min==0; }
@@ -264,10 +264,10 @@ template <typename T>
     {
         typedef NoCasePass no_case_pass;
 
-        skipper_keyword_marker(Skipper const &skipper,bool &flag,int &counter) :
-              skipper(skipper)
-            , flag(flag)
-            , counter(counter)
+        skipper_keyword_marker(Skipper const &skipper_, bool &flag_, int &counter_) :
+              skipper(skipper_)
+            , flag(flag_)
+            , counter(counter_)
             {}
 
         const Skipper &skipper;
@@ -302,16 +302,16 @@ template <typename T>
         };
 
 
-        kwd_parser(Subject const& subject
-           , typename add_reference<KeywordType>::type keyword
-           , LoopIter const& iter)
-          : subject(subject), iter(iter), keyword(keyword) {}
+        kwd_parser(Subject const& subject_
+           , typename add_reference<KeywordType>::type keyword_
+           , LoopIter const& iter_)
+          : subject(subject_), iter(iter_), keyword(keyword_) {}
 
         template<typename CharEncoding>
-        kwd_parser(Subject const& subject
-           , typename add_reference<KeywordType>::type keyword
-           , LoopIter const& iter, CharEncoding encoding)
-          : subject(subject), iter(iter), keyword(keyword,encoding) {}
+        kwd_parser(Subject const& subject_
+           , typename add_reference<KeywordType>::type keyword_
+           , LoopIter const& iter_, CharEncoding encoding)
+          : subject(subject_), iter(iter_), keyword(keyword_, encoding) {}
 
 
         // Call the subject parser on a non container attribute
@@ -470,10 +470,10 @@ template <typename Subject, typename KeywordType, typename LoopIter, typename Di
         };
 
 
-        complex_kwd_parser(Subject const& subject
-           , typename add_reference<KeywordType>::type keyword
-           , LoopIter const& iter)
-          : subject(subject), iter(iter), keyword(keyword) {}
+        complex_kwd_parser(Subject const& subject_
+           , typename add_reference<KeywordType>::type keyword_
+           , LoopIter const& iter_)
+          : subject(subject_), iter(iter_), keyword(keyword_) {}
 
         // Call the subject parser on a non container attribute
         template <typename Iterator, typename Context

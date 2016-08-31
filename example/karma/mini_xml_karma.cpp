@@ -198,7 +198,7 @@ int main(int argc, char **argv)
 
         std::string generated;
         outiter_type outit(generated);
-        bool r = karma::generate(outit, xmlout, ast);
+        r = karma::generate(outit, xmlout, ast);
 
         if (r)
             std::cout << generated << std::endl;

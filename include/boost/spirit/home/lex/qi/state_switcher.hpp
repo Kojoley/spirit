@@ -108,8 +108,8 @@ namespace boost { namespace spirit { namespace qi
             typedef unused_type type;
         };
 
-        state_switcher(char_type const* state)
-          : state(state) {}
+        state_switcher(char_type const* state_)
+          : state(state_) {}
 
         template <typename Iterator, typename Context
           , typename Skipper, typename Attribute>
@@ -181,9 +181,9 @@ namespace boost { namespace spirit { namespace qi
             type;
         };
 
-        state_switcher_context(Subject const& subject
-              , typename add_reference<State>::type state)
-          : subject(subject), state(state) {}
+        state_switcher_context(Subject const& subject_
+              , typename add_reference<State>::type state_)
+          : subject(subject_), state(state_) {}
 
         // The following conversion constructors are needed to make the 
         // in_state_switcher template usable
@@ -196,13 +196,13 @@ namespace boost { namespace spirit { namespace qi
           , typename Skipper, typename Attribute>
         bool parse(Iterator& first, Iterator const& last
           , Context& context, Skipper const& skipper
-          , Attribute& attr) const
+          , Attribute& attr_) const
         {
             qi::skip_over(first, last, skipper);   // always do a pre-skip
 
             // the state has to be reset at exit in any case
             detail::reset_state_on_exit<Iterator> guard(first, state);
-            return subject.parse(first, last, context, skipper, attr);
+            return subject.parse(first, last, context, skipper, attr_);
         }
 
         template <typename Context>

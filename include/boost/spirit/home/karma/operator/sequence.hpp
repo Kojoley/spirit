@@ -97,8 +97,8 @@ namespace boost { namespace spirit { namespace karma
     {
         typedef typename traits::sequence_properties<Elements>::type properties;
 
-        base_sequence(Elements const& elements)
-          : elements(elements) {}
+        base_sequence(Elements const& elements_)
+          : elements(elements_) {}
 
         typedef Elements elements_type;
         struct sequence_base_id;

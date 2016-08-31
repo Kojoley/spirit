@@ -34,19 +34,19 @@ namespace boost { namespace spirit { namespace karma
         typedef function<bool(output_iterator&, Context&, Delimiter const&)>
             function_type;
 
-        debug_handler(function_type subject, F f, std::string const& rule_name)
-          : subject(subject)
-          , f(f)
-          , rule_name(rule_name)
+        debug_handler(function_type subject_, F f_, std::string const& rule_name_)
+          : subject(subject_)
+          , f(f_)
+          , rule_name(rule_name_)
         {}
 
         bool operator()(output_iterator& sink, Context& context
           , Delimiter const& delim) const
         {
-            buffer_type buffer(sink);
+            buffer_type buffer_(sink);
             bool r = false;
 
-            f (sink, context, pre_generate, rule_name, buffer);
+            f (sink, context, pre_generate, rule_name, buffer_);
             {
                 detail::disable_counting<output_iterator> nocount(sink);
                 r = subject(sink, context, delim);
@@ -54,11 +54,11 @@ namespace boost { namespace spirit { namespace karma
 
             if (r) 
             {
-                f (sink, context, successful_generate, rule_name, buffer);
-                buffer.buffer_copy();
+                f (sink, context, successful_generate, rule_name, buffer_);
+                buffer_.buffer_copy();
                 return true;
             }
-            f (sink, context, failed_generate, rule_name, buffer);
+            f (sink, context, failed_generate, rule_name, buffer_);
             return false;
         }
 

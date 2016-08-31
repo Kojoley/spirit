@@ -69,8 +69,8 @@ namespace boost { namespace spirit { namespace karma
           : traits::attribute_of<subject_type, Context, Iterator>
         {};
 
-        redelimit_generator(Subject const& subject)
-          : subject(subject) {}
+        redelimit_generator(Subject const& subject_)
+          : subject(subject_) {}
 
         template <typename OutputIterator, typename Context, typename Delimiter
           , typename Attribute>
@@ -112,8 +112,8 @@ namespace boost { namespace spirit { namespace karma
           : traits::attribute_of<subject_type, Context, Iterator>
         {};
 
-        delimit_generator(Subject const& subject, Delimiter const& delimiter)
-          : subject(subject), delimiter(delimiter) {}
+        delimit_generator(Subject const& subject_, Delimiter const& delimiter_)
+          : subject(subject_), delimiter(delimiter_) {}
 
         template <typename OutputIterator, typename Context
           , typename Delimiter_, typename Attribute>

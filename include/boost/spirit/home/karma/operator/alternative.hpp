@@ -104,8 +104,8 @@ namespace boost { namespace spirit { namespace karma
             typedef typename traits::build_variant<all_attributes>::type type;
         };
 
-        base_alternative(Elements const& elements)
-          : elements(elements) {}
+        base_alternative(Elements const& elements_)
+          : elements(elements_) {}
 
         template <
             typename OutputIterator, typename Context, typename Delimiter
@@ -141,8 +141,8 @@ namespace boost { namespace spirit { namespace karma
         typedef base_alternative<Elements, mpl::false_, alternative> 
             base_alternative_;
 
-        alternative(Elements const& elements)
-          : base_alternative_(elements) {}
+        alternative(Elements const& elements_)
+          : base_alternative_(elements_) {}
     };
 
     template <typename Elements>
@@ -152,8 +152,8 @@ namespace boost { namespace spirit { namespace karma
         typedef base_alternative<Elements, mpl::true_, strict_alternative> 
             base_alternative_;
 
-        strict_alternative(Elements const& elements)
-          : base_alternative_(elements) {}
+        strict_alternative(Elements const& elements_)
+          : base_alternative_(elements_) {}
     };
 
     ///////////////////////////////////////////////////////////////////////////

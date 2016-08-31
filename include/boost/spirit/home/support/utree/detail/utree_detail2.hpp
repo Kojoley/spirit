@@ -129,8 +129,8 @@ namespace boost { namespace spirit { namespace detail
     struct list::node : boost::noncopyable
     {
         template <typename T>
-        node(T const& val, node* next, node* prev)
-          : val(val), next(next), prev(prev) {}
+        node(T const& val_, node* next_, node* prev_)
+          : val(val_), next(next_), prev(prev_) {}
 
         void unlink()
         {
@@ -155,8 +155,8 @@ namespace boost { namespace spirit { namespace detail
         node_iterator()
           : node(0), prev(0) {}
 
-        node_iterator(list::node* node, list::node* prev)
-          : node(node), prev(prev) {}
+        node_iterator(list::node* node_, list::node* prev_)
+          : node(node_), prev(prev_) {}
 
     private:
 
@@ -208,8 +208,8 @@ namespace boost { namespace spirit { namespace detail
         node_iterator()
           : node(0), prev(0), curr(nil_node) {}
 
-        node_iterator(list::node* node, list::node* prev)
-          : node(node), prev(prev), curr(node ? node->val : nil_node) {}
+        node_iterator(list::node* node_, list::node* prev_)
+          : node(node_), prev(prev_), curr(node ? node->val : nil_node) {}
 
     private:
 
@@ -407,7 +407,7 @@ namespace boost { namespace spirit { namespace detail
         typedef typename F::result_type result_type;
         X& x; // always by reference
         F f;
-        bind_impl(F f, X& x) : x(x), f(f) {}
+        bind_impl(F f_, X& x_) : x(x_), f(f_) {}
 
         template <typename Y>
         typename F::result_type operator()(Y& y) const
@@ -632,8 +632,8 @@ namespace boost { namespace spirit { namespace detail
 namespace boost { namespace spirit
 {
     template <typename F>
-    stored_function<F>::stored_function(F f)
-      : f(f)
+    stored_function<F>::stored_function(F f_)
+      : f(f_)
     {
     }
 
@@ -662,8 +662,8 @@ namespace boost { namespace spirit
     }
 
     template <typename F>
-    referenced_function<F>::referenced_function(F& f)
-      : f(f)
+    referenced_function<F>::referenced_function(F& f_)
+      : f(f_)
     {
     }
 
@@ -761,10 +761,10 @@ namespace boost { namespace spirit
     }
 
     template <typename Base, utree_type::info type_>
-    inline utree::utree(basic_string<Base, type_> const& bin)
+    inline utree::utree(basic_string<Base, type_> const& bin_)
     {
         s.initialize();
-        s.construct(bin.begin(), bin.end());
+        s.construct(bin_.begin(), bin_.end());
         set_type(type_);
     }
 
@@ -775,11 +775,11 @@ namespace boost { namespace spirit
         set_type(type::reference_type);
     }
 
-    inline utree::utree(any_ptr const& p)
+    inline utree::utree(any_ptr const& p_)
     {
         s.initialize();
-        v.p = p.p;
-        v.i = p.i;
+        v.p = p_.p;
+        v.i = p_.i;
         set_type(type::any_type);
     }
 
@@ -798,26 +798,26 @@ namespace boost { namespace spirit
     }
 
     template <typename Iter>
-    inline utree::utree(boost::iterator_range<Iter> r)
+    inline utree::utree(boost::iterator_range<Iter> r_)
     {
         s.initialize();
 
-        assign(r.begin(), r.end());
+        assign(r_.begin(), r_.end());
     }
 
-    inline utree::utree(range r, shallow_tag)
+    inline utree::utree(range r_, shallow_tag)
     {
         s.initialize();
-        this->r.first = r.begin().node;
-        this->r.last = r.end().prev;
+        this->r.first = r_.begin().node;
+        this->r.last = r_.end().prev;
         set_type(type::range_type);
     }
 
-    inline utree::utree(const_range r, shallow_tag)
+    inline utree::utree(const_range r_, shallow_tag)
     {
         s.initialize();
-        this->r.first = r.begin().node;
-        this->r.last = r.end().prev;
+        this->r.first = r_.begin().node;
+        this->r.last = r_.end().prev;
         set_type(type::range_type);
     }
 
@@ -915,10 +915,10 @@ namespace boost { namespace spirit
     }
 
     template <typename Base, utree_type::info type_>
-    inline utree& utree::operator=(basic_string<Base, type_> const& bin)
+    inline utree& utree::operator=(basic_string<Base, type_> const& bin_)
     {
         free();
-        s.construct(bin.begin(), bin.end());
+        s.construct(bin_.begin(), bin_.end());
         set_type(type_);
         return *this;
     }
@@ -931,11 +931,11 @@ namespace boost { namespace spirit
         return *this;
     }
 
-    inline utree& utree::operator=(any_ptr const& p)
+    inline utree& utree::operator=(any_ptr const& p_)
     {
         free();
-        v.p = p.p;
-        v.i = p.i;
+        v.p = p_.p;
+        v.i = p_.i;
         set_type(type::any_type);
         return *this;
     }
@@ -957,10 +957,10 @@ namespace boost { namespace spirit
     }
 
     template <typename Iter>
-    inline utree& utree::operator=(boost::iterator_range<Iter> r)
+    inline utree& utree::operator=(boost::iterator_range<Iter> r_)
     {
         free();
-        assign(r.begin(), r.end());
+        assign(r_.begin(), r_.end());
         return *this;
     }
 
@@ -1056,7 +1056,7 @@ namespace boost { namespace spirit
             return p->insert(pos, n, val);
 
         ensure_list_type("insert()");
-        for (std::size_t i = 0; i != n; ++i)
+        for (std::size_t j = 0; j != n; ++j)
             insert(pos, val);
     }
 

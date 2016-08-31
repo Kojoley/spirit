@@ -54,8 +54,8 @@ namespace boost { namespace spirit { namespace karma
           , traits::attribute_of<subject_type> >::type 
         transformed_attribute_type;
 
-        attr_cast_generator(Subject const& subject)
-          : subject(subject) 
+        attr_cast_generator(Subject const& subject_)
+          : subject(subject_) 
         {
             // If you got an error_invalid_expression error message here,
             // then the expression (Subject) is not a valid spirit karma

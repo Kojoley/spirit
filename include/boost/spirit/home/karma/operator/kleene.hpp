@@ -91,8 +91,8 @@ namespace boost { namespace spirit { namespace karma
             >
         {};
 
-        base_kleene(Subject const& subject)
-          : subject(subject) {}
+        base_kleene(Subject const& subject_)
+          : subject(subject_) {}
 
         template <
             typename OutputIterator, typename Context, typename Delimiter
@@ -144,8 +144,8 @@ namespace boost { namespace spirit { namespace karma
     {
         typedef base_kleene<Subject, mpl::false_, kleene> base_kleene_;
 
-        kleene(Subject const& subject)
-          : base_kleene_(subject) {}
+        kleene(Subject const& subject_)
+          : base_kleene_(subject_) {}
     };
 
     template <typename Subject>
@@ -154,8 +154,8 @@ namespace boost { namespace spirit { namespace karma
     {
         typedef base_kleene<Subject, mpl::true_, strict_kleene> base_kleene_;
 
-        strict_kleene(Subject const& subject)
-          : base_kleene_(subject) {}
+        strict_kleene(Subject const& subject_)
+          : base_kleene_(subject_) {}
     };
 
     ///////////////////////////////////////////////////////////////////////////

@@ -36,8 +36,8 @@ namespace boost { namespace spirit { namespace lex
     template <typename Elements>
     struct sequence : nary_lexer<sequence<Elements> >
     {
-        sequence(Elements const& elements)
-          : elements(elements) {}
+        sequence(Elements const& elements_)
+          : elements(elements_) {}
 
         template <typename LexerDef, typename String>
         void collect(LexerDef& lexdef, String const& state

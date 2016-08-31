@@ -57,8 +57,8 @@ namespace boost { namespace spirit { namespace repository {namespace qi
             type;
         };
 
-        seek_directive(Subject const& subject)
-          : subject(subject)
+        seek_directive(Subject const& subject_)
+          : subject(subject_)
         {}
 
         template

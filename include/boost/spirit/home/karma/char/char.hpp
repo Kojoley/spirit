@@ -163,8 +163,8 @@ namespace boost { namespace spirit { namespace karma
         typedef typename CharEncoding::char_type char_type;
         typedef CharEncoding char_encoding;
 
-        literal_char(char_type ch)
-          : ch (spirit::char_class::convert<char_encoding>::to(Tag(), ch)) 
+        literal_char(char_type ch_)
+          : ch (spirit::char_class::convert<char_encoding>::to(Tag(), ch_)) 
         {}
 
         template <typename Context, typename Unused>
@@ -211,9 +211,9 @@ namespace boost { namespace spirit { namespace karma
         typedef typename CharEncoding::char_type char_type;
         typedef CharEncoding char_encoding;
 
-        char_range(char_type from, char_type to)
-          : from(spirit::char_class::convert<char_encoding>::to(Tag(), from))
-          , to(spirit::char_class::convert<char_encoding>::to(Tag(), to)) 
+        char_range(char_type from_, char_type to_)
+          : from(spirit::char_class::convert<char_encoding>::to(Tag(), from_))
+          , to(spirit::char_class::convert<char_encoding>::to(Tag(), to_)) 
         {}
 
         // A char_('a', 'z') which has an associated attribute emits it only if 

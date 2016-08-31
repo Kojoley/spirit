@@ -175,15 +175,15 @@ namespace boost { namespace spirit { namespace lex
           , def_(rhs.def_), token_id_(rhs.token_id_)
           , unique_id_(rhs.unique_id_), token_state_(rhs.token_state_) {}
 
-        explicit token_def(char_type def_, Idtype id_ = Idtype())
+        explicit token_def(char_type def, Idtype id_ = Idtype())
           : proto_base_type(terminal_type::make(reference_(*this)))
-          , def_(def_)
-          , token_id_(Idtype() == id_ ? Idtype(def_) : id_)
+          , def_(def)
+          , token_id_(Idtype() == id_ ? Idtype(def) : id_)
           , unique_id_(std::size_t(~0)), token_state_(std::size_t(~0)) {}
 
-        explicit token_def(string_type const& def_, Idtype id_ = Idtype())
+        explicit token_def(string_type const& def, Idtype id_ = Idtype())
           : proto_base_type(terminal_type::make(reference_(*this)))
-          , def_(def_), token_id_(id_)
+          , def_(def), token_id_(id_)
           , unique_id_(std::size_t(~0)), token_state_(std::size_t(~0)) {}
 
         template <typename String>

@@ -68,8 +68,8 @@ namespace boost { namespace spirit { namespace repository {namespace qi
           : traits::attribute_of<Subject, Context, Iterator>
         {};
 
-        distinct_parser(Subject const& subject, Tail const& tail)
-          : subject(subject), tail(tail) {}
+        distinct_parser(Subject const& subject_, Tail const& tail_)
+          : subject(subject_), tail(tail_) {}
 
         template <typename Iterator, typename Context
           , typename Skipper, typename Attribute>

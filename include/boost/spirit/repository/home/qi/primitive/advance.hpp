@@ -46,8 +46,8 @@ namespace boost { namespace spirit { namespace repository { namespace qi
             typedef boost::spirit::unused_type type;
         };
 
-        advance_parser(Int dist)
-          : dist(dist)
+        advance_parser(Int dist_)
+          : dist(dist_)
         {}
 
         // This function is called during the actual parsing process

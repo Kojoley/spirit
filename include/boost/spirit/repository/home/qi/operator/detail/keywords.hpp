@@ -40,12 +40,13 @@ namespace boost { namespace spirit { namespace repository { namespace qi { names
 
             typedef typename add_reference<Attribute>::type attr_reference;
             public:
-            parse_dispatcher(const Elements &elements,Iterator& first, Iterator const& last
-                    , Context& context, Skipper const& skipper
-                    , Flags &flags, Counters &counters, attr_reference attr) :
-                elements(elements), first(first), last(last)
-                , context(context), skipper(skipper)
-                , flags(flags),counters(counters), attr(attr)
+            parse_dispatcher(const Elements &elements_
+                    , Iterator& first_, Iterator const& last_
+                    , Context& context_, Skipper const& skipper_
+                    , Flags &flags_, Counters &counters_, attr_reference attr_)
+                : elements(elements_), first(first_), last(last_)
+                , context(context_), skipper(skipper_)
+                , flags(flags_), counters(counters_), attr(attr_)
             {}
 
             template<typename T> bool operator()(T& idx) const
@@ -55,15 +56,15 @@ namespace boost { namespace spirit { namespace repository { namespace qi { names
 
             template <typename Subject,typename Index>
                 bool call_subject_unused(
-                        Subject const &subject, Iterator &first, Iterator const &last
-                        , Context& context, Skipper const& skipper
+                        Subject const &subject, Iterator &first_, Iterator const &last_
+                        , Context& context_, Skipper const& skipper_
                         , Index& /*idx*/ ) const
                 {
-                    Iterator save = first;
+                    Iterator save = first_;
                     skipper_keyword_marker<Skipper,NoCasePass>
-                        marked_skipper(skipper,flags[Index::value],counters[Index::value]);
+                        marked_skipper(skipper_,flags[Index::value],counters[Index::value]);
 
-                    if(subject.parse(first,last,context,marked_skipper,unused))
+                    if(subject.parse(first_,last_,context_,marked_skipper,unused))
                     {
                         return true;
                     }
@@ -74,15 +75,15 @@ namespace boost { namespace spirit { namespace repository { namespace qi { names
 
             template <typename Subject,typename Index>
                 bool call_subject(
-                        Subject const &subject, Iterator &first, Iterator const &last
-                        , Context& context, Skipper const& skipper
+                        Subject const &subject, Iterator &first_, Iterator const &last_
+                        , Context& context_, Skipper const& skipper_
                         , Index& /*idx*/ ) const
                 {
 
-                    Iterator save = first;
+                    Iterator save = first_;
                     skipper_keyword_marker<Skipper,NoCasePass> 
-                        marked_skipper(skipper,flags[Index::value],counters[Index::value]);
-                    if(subject.parse(first,last,context,marked_skipper,fusion::at_c<Index::value>(attr)))
+                        marked_skipper(skipper_,flags[Index::value],counters[Index::value]);
+                    if(subject.parse(first_,last_,context_,marked_skipper,fusion::at_c<Index::value>(attr)))
                     {
                         return true;
                     }
@@ -351,10 +352,10 @@ namespace boost { namespace spirit { namespace repository { namespace qi { names
             {
                 typedef int result_type;
 
-                keyword_entry_adder(shared_ptr<keywords_type> lookup,FlagsType &flags, Elements &elements) :
-                    lookup(lookup)
-                    ,flags(flags)
-                    ,elements(elements)
+                keyword_entry_adder(shared_ptr<keywords_type> lookup_, FlagsType &flags_, Elements &elements_) :
+                      lookup(lookup_)
+                    , flags(flags_)
+                    , elements(elements_)
                 {}
 
                 template <typename T>
@@ -465,20 +466,14 @@ namespace boost { namespace spirit { namespace repository { namespace qi { names
                     if(parser_index_type* val_ptr =
                             lookup->find(first,last,first_pass_filter_type()))
                     {
-                        if(!apply_visitor(parse_visitor,*val_ptr)){
-                            return false;
-                        }
-            return true;
+                        return apply_visitor(parse_visitor,*val_ptr);
                     }
                     // Second pass case insensitive
-                    else if(parser_index_type* val_ptr
+                    if(parser_index_type* val_ptr
                             = lookup->find(saved_first,last,nc_filter()))
                     {
                         first = saved_first;
-                        if(!apply_visitor(no_case_parse_visitor,*val_ptr)){
-                            return false;
-                        }
-            return true;
+                        return apply_visitor(no_case_parse_visitor,*val_ptr);
                     }
                     return false;
                 }
@@ -538,9 +533,9 @@ namespace boost { namespace spirit { namespace repository { namespace qi { names
             {
                 typedef int result_type;
 
-                flag_init_value_setter(Elements &elements,FlagsType &flags)
-          :flags(flags)
-                    ,elements(elements)
+                flag_init_value_setter(Elements &elements_, FlagsType &flags_)
+                    : flags(flags_)
+                    , elements(elements_)
                 {}
 
                 template <typename T>
@@ -641,13 +636,13 @@ namespace boost { namespace spirit { namespace repository { namespace qi { names
             typedef typename ParseDispatcher::context_type Context;
             typedef typename ParseDispatcher::skipper_type Skipper;
             complex_kwd_function(
-                    Iterator& first, Iterator const& last
-                    , Context& context, Skipper const& skipper, ParseDispatcher &dispatcher)
-                : first(first)
-                  , last(last)
-                  , context(context)
-                  , skipper(skipper)
-                  , dispatcher(dispatcher)
+                    Iterator & first_, Iterator const& last_
+                    , Context & context_, Skipper const& skipper_, ParseDispatcher & dispatcher_)
+                : first(first_)
+                , last(last_)
+                , context(context_)
+                , skipper(skipper_)
+                , dispatcher(dispatcher_)
             {
             }
 

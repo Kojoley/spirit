@@ -54,14 +54,14 @@ int main()
 
     {
         // a single element
-        char attr = 'a';
-        BOOST_TEST((test("ab", char_ << 'b', attr)));
+        char expected = 'a';
+        BOOST_TEST((test("ab", char_ << 'b', expected)));
     }
 
     {
         // a single element fusion sequence
-        fusion::vector<char> attr('a');
-        BOOST_TEST((test("ab", char_ << 'b', attr)));
+        fusion::vector<char> expected('a');
+        BOOST_TEST((test("ab", char_ << 'b', expected)));
     }
 
     {

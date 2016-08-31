@@ -499,8 +499,8 @@ namespace boost { namespace spirit { namespace karma { namespace detail
         typedef std::basic_ostream<Elem, Traits> ostream_type;
 
     public:
-        output_iterator(base_iterator_type& sink)
-          : base_type(sink) {}
+        output_iterator(base_iterator_type& sink_)
+          : base_type(sink_) {}
 
         ostream_type& get_ostream() { return (*this->sink).get_ostream(); }
         ostream_type const& get_ostream() const { return (*this->sink).get_ostream(); }
@@ -585,17 +585,17 @@ namespace boost { namespace spirit { namespace karma { namespace detail
 
         // copy to the remaining characters to the specified sink
         template <typename RestIterator>
-        bool buffer_copy_rest(RestIterator& sink, std::size_t start_at = 0) const
+        bool buffer_copy_rest(RestIterator& sink_, std::size_t start_at = 0) const
         {
-            return buffer_data.copy_rest(sink, start_at);
+            return buffer_data.copy_rest(sink_, start_at);
         }
 
         // copy the contents to the given output iterator
         template <typename OutputIterator_>
-        bool buffer_copy_to(OutputIterator_& sink
+        bool buffer_copy_to(OutputIterator_& sink_
           , std::size_t maxwidth = std::size_t(-1)) const
         {
-            return buffer_data.copy(sink, maxwidth);
+            return buffer_data.copy(sink_, maxwidth);
         }
 
     private:

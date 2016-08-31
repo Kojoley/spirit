@@ -374,8 +374,8 @@ namespace boost { namespace spirit { namespace qi
 
         typename proto::terminal<this_type>::type copy() const
         {
-            typename proto::terminal<this_type>::type result = {*this};
-            return result;
+            typename proto::terminal<this_type>::type result_ = {*this};
+            return result_;
         }
 
         // bring in the operator() overloads

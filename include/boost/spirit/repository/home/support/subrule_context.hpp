@@ -29,24 +29,24 @@ namespace boost { namespace spirit { namespace repository
         typedef Group group_type;
 
         subrule_context(
-            Group const& group
+            Group const& group_
           , typename Attributes::car_type attribute
-        ) : base_type(attribute), group(group)
+        ) : base_type(attribute), group(group_)
         {
         }
 
         template <typename Args, typename Context>
         subrule_context(
-            Group const& group
+            Group const& group_
           , typename Attributes::car_type attribute
           , Args const& args
           , Context& caller_context
-        ) : base_type(attribute, args, caller_context), group(group)
+        ) : base_type(attribute, args, caller_context), group(group_)
         {
         }
 
-        subrule_context(Group const& group, Attributes const& attributes)
-          : base_type(attributes), group(group)
+        subrule_context(Group const& group_, Attributes const& attributes)
+          : base_type(attributes), group(group_)
         {
         }
 

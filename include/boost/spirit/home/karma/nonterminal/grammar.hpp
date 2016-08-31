@@ -60,9 +60,9 @@ namespace boost { namespace spirit { namespace karma
             output_iterator;
 
         grammar(start_type const& start
-              , std::string const& name_ = "unnamed-grammar")
+              , std::string const& name = "unnamed-grammar")
           : proto::extends<terminal, base_type>(terminal::make(reference_(start)))
-          , name_(name_)
+          , name_(name)
         {}
 
         // This constructor is used to catch if the start rule is not 

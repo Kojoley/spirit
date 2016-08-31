@@ -110,8 +110,8 @@ void test_binary_generator_attr(char const* expected, std::size_t size, G const&
 // a simple complex number representation z = a + bi
 struct complex
 {
-    complex (double a, double b)
-      : a(a), b(b)
+    complex (double a_, double b_)
+      : a(a_), b(b_)
     {}
 
     double a;

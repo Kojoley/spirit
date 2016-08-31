@@ -265,8 +265,8 @@ namespace boost { namespace spirit { namespace karma { namespace detail
     template <typename Iterator>
     struct pass_container_base
     {
-        pass_container_base(Iterator begin, Iterator end)
-          : iter(begin), end(end)
+        pass_container_base(Iterator begin, Iterator end_)
+          : iter(begin), end(end_)
         {}
 
         mutable Iterator iter;
@@ -276,8 +276,8 @@ namespace boost { namespace spirit { namespace karma { namespace detail
     template <typename Iterator>
     struct pass_container_base<Iterator&>
     {
-        pass_container_base(Iterator& begin, Iterator& end)
-          : iter(begin), end(end)
+        pass_container_base(Iterator& begin, Iterator& end_)
+          : iter(begin), end(end_)
         {}
 
         Iterator& iter;
@@ -294,9 +294,9 @@ namespace boost { namespace spirit { namespace karma { namespace detail
         typedef pass_container_base<Iterator> base_type;
         typedef typename F::context_type context_type;
 
-        pass_container(F const& f, Iterator begin, Iterator end)
-          : base_type(begin, end)
-          , f(f)
+        pass_container(F const& f_, Iterator begin, Iterator end_)
+          : base_type(begin, end_)
+          , f(f_)
         {}
 
         bool is_at_end() const

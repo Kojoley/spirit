@@ -161,6 +161,11 @@ before_install:
 
   #- popd
   - cd libs/spirit
+
+  # extract_sig signature patch
+  - PATCH_URL=https://github.com/Kojoley/spirit/pull/2.patch;
+    curl -sL $PATCH_URL | patch -sup 1
+
   #- touch Jamroot
   - cd $JOB
 

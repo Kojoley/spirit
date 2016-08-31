@@ -29,7 +29,7 @@ env:
     - BOOST_BUILD_PATH=$HOME/build-boost
     # List of libraries required to build
     #   system: (qi|x3)/tst.cpp
-    - BOOST_BUILD_DEPS=filesystem,regex,system
+    - BOOST_BUILD_DEPS=date_time,filesystem,regex,system
 
   # Replace >>>CASES<<< with a list in the following oneliner to generate a build matrix
   #   for m in {c++03,c++11,c++1y}#{>>>CASES<<<}; do echo "STD=${m//#/ JOB=}"; done

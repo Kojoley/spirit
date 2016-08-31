@@ -689,7 +689,7 @@ namespace boost { namespace spirit { namespace char_encoding
         {
             // The first 256 characters in Unicode and the UCS are
             // identical to those in ISO/IEC-8859-1.
-            return ch;
+            return ::boost::uint32_t(ch);
         }
     };
 

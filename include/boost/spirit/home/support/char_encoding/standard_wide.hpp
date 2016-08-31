@@ -177,7 +177,7 @@ namespace boost { namespace spirit { namespace char_encoding
         static ::boost::uint32_t
         toucs4(int ch)
         {
-            return ch;
+            return ::boost::uint32_t(ch);
         }
     };
 }}}

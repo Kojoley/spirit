@@ -112,7 +112,7 @@ namespace boost { namespace spirit { namespace qi { namespace detail
         inline static unsigned digit(Char ch)
         {
             if (Radix <= 10 || (ch >= '0' && ch <= '9'))
-                return ch - '0';
+                return unsigned(ch - '0');
             return spirit::char_encoding::ascii::tolower(ch) - 'a' + 10;
         }
     };

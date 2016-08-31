@@ -27,6 +27,11 @@
 #include <string>
 #include <complex>
 
+// Ignore the warning about unused parameters ('obj' and 'val')
+#if defined(BOOST_CLANG)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-parameter"
+#endif
 ///////////////////////////////////////////////////////////////////////////////
 // The following macro adapts the type std::complex<double> as a fusion 
 // sequence. 
@@ -39,6 +44,9 @@ BOOST_FUSION_ADAPT_ADT(
     (double, double, obj.imag(), /**/)
 )
 //]
+#if defined(BOOST_CLANG)
+#pragma clang diagnostic pop
+#endif
 
 namespace client
 {

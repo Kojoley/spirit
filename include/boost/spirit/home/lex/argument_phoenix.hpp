@@ -37,7 +37,7 @@ namespace boost { namespace spirit { namespace lex
 
         template <typename Env>
         unused_type
-        eval(Env const& env) const
+        eval(Env const& /*env*/) const
         {
             return unused;
         }
@@ -69,7 +69,7 @@ namespace boost { namespace spirit { namespace lex
 
         template <typename Env>
         unused_type
-        eval(Env const& env) const
+        eval(Env const& /*env*/) const
         {
             return unused;
         }

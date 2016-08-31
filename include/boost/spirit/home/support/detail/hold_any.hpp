@@ -42,6 +42,10 @@
 ///////////////////////////////////////////////////////////////////////////////
 namespace boost { namespace spirit
 {
+#if defined(BOOST_CLANG)
+# pragma clang diagnostic push
+# pragma clang diagnostic ignored "-Wweak-vtables"
+#endif
     struct bad_any_cast
       : std::bad_cast
     {
@@ -54,6 +58,9 @@ namespace boost { namespace spirit
         const char* from;
         const char* to;
     };
+#if defined(BOOST_CLANG)
+# pragma clang diagnostic pop
+#endif
 
     namespace detail
     {

@@ -130,6 +130,7 @@ before_install:
                  substr($3, 2, length($3) - 2) "\t"
                  substr($7, 2, length($7) - 2) }' |
     grep -v 'spirit' |
+    grep -v 'phoenix' |
     tee checkout.list |
     parallel --gnu --retries 3 -j10 --colsep '\t' -k
              --joblog checkout.joblog --tagstring "[{1}]"
@@ -143,6 +144,12 @@ before_install:
       cat checkout.joblog ;
       exit 1 ;
      )
+
+  - git clone --branch=boost-1.58.0 --depth=1 --recursive https://github.com/boostorg/phoenix.git libs/phoenix
+  - pushd libs/phoenix
+  - PATCH_URL=https://github.com/boostorg/phoenix/pull/44.patch;
+    curl -sL $PATCH_URL | patch -sup 1
+  - popd
 
   # -Wweak-vtables patches
   - pushd libs/smart_ptr

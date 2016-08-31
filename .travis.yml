@@ -144,6 +144,20 @@ before_install:
       exit 1 ;
      )
 
+  # -Wweak-vtables patches
+  - pushd libs/smart_ptr
+  - PATCH_URL=https://github.com/Kojoley/smart_ptr/pull/1.patch;
+    curl -sL $PATCH_URL | patch -sup 1
+  - popd
+  - pushd libs/optional
+  - PATCH_URL=https://github.com/Kojoley/optional/pull/1.patch;
+    curl -sL $PATCH_URL | patch -sup 1
+  - popd
+  - pushd libs/function
+  - PATCH_URL=https://github.com/Kojoley/function/pull/1.patch;
+    curl -sL $PATCH_URL | patch -sup 1
+  - popd
+
   - rm -rf libs/spirit
   - ./bootstrap.sh --with-toolset=${TOOLSET%%-*}
                    --with-libraries=$BOOST_BUILD_DEPS

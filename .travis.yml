@@ -183,6 +183,12 @@ before_install:
     curl -sL $PATCH_URL | patch -sup 1
   - popd
 
+  # -Wmissing-noreturn
+  - pushd libs/regex
+  - PATCH_URL=https://github.com/boostorg/regex/pull/25.patch;
+    curl -sL $PATCH_URL | patch -sup 1
+  - popd
+
   - rm -rf libs/spirit
   - ./bootstrap.sh --with-toolset=${TOOLSET%%-*}
                    --with-libraries=$BOOST_BUILD_DEPS

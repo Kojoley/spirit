@@ -168,6 +168,15 @@ before_install:
     curl -sL $PATCH_URL | patch -sup 1
   - popd
 
+  - pushd libs/random
+  # -Wunused-parameter
+  - PATCH_URL=https://github.com/boostorg/random/pull/25.patch;
+    curl -sL $PATCH_URL | patch -sup 1
+  # -Wshadow
+  - PATCH_URL=https://github.com/boostorg/random/pull/26.patch;
+    curl -sL $PATCH_URL | patch -sup 1
+  - popd
+
   - rm -rf libs/spirit
   - ./bootstrap.sh --with-toolset=${TOOLSET%%-*}
                    --with-libraries=$BOOST_BUILD_DEPS

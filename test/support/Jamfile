@@ -1,0 +1,70 @@
+#==============================================================================
+#   Copyright (c) 2001-2013 Joel de Guzman
+#   Copyright (c) 2001-2012 Hartmut Kaiser
+#   Copyright (c)      2011 Bryce Lelbach
+#
+#   Use, modification and distribution is subject to the Boost Software
+#   License, Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at
+#   http://www.boost.org/LICENSE_1_0.txt)
+#==============================================================================
+
+# bring in rules for testing
+import testing ;
+import modules ;
+import feature ;
+
+###############################################################################
+project spirit_v2x/test/support
+    : requirements
+        <include>.
+        <toolset>gcc:<cxxflags>-ftemplate-depth-512
+        <toolset>clang:<cxxflags>-ftemplate-depth-512
+        <toolset>darwin:<cxxflags>-ftemplate-depth-512
+    :
+    :
+    ;
+
+tests = ;
+
+rule run ( sources + : args * : input-files * : requirements * : target-name ? :  default-build * )
+{
+    target-name ?= $(sources[1]:D=:S=) ;
+    tests += [ testing.run $(sources) : $(args)
+      : $(input-files) : $(requirements) : $(target-name)-p3 : $(default-build) ] ;
+}
+
+rule compile ( sources + : requirements * : target-name ? )
+{
+    target-name ?= $(sources[1]:D=:S=) ;
+    tests += [ testing.compile $(sources) : $(requirements) : $(target-name)-p3 ] ;
+}
+
+rule compile-fail ( sources + : requirements * : target-name ? )
+{
+    target-name ?= $(sources[1]:D=:S=) ;
+    tests += [ testing.compile-fail $(sources) : $(requirements) : $(target-name)-p3 ] ;
+}
+
+###############################################################################
+
+{
+    ###########################################################################
+    test-suite spirit_v2/support :
+
+     [ run utree.cpp                  : : : : support_utree ]
+     [ run utree_debug.cpp            : : : : support_utree_debug ]
+     [ run istream_iterator_basic.cpp : : : : istream_iterator_basic ]
+
+    ;
+
+    ###########################################################################
+    test-suite spirit_v2/support_regressions :
+
+     [ compile regression_multi_pass_position_iterator.cpp : : support_regression_multi_pass_position_iterator ]
+     [ compile regression_multi_pass_functor.cpp           : : support_regression_multi_pass_functor ]
+     [ compile regression_multi_pass_parse.cpp             : : support_regression_multi_pass_parse ]
+     [ run regression_multi_pass_error_handler.cpp         : : : : regression_multi_pass_error_handler ]
+
+    ;
+
+}

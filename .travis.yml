@@ -177,6 +177,12 @@ before_install:
     curl -sL $PATCH_URL | patch -sup 1
   - popd
 
+  # -Wshadow
+  - pushd libs/date_time
+  - PATCH_URL=https://github.com/Kojoley/date_time/pull/1.patch;
+    curl -sL $PATCH_URL | patch -sup 1
+  - popd
+
   - rm -rf libs/spirit
   - ./bootstrap.sh --with-toolset=${TOOLSET%%-*}
                    --with-libraries=$BOOST_BUILD_DEPS

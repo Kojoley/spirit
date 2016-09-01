@@ -38,10 +38,16 @@ env:
   # Examples: example,classic/example,repository/example
   # Documentation: doc,classic/doc,repository/doc
   matrix:
-    - STD=c++03 JOB=test
+    - STD=c++03 JOB=test/qi
+    - STD=c++03 JOB=test/karma
+    - STD=c++03 JOB=test/lex
+    - STD=c++03 JOB=test/support
     - STD=c++03 JOB=repository/test
     - STD=c++03 JOB=example
-    - STD=c++1y JOB=test
+    - STD=c++1y JOB=test/qi
+    - STD=c++1y JOB=test/karma
+    - STD=c++1y JOB=test/lex
+    - STD=c++1y JOB=test/support
     - STD=c++1y JOB=test/x3
     - STD=c++1y JOB=repository/test
     - STD=c++1y JOB=example

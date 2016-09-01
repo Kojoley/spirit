@@ -26,22 +26,22 @@
 
 #if INT_MAX != LLONG_MAX
     static_assert(sizeof(int) == 4, "unexpected int size");
-    char const* max_int = "2147483647";
-    char const* int_overflow = "2147483648";
-    char const* min_int = "-2147483648";
-    char const* int_underflow = "-2147483649";
+    static char const* max_int = "2147483647";
+    static char const* int_overflow = "2147483648";
+    static char const* min_int = "-2147483648";
+    static char const* int_underflow = "-2147483649";
 #else
     static_assert(sizeof(int) == 8, "unexpected int size");
-    char const* max_int = "9223372036854775807";
-    char const* int_overflow = "9223372036854775808";
-    char const* min_int = "-9223372036854775808";
-    char const* int_underflow = "-9223372036854775809";
+    static char const* max_int = "9223372036854775807";
+    static char const* int_overflow = "9223372036854775808";
+    static char const* min_int = "-9223372036854775808";
+    static char const* int_underflow = "-9223372036854775809";
 #endif
 
-    char const* max_long_long = "9223372036854775807";
-    char const* long_long_overflow = "9223372036854775808";
-    char const* min_long_long = "-9223372036854775808";
-    char const* long_long_underflow = "-9223372036854775809";
+    static char const* max_long_long = "9223372036854775807";
+    static char const* long_long_overflow = "9223372036854775808";
+    static char const* min_long_long = "-9223372036854775808";
+    static char const* long_long_underflow = "-9223372036854775809";
 
 ///////////////////////////////////////////////////////////////////////////////
 // A custom int type

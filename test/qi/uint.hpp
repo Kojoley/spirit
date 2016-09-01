@@ -29,18 +29,18 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-    char const* max_unsigned = "4294967295";
-    char const* unsigned_overflow = "4294967296";
-    char const* max_int = "2147483647";
-    char const* int_overflow = "2147483648";
-    char const* min_int = "-2147483648";
-    char const* int_underflow = "-2147483649";
-    char const* max_binary = "11111111111111111111111111111111";
-    char const* binary_overflow = "100000000000000000000000000000000";
-    char const* max_octal = "37777777777";
-    char const* octal_overflow = "100000000000";
-    char const* max_hex = "FFFFFFFF";
-    char const* hex_overflow = "100000000";
+    static char const* max_unsigned = "4294967295";
+    static char const* unsigned_overflow = "4294967296";
+    static char const* max_int = "2147483647";
+    static char const* int_overflow = "2147483648";
+    static char const* min_int = "-2147483648";
+    static char const* int_underflow = "-2147483649";
+    static char const* max_binary = "11111111111111111111111111111111";
+    static char const* binary_overflow = "100000000000000000000000000000000";
+    static char const* max_octal = "37777777777";
+    static char const* octal_overflow = "100000000000";
+    static char const* max_hex = "FFFFFFFF";
+    static char const* hex_overflow = "100000000";
 
 ///////////////////////////////////////////////////////////////////////////////
 // A custom int type

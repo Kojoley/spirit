@@ -27,7 +27,7 @@ void f(std::string const& s)
     std::cout << "parsing got: " << s << std::endl;
 }
 
-std::string s;
+static std::string s;
 void b(char c)
 {
     s += c;

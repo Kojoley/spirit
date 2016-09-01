@@ -21,7 +21,7 @@
 #include <boost/bind.hpp>
 #include <cstring>
 
-int x = 0;
+static int x = 0;
 
 void fun1(int const& i)
 {

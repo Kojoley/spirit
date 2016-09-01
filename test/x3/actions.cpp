@@ -11,7 +11,7 @@
 
 namespace x3 = boost::spirit::x3;
 
-int x = 0;
+static int x = 0;
 
 auto fun1 =
     [](auto& ctx)

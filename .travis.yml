@@ -42,6 +42,7 @@ env:
     - STD=c++03 JOB=repository/test
     - STD=c++03 JOB=example
     - STD=c++1y JOB=test
+    - STD=c++1y JOB=test/x3
     - STD=c++1y JOB=repository/test
     - STD=c++1y JOB=example
 

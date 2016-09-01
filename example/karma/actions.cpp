@@ -28,7 +28,7 @@ namespace client
     namespace karma = boost::spirit::karma;
 
     // A plain function
-    void read_function(int& i)
+    static void read_function(int& i)
     {
         i = 42;
     }

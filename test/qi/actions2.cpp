@@ -22,13 +22,13 @@
 #include <string>
 #include "test.hpp"
 
-void f(std::string const& s)
+static void f(std::string const& s)
 {
     std::cout << "parsing got: " << s << std::endl;
 }
 
 static std::string s;
-void b(char c)
+static void b(char c)
 {
     s += c;
 }

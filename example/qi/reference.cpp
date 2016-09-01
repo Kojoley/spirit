@@ -219,7 +219,7 @@ struct complex
 
 //[reference_qi_stream_complex
 // define streaming operator for the type complex
-std::istream&
+static std::istream&
 operator>> (std::istream& is, complex& z)
 {
     char lbrace = '\0', comma = '\0', rbrace = '\0';

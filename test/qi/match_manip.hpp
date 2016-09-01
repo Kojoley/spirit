@@ -56,7 +56,7 @@ bool test(Char const *toparse,
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-bool is_list_ok(std::list<char> const& l)
+inline bool is_list_ok(std::list<char> const& l)
 {
     std::list<char>::const_iterator cit = l.begin();
     if (cit == l.end() || *cit != 'a')

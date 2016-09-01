@@ -23,12 +23,12 @@
 
 static int x = 0;
 
-void fun1(int const& i)
+static void fun1(int const& i)
 {
     x += i;
 }
 
-void fun2(int i)
+static void fun2(int i)
 {
     x += i;
 }
@@ -42,7 +42,7 @@ struct fun_action
     }
 };
 
-void fail (int, boost::spirit::unused_type, bool& pass)
+static void fail (int, boost::spirit::unused_type, bool& pass)
 { 
     pass = false; 
 } 

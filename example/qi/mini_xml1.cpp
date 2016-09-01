@@ -72,7 +72,7 @@ namespace client
     ///////////////////////////////////////////////////////////////////////////
     int const tabsize = 4;
 
-    void tab(int indent)
+    static void tab(int indent)
     {
         for (int i = 0; i < indent; ++i)
             std::cout << ' ';

@@ -121,7 +121,7 @@ struct complex
 
 //[reference_karma_stream_complex
 // define streaming operator for the type complex
-std::ostream& 
+static std::ostream& 
 operator<< (std::ostream& os, complex const& z)
 {
     os << "{" << z.a << "," << z.b << "}";

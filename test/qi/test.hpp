@@ -142,7 +142,7 @@ namespace spirit_test
         }
     };
 
-    void print_info(boost::spirit::info const& what)
+    inline void print_info(boost::spirit::info const& what)
     {
         using boost::spirit::basic_info_walker;
 

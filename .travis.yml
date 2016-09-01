@@ -68,8 +68,12 @@ before_install:
     using clang : 3.8 : ccache clang++-3.8 : <compileflags>-std=$STD ;
 
     feature.extend warnings : extra ;
-    toolset.flags gcc.compile OPTIONS <warnings>extra : -Wall -Wextra -pedantic -Wno-long-long : unchecked ; 
-    toolset.flags clang-linux.compile OPTIONS <warnings>extra : -Weverything -Wno-long-long : unchecked ; 
+    toolset.flags gcc.compile OPTIONS <warnings>extra :
+        -Wall -Wextra -pedantic -Wno-long-long
+      : unchecked ; 
+    toolset.flags clang-linux.compile OPTIONS <warnings>extra :
+        -Wall -Wextra -pedantic -Wno-long-long
+      : unchecked ; 
 
     feature.feature coverage : off on : optional ;
 

@@ -62,7 +62,7 @@ before_install:
 
     feature.extend warnings : extra ;
     toolset.flags gcc.compile OPTIONS <warnings>extra : -Wall -Wextra -pedantic -Wno-long-long -Wshadow : unchecked ; 
-    toolset.flags clang-linux.compile OPTIONS <warnings>extra : -Weverything -Wno-long-long -Wno-disabled-macro-expansion -Wno-c++98-compat-pedantic -Wno-old-style-cast -Wno-deprecated -Wno-padded -Wno-global-constructors -Wno-exit-time-destructors -Wno-reserved-id-macro -Wno-undef -Wno-documentation -Wno-documentation-unknown-command -Wno-sign-conversion -Wno-shorten-64-to-32 -Wno-switch-enum -Wno-covered-switch-default -Wno-weak-vtables -Wno-undefined-reinterpret-cast : unchecked ; 
+    toolset.flags clang-linux.compile OPTIONS <warnings>extra : -Weverything -Wno-long-long -Wno-disabled-macro-expansion -Wno-c++98-compat-pedantic -Wno-old-style-cast -Wno-deprecated -Wno-padded -Wno-global-constructors -Wno-exit-time-destructors -Wno-reserved-id-macro -Wno-undef -Wno-documentation -Wno-documentation-unknown-command -Wno-sign-conversion -Wno-shorten-64-to-32 -Wno-switch-enum -Wno-covered-switch-default -Wno-weak-vtables -Wno-undefined-reinterpret-cast -Wno-float-equal -Wno-double-promotion : unchecked ; 
 
     feature.feature coverage : off on : optional ;
 

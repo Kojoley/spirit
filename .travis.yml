@@ -69,10 +69,10 @@ before_install:
 
     feature.extend warnings : extra ;
     toolset.flags gcc.compile OPTIONS <warnings>extra :
-        -Wall -Wextra -pedantic -Wno-long-long
+        -Wall -Wextra -Wno-long-long
       : unchecked ; 
     toolset.flags clang-linux.compile OPTIONS <warnings>extra :
-        -Wall -Wextra -pedantic -Wno-long-long
+        -Wall -Wextra -Wno-long-long
       : unchecked ; 
 
     feature.feature coverage : off on : optional ;

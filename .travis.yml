@@ -163,6 +163,9 @@ before_install:
   - pushd libs/function
   - PATCH_URL=https://github.com/Kojoley/function/pull/1.patch;
     curl -sL $PATCH_URL | patch -sup 1
+  # -Wswitch-enum patch
+  - PATCH_URL=https://github.com/Kojoley/function/pull/2.patch;
+    curl -sL $PATCH_URL | patch -sup 1
   - popd
 
   - rm -rf libs/spirit

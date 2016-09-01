@@ -1,0 +1,103 @@
+#==============================================================================
+#   Copyright (c) 2001-2013 Joel de Guzman
+#   Copyright (c) 2001-2012 Hartmut Kaiser
+#   Copyright (c)      2011 Bryce Lelbach
+#
+#   Use, modification and distribution is subject to the Boost Software
+#   License, Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at
+#   http://www.boost.org/LICENSE_1_0.txt)
+#==============================================================================
+
+# bring in rules for testing
+import testing ;
+import modules ;
+import feature ;
+
+###############################################################################
+project spirit_v2x/test/lex
+    : requirements
+        <include>.
+        <toolset>gcc:<cxxflags>-ftemplate-depth-512
+        <toolset>clang:<cxxflags>-ftemplate-depth-512
+        <toolset>darwin:<cxxflags>-ftemplate-depth-512
+    :
+    :
+    ;
+
+tests = ;
+
+rule run ( sources + : args * : input-files * : requirements * : target-name ? :  default-build * )
+{
+    target-name ?= $(sources[1]:D=:S=) ;
+    tests += [ testing.run $(sources) : $(args)
+      : $(input-files) : $(requirements) : $(target-name)-p3 : $(default-build) ] ;
+}
+
+rule compile ( sources + : requirements * : target-name ? )
+{
+    target-name ?= $(sources[1]:D=:S=) ;
+    tests += [ testing.compile $(sources) : $(requirements) : $(target-name)-p3 ] ;
+}
+
+rule compile-fail ( sources + : requirements * : target-name ? )
+{
+    target-name ?= $(sources[1]:D=:S=) ;
+    tests += [ testing.compile-fail $(sources) : $(requirements) : $(target-name)-p3 ] ;
+}
+
+###############################################################################
+
+{
+    ###########################################################################
+    test-suite spirit_v2/lex :
+
+     [ run auto_switch_lexerstate.cpp    : : : : lex_auto_switch_lexerstate ]
+     [ run dedent_handling_phoenix.cpp   : : : : lex_dedent_handling_phoenix ]
+     [ run id_type_enum.cpp              : : : : lex_id_type_enum ]
+     [ run lexertl1.cpp                  : : : : lex_lexertl1 ]
+     [ run lexertl2.cpp                  : : : : lex_lexertl2 ]
+     [ run lexertl3.cpp                  : : : : lex_lexertl3 ]
+     [ run lexertl4.cpp                  : : : : lex_lexertl4 ]
+     [ run lexertl5.cpp                  : : : : lex_lexertl5 ]
+     [ run lexer_state_switcher.cpp      : : : : lex_lexer_state_switcher ]
+     [ run semantic_actions.cpp          : : : : lex_semantic_actions ]
+     [ run set_token_value.cpp           : : : : lex_set_token_value ]
+     [ run set_token_value_phoenix.cpp   : : : : lex_set_token_value_phoenix ]
+     [ run state_switcher.cpp            : : : : lex_state_switcher ]
+     [ run string_token_id.cpp           : : : : lex_string_token_id ]
+     [ run token_iterpair.cpp            : : : : lex_token_iterpair ]
+     [ run token_moretypes.cpp           : : : : lex_token_moretypes ]
+     [ run token_omit.cpp                : : : : lex_token_omit ]
+     [ run token_onetype.cpp             : : : : lex_token_onetype ]
+     [ run plain_token.cpp               : : : : plain_token ]
+
+    ;
+
+    ###########################################################################
+    test-suite spirit_v2/lex_regressions :
+
+     [ run regression_basic_lexer.cpp : : : : lex_regression_basic_lexer ]
+     [ run regression_matlib_dynamic.cpp : : : : lex_regression_matlib_dynamic ]
+     [ run regression_matlib_generate.cpp : matlib_static.h : : : lex_regression_matlib_generate ]
+#     [ run regression_matlib_static.cpp : : :
+#       <phoenix_v3>on:<dependency>.//lex_regression_matlib_generate-p3
+#       <phoenix_v3>off:<dependency>.//lex_regression_matlib_generate-p2
+#       : lex_regression_matlib_static ]
+     [ run regression_matlib_generate_switch.cpp : matlib_static_switch.h : : : lex_regression_matlib_generate_switch ]
+#     [ run regression_matlib_switch.cpp : : :
+#       <phoenix_v3>on:<dependency>.//lex_regression_matlib_generate_switch-p3
+#       <phoenix_v3>off:<dependency>.//lex_regression_matlib_generate_switch-p2
+#         : lex_regression_matlib_switch ]
+     [ run regression_word_count.cpp : : : : lex_regression_word_count ]
+     [ run regression_syntax_error.cpp : : : : lex_regression_syntax_error ]
+     [ run regression_wide.cpp : : : : lex_regression_wide ]
+     [ run regression_file_iterator1.cpp : : : : lex_regression_file_iterator1 ]
+     [ run regression_file_iterator2.cpp : : : : lex_regression_file_iterator2 ]
+     [ run regression_file_iterator3.cpp : : : : lex_regression_file_iterator3 ]
+     [ run regression_file_iterator4.cpp : : : : lex_regression_file_iterator4 ]
+     [ run regression_static_wide_6253.cpp : : : : regression_static_wide_6253 ]
+     [ run regression_less_8563.cpp : : : : regression_less_8563 ]
+
+    ;
+
+}

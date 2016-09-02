@@ -75,7 +75,7 @@ before_install:
         -Wall -Wextra -Wno-long-long
       : unchecked ; 
 
-    feature.feature coverage : off on : optional ;
+    feature.feature coverage : off on : optional incidental propagated ;
 
     # --coverage compiler flag is synonym for -fprofile-arcs -ftest-coverage
     # --coverage linker flag is synonym for -lgcov

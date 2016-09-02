@@ -181,7 +181,7 @@ before_install:
   - cd $JOB
 
 script:
-  - $BOOST_ROOT/b2 -j`nproc` toolset=$TOOLSET coverage=on warnings=extra define=BOOST_RESULT_OF_USE_TR1 #include="$BOOST_ROOT"
+  - $BOOST_ROOT/b2 -j`nproc` toolset=$TOOLSET coverage=on warnings=extra define=BOOST_RESULT_OF_USE_TR1 define=BOOST_OPTIONAL_CONFIG_USE_OLD_IMPLEMENTATION_OF_OPTIONAL #include="$BOOST_ROOT"
 
 after_success:
   - bash <(curl -s https://codecov.io/bash) -e TOOLSET,STD -s "$BOOST_BUILD_PATH" -s "$BOOST_ROOT/bin.v2"

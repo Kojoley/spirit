@@ -135,7 +135,7 @@ before_install:
   - parallel --version
   - # Checkout Boost submodules
 
-    git submodule init |
+    git submodule init 2>&1 |
     tee submodule_init.log |
     awk '{ print substr($2, 2, length($2) - 2) "\t"
                  substr($3, 2, length($3) - 2) "\t"

@@ -118,6 +118,11 @@ int main()
             "John, Smith, 2000.50\n" "Mary, Higgins, 2200.36\n" "Tom, Taylor, 3200.00\n",
             r % qi::eol, employees);
 
+        if (!result) {
+            std::cout << "Parsing failed!" << std::endl;
+            return 1;
+        }
+
         std::cout << "Parsed: " << std::endl;
         BOOST_FOREACH(client::employee const& e, employees) 
         {

@@ -21,7 +21,6 @@ main()
     using boost::spirit::ascii::space;
     using boost::spirit::ascii::char_;
     using boost::spirit::qi::parse;
-    typedef std::string::const_iterator iterator_type;
 
 ///////////////////////////////////////////////////////////////////////////////
 // this works for non-c++11 compilers

@@ -11,12 +11,11 @@ addons:
   apt:
     sources:
       - llvm-toolchain-trusty-5.0
-      - ubuntu-toolchain-r-test
     packages:
       - parallel
       - clang-5.0
-      - gcc-7
-      - g++-7  # clang uses stdlib and it needs bugfixes
+      - libc++-dev
+      - libc++abi-dev
       - libicu-dev  # from: libboost-regex-dev
 
 env:
@@ -51,7 +50,8 @@ before_install:
     import feature ;
     import toolset ;
 
-    using clang : 5.0 : ccache clang++-5.0 : <compileflags>-std=$STD ;
+    using clang : 5.0 : ccache clang++-5.0 : <compileflags>-std=$STD
+                                             <compileflags>-stdlib=libc++ ;
 
     feature.extend warnings : extra ;
     toolset.flags gcc.compile OPTIONS <warnings>extra :

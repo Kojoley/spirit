@@ -138,8 +138,8 @@ struct example4_grammar
         //  std::string and unsigned integer, both possible values may be 
         //  returned to the calling rule
         expression 
-            =   tok.identifier [ _val = _1 ]
-            |   tok.constant   [ _val = _1 ]
+            =   tok.identifier
+            |   tok.constant
             ;
     }
 

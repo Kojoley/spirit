@@ -78,11 +78,7 @@ struct bool_input_policies
 
 struct save_line_pos
 {
-    template <typename, typename>
-    struct result
-    {
-        typedef void type;
-    };
+    typedef void result_type;
 
     template <typename Range>
     void operator()(utree& ast, Range const& rng) const

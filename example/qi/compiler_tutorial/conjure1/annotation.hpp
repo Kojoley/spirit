@@ -23,8 +23,7 @@ namespace client
     template <typename Iterator>
     struct annotation
     {
-        template <typename, typename, typename>
-        struct result { typedef void type; };
+        typedef void result_type;
 
         std::vector<Iterator>& iters;
         annotation(std::vector<Iterator>& iters)

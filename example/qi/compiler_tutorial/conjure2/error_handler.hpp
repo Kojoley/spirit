@@ -20,8 +20,7 @@ namespace client
     template <typename BaseIterator, typename Iterator>
     struct error_handler
     {
-        template <typename, typename, typename, typename>
-        struct result { typedef void type; };
+        typedef void result_type;
 
         error_handler(BaseIterator first, BaseIterator last)
           : first(first), last(last) {}

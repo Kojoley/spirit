@@ -21,8 +21,11 @@ using namespace std;
     ///////////////////////////////////////////////////////////////////////////////
     struct sqr_ {
 
-        template <typename ArgT>
-        struct result { typedef ArgT type; };
+        template <typename>
+        struct result;
+
+        template <typename F, typename ArgT>
+        struct result<F(ArgT)> { typedef ArgT type; };
 
         template <typename ArgT>
         ArgT operator()(ArgT n) const { return n * n; }
@@ -33,8 +36,11 @@ using namespace std;
     ///////////////////////////////////////////////////////////////////////////////
     struct adder_ {
 
-        template <typename Arg1T, typename Arg2T, typename ArgT3>
-        struct result { typedef Arg1T type; };
+        template <typename>
+        struct result;
+
+        template <typename F, typename Arg1T, typename Arg2T, typename ArgT3>
+        struct result<F(Arg1T, Arg2T, ArgT3)> { typedef Arg1T type; };
 
         template <typename Arg1T, typename Arg2T, typename ArgT3>
         Arg1T operator()(Arg1T a, Arg2T b, ArgT3 c) const { return a + b + c; }

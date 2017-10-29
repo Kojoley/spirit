@@ -17,8 +17,7 @@ namespace phoenix = boost::phoenix;
 ///////////////////////////////////////////////////////////////////////////////
 struct square_impl
 {
-    template <class>
-    struct result { typedef int type; };
+    typedef int result_type;
 
     template <class A>
     int operator () (const A &x) const

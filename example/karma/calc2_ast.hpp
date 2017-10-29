@@ -162,8 +162,11 @@ inline expression_ast& expression_ast::operator/=(expression_ast const& rhs)
 template <char Op>
 struct unary_expr
 {
-    template <typename T>
-    struct result { typedef T type; };
+    template <typename>
+    struct result;
+
+    template <typename F, typename T>
+    struct result<F(T)> { typedef T type; };
 
     expression_ast operator()(expression_ast const& expr) const
     {

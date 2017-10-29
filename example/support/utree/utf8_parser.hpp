@@ -38,11 +38,7 @@ typedef boost::uint32_t uchar;
 
 struct push_string
 {
-    template <typename, typename>
-    struct result
-    {
-        typedef void type;
-    };
+    typedef void result_type;
 
     void operator()(std::string& s, uchar code_point) const
     {
@@ -55,11 +51,7 @@ struct push_string
 
 struct push_escaped_string
 {
-    template <typename, typename>
-    struct result
-    {
-        typedef void type;
-    };
+    typedef void result_type;
 
     void operator()(std::string& s, uchar c) const
     {

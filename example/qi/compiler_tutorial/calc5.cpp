@@ -208,8 +208,7 @@ namespace client
     ///////////////////////////////////////////////////////////////////////////////
     struct error_handler_
     {
-        template <typename, typename, typename>
-        struct result { typedef void type; };
+        typedef void result_type;
 
         template <typename Iterator>
         void operator()(

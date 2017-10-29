@@ -59,11 +59,16 @@ namespace lex = boost::spirit::lex;
 ///////////////////////////////////////////////////////////////////////////////
 struct distance_func
 {
-    template <typename Iterator1, typename Iterator2>
-    struct result : boost::iterator_difference<Iterator1> {};
+    template <typename>
+    struct result;
+
+    template <typename F, typename Iterator1, typename Iterator2>
+    struct result<F(Iterator1, Iterator2)>
+      : boost::iterator_difference<Iterator1>
+    {};
 
     template <typename Iterator1, typename Iterator2>
-    typename result<Iterator1, Iterator2>::type 
+    typename result<distance_func(Iterator1, Iterator2)>::type 
     operator()(Iterator1 const& begin, Iterator2 const& end) const
     {
         return std::distance(begin, end);

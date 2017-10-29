@@ -34,11 +34,7 @@ using namespace phoenix;
 ///////////////////////////////////////////////////////////////////////////////
 struct push_back_impl
 {
-    template <typename Container, typename Item>
-    struct result
-    {
-        typedef void type;
-    };
+    typedef void result_type;
 
     template <typename Container, typename Item>
     void operator()(Container& c, Item const& item) const

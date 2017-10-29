@@ -59,8 +59,11 @@ using namespace phoenix;
 ///////////////////////////////////////////////////////////////////////////////
 struct pow_
 {
-    template <typename X, typename Y>
-    struct result { typedef X type; };
+    template <typename>
+    struct result;
+
+    template <typename F, typename X, typename Y>
+    struct result<F(X, Y)> { typedef X type; };
 
     template <typename X, typename Y>
     X operator()(X x, Y y) const

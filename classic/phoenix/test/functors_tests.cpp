@@ -31,8 +31,11 @@ using namespace std;
     ///////////////////////////////////////////////////////////////////////////////
     struct sqr_ {
 
-        template <typename ArgT>
-        struct result { typedef ArgT type; };
+        template <typename>
+        struct result;
+
+        template <typename F, typename ArgT>
+        struct result<F(ArgT)> { typedef ArgT type; };
 
         template <typename ArgT>
         ArgT operator()(ArgT n) const { return n * n; }
@@ -43,8 +46,11 @@ using namespace std;
     ///////////////////////////////////////////////////////////////////////////////
     struct fact_ {
 
-        template <typename ArgT>
-        struct result { typedef ArgT type; };
+        template <typename>
+        struct result;
+
+        template <typename F, typename ArgT>
+        struct result<F(ArgT)> { typedef ArgT type; };
 
         template <typename ArgT>
         ArgT operator()(ArgT n) const
@@ -56,8 +62,11 @@ using namespace std;
     ///////////////////////////////////////////////////////////////////////////////
     struct pow_ {
 
-        template <typename Arg1T, typename Arg2T>
-        struct result { typedef Arg1T type; };
+        template <typename>
+        struct result;
+
+        template <typename F, typename Arg1T, typename Arg2T>
+        struct result<F(Arg1T, Arg2T)> { typedef Arg1T type; };
 
         template <typename Arg1T, typename Arg2T>
         Arg1T operator()(Arg1T a, Arg2T b) const { return pow(a, b); }

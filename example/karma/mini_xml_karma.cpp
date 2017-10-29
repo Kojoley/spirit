@@ -112,8 +112,11 @@ struct mini_xml_parser :
 template <typename T>
 struct get_element
 {
-    template <typename T1>
-    struct result { typedef T const& type; };
+    template <typename>
+    struct result;
+
+    template <typename F, typename T1>
+    struct result<F(T1)> { typedef T const& type; };
 
     T const& operator()(mini_xml_node const& node) const
     {

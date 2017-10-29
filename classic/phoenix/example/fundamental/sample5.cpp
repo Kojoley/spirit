@@ -19,8 +19,7 @@ using namespace phoenix;
 template <int N>
 struct static_int {
 
-    template <typename TupleT>
-    struct result { typedef int type; };
+    typedef int result_type;
 
     template <typename TupleT>
     int eval(TupleT const&) const { return N; }

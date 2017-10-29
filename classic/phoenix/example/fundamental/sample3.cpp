@@ -17,8 +17,7 @@ using namespace phoenix;
 
 struct is_odd_ {
 
-    template <typename ArgT>
-    struct result { typedef bool type; };
+    typedef bool result_type;
 
     template <typename ArgT>
     bool operator()(ArgT arg1) const

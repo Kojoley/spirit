@@ -60,8 +60,6 @@ test_data data[] =
 struct test_impl
 {
     typedef void result_type;
-    template <typename TokenId, typename Value>
-    struct result { typedef void type; };
 
     template <typename TokenId, typename Value>
     void operator()(TokenId const& tokenid, Value const& val) const

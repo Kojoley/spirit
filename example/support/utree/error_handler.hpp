@@ -85,11 +85,7 @@ struct expected_component : std::exception
 template <typename Iterator>
 struct error_handler
 {
-    template <typename, typename, typename, typename>
-    struct result
-    {
-        typedef void type;
-    };
+    typedef void result_type;
 
     std::string source;
 

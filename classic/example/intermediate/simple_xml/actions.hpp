@@ -10,8 +10,7 @@
 
 struct push_child_impl
 {
-    template <class T,class A>
-    struct result {typedef void type;};
+    typedef void result_type;
     
     template <class T,class A>
     void operator () (T &list, const A &value) const
@@ -23,8 +22,7 @@ struct push_child_impl
 
 struct store_in_map_impl
 {
-    template <class T,class A>
-    struct result{typedef void type;};
+    typedef void result_type;
     
     template <class T,class A>
     void operator () (T &map,const A &value)const
@@ -36,8 +34,7 @@ struct store_in_map_impl
 
 struct push_back_impl
 {
-    template <class T,class A>
-    struct result {typedef void type;};
+    typedef void result_type;
     
     template <class T,class A>
     void operator () (T &list,const A &value)const
@@ -48,8 +45,7 @@ struct push_back_impl
 
 struct store_tag_impl
 {
-    template <class T,class A,class B,class C>
-    struct result {typedef void type;};
+    typedef void result_type;
     
     template <class T,class A,class B,class C>
     void operator ()(T &t,const A &a,const B &b,const C &c)const

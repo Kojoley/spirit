@@ -24,8 +24,7 @@ using namespace std;
     ///////////////////////////////////////////////////////////////////////////////
     struct poly_print_ {
 
-        template <typename ArgT>
-        struct result { typedef void type; };
+        typedef void result_type;
 
         template <typename ArgT>
         void operator()(ArgT v) const

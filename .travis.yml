@@ -51,7 +51,9 @@ before_install:
     import toolset ;
 
     using clang : 5.0 : ccache clang++-5.0 : 
-        <compileflags>-std=$STD <compileflags>-stdlib=libc++ <linkflags>-lc++abi ;
+        <compileflags>-std=$STD
+        <cxxflags>-stdlib=libc++
+        <linkflags>"-nostdlib -lc++" ;
 
     feature.extend warnings : extra ;
     toolset.flags gcc.compile OPTIONS <warnings>extra :
@@ -84,6 +86,10 @@ before_install:
       export TOOLSET=gcc-7
     elif [ "$CXX" = "clang++" ]; then
       export TOOLSET=clang-5.0
+      export CC=clang-5.0
+      export CXX=clang++ -5.0
+      export LIBS="-nostdlib -lc++" 
+      export CXXFLAGS="-std=$STD -stdlib=libc++"
     fi
     echo Toolset is $TOOLSET
 

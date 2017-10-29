@@ -38,6 +38,8 @@ env:
     - STD=c++11 JOB=example
     - STD=c++1y JOB=example
     - STD=c++1z JOB=example
+    - STD=c++03 JOB=classic/example
+    - STD=c++1y JOB=classic/example
 
 cache: ccache
 

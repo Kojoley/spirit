@@ -13,7 +13,6 @@ addons:
       - llvm-toolchain-trusty-5.0
     packages:
       - parallel
-      - ccache
       - clang-5.0
       - libicu-dev  # from: libboost-regex-dev
 
@@ -37,9 +36,7 @@ env:
     - STD=c++1y JOB=example
     - STD=c++1z JOB=example
 
-cache:
-  directories:
-    - $HOME/.ccache
+cache: ccache
 
 before_install:
   - |

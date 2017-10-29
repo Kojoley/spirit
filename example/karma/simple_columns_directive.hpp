@@ -45,7 +45,7 @@ namespace custom_generator
           , Attribute const&) const
         {
             // first invoke the wrapped delimiter
-            if (!karma::delimit_out(sink, delimiter))
+            if (!boost::spirit::karma::delimit_out(sink, delimiter))
                 return false;
 
             // now we count the number of invocations and emit the column 

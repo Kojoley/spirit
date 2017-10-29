@@ -15,7 +15,6 @@ namespace client { namespace parser
       : statement::base_type(statement_list), expr(error_handler)
     {
         qi::_1_type _1;
-        qi::_2_type _2;
         qi::_3_type _3;
         qi::_4_type _4;
 

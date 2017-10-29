@@ -11,9 +11,12 @@ addons:
   apt:
     sources:
       - llvm-toolchain-trusty-5.0
+      - ubuntu-toolchain-r-test
     packages:
       - parallel
       - clang-5.0
+      - gcc-7
+      - g++-7  # clang uses stdlib and it needs bugfixes
       - libicu-dev  # from: libboost-regex-dev
 
 env:
@@ -76,7 +79,7 @@ before_install:
   - |
     # Setting a toolset depend on a compiler
     if [[ "$CXX" = "g++" ]]; then
-      export TOOLSET=gcc-5
+      export TOOLSET=gcc-7
     elif [ "$CXX" = "clang++" ]; then
       export TOOLSET=clang-5.0
     fi

@@ -3,24 +3,18 @@ language: cpp
 sudo: false
 
 compiler:
-#  - gcc
-  - gcc-5
-#  - clang
-  - clang-3.8
+  - clang-5.0
 
 os: linux
 
 addons:
   apt:
     sources:
-      - llvm-toolchain-precise-3.8
-      - ubuntu-toolchain-r-test
+      - llvm-toolchain-trusty-5.0
     packages:
       - parallel
       - ccache
-      - clang-3.8
-      - gcc-5
-      - g++-5
+      - clang-5.0
       - libicu-dev  # from: libboost-regex-dev
 
 env:
@@ -55,8 +49,7 @@ before_install:
     import feature ;
     import toolset ;
 
-    using gcc : 5 : ccache g++-5 : <compileflags>-std=$STD ;
-    using clang : 3.8 : ccache clang++-3.8 : <compileflags>-std=$STD ;
+    using clang : 5.0 : ccache clang++-5.0 : <compileflags>-std=$STD ;
 
     feature.extend warnings : extra ;
     toolset.flags gcc.compile OPTIONS <warnings>extra :
@@ -88,7 +81,7 @@ before_install:
     if [[ "$CXX" = "g++" ]]; then
       export TOOLSET=gcc-5
     elif [ "$CXX" = "clang++" ]; then
-      export TOOLSET=clang-3.8
+      export TOOLSET=clang-5.0
     fi
     echo Toolset is $TOOLSET
 

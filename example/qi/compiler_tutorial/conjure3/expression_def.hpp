@@ -30,6 +30,7 @@ namespace client { namespace parser
         using qi::on_success;
         using qi::fail;
         using boost::phoenix::function;
+        using boost::phoenix::val;
 
         typedef client::error_handler<typename Lexer::base_iterator_type, Iterator>
             error_handler_type;
@@ -86,7 +87,7 @@ namespace client { namespace parser
         // Error handling: on error in expr, call error_handler.
         on_error<fail>(expr,
             error_handler_function(error_handler)(
-                "Error! Expecting ", _4, _3));
+                val("Error! Expecting "), _4, _3));
 
         ///////////////////////////////////////////////////////////////////////
         // Annotation: on success in unary_expr, postfix_expr,

@@ -76,12 +76,12 @@ namespace grammars {
 
         on_error<fail>(id_list,
             phx::ref(std::cout)
-            << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << std::endl
-            << "Error! Expecting "
+            << phx::val("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!") << std::endl
+            << phx::val("Error! Expecting ")
             << qi::_4
-            << " here: "
+            << phx::val(" here: ")
             << phx::construct<std::string>(qi::_3, qi::_2) << std::endl
-            << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << std::endl
+            << phx::val("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!") << std::endl
             );
     }
 }

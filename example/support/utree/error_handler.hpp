@@ -95,7 +95,6 @@ struct error_handler
                   , info const& what) const
     {
         using boost::spirit::get_line;
-        Iterator eol = err_pos;
         std::size_t line = get_line(err_pos);
         throw expected_component(source, line, what);
     }

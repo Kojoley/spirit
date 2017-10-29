@@ -50,8 +50,8 @@ before_install:
     import feature ;
     import toolset ;
 
-    using clang : 5.0 : ccache clang++-5.0 : <compileflags>-std=$STD
-                                             <compileflags>-stdlib=libc++ ;
+    using clang : 5.0 : ccache clang++-5.0 : 
+        <compileflags>-std=$STD <compileflags>-stdlib=libc++ <linkflags>-lc++abi ;
 
     feature.extend warnings : extra ;
     toolset.flags gcc.compile OPTIONS <warnings>extra :

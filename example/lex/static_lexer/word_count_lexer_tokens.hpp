@@ -24,8 +24,13 @@ struct distance_func
     struct result;
 
     template <typename F, typename Iterator1, typename Iterator2>
-    struct result<F(Iterator1&, Iterator2&)>
+    struct result<F(Iterator1 const&, Iterator2 const&)>
       : boost::iterator_difference<Iterator1>
+    {};
+
+    template <typename F, typename Iterator1, typename Iterator2>
+    struct result<F(Iterator1&, Iterator2&)>
+      : result<F(Iterator1 const&, Iterator2 const&)>
     {};
 
     template <typename Iterator1, typename Iterator2>

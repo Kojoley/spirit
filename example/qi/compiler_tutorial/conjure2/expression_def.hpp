@@ -54,7 +54,7 @@ namespace client { namespace parser
             |   function_call
             |   identifier
             |   lexer.true_or_false
-            |   '(' > expr > ')'
+            |   ('(' > expr > ')')
             ;
 
         function_call =

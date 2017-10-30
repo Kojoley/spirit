@@ -121,7 +121,7 @@ namespace client { namespace parser
                 uint_
             |   identifier
             |   bool_
-            |   '(' > expr > ')'
+            |   ('(' > expr > ')')
             ;
 
         identifier =

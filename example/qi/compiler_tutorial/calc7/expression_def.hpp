@@ -63,7 +63,7 @@ namespace client { namespace parser
         primary_expr =
                 uint_
             |   identifier
-            |   '(' > expr > ')'
+            |   ('(' > expr > ')')
             ;
 
         identifier =

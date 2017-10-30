@@ -132,7 +132,7 @@ namespace client { namespace parser
             |   function_call
             |   identifier
             |   bool_
-            |   '(' > expr > ')'
+            |   ('(' > expr > ')')
             ;
 
         function_call =

@@ -48,11 +48,11 @@ namespace client { namespace lexer
                 identifier
             |   lex::string("\\/\\*[^*]*\\*+([^/*][^*]*\\*+)*\\/", token_ids::comment)
                 [
-                    lex::_pass = lex::pass_flags::pass_ignore
+                    _pass = lex::pass_flags::pass_ignore
                 ]
             |   lex::string("[ \t\n\r]+", token_ids::whitespace)
                 [
-                    lex::_pass = lex::pass_flags::pass_ignore
+                    _pass = lex::pass_flags::pass_ignore
                 ]
             ;
     }

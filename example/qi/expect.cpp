@@ -33,8 +33,10 @@ void parse(const std::string message, const std::string& input, const std::strin
     {
         std::cout << "Parser succeeded.\n";
         std::cout << "Parsed " << parsed_result.size() << " elements:";
-        for (const auto& str : parsed_result)
+        BOOST_FOREACH(result_type const& str, parsed_result)
+        {
             std::cout << "[" << str << "]";
+        }
         std::cout << std::endl;
     }
     else

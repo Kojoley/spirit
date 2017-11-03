@@ -1,22 +1,47 @@
 language: cpp
 
 sudo: false
-
-compiler:
-  - clang-5.0
-
 os: linux
+dist: trusty
 
-addons:
-  apt:
-    sources:
-      - llvm-toolchain-trusty-5.0
-    packages:
-      - parallel
-      - clang-5.0
-      - libc++-dev
-      - libc++abi-dev
-      - libicu-dev  # from: libboost-regex-dev
+addons_shortcuts:
+  addons_clang39: &clang39
+    apt:
+      sources:
+        - llvm-toolchain-trusty-3.9
+      packages:
+        - clang-3.9
+        - libc++-dev
+        - libc++abi-dev
+        - libicu-dev  # from: libboost-regex-dev
+
+  addons_clang50: &clang50
+    apt:
+      sources:
+        - llvm-toolchain-trusty-5.0
+      packages:
+        - clang-5.0
+        - libc++-dev
+        - libc++abi-dev
+        - libicu-dev  # from: libboost-regex-dev
+
+  addons_gcc5: &gcc5
+    apt:
+      sources:
+        - ubuntu-toolchain-r-test
+      packages:
+        - gcc-5
+        - g++-5
+        - libicu-dev  # from: libboost-regex-dev
+
+  addons_gcc6: &gcc6
+    apt:
+      sources:
+        - ubuntu-toolchain-r-test
+      packages:
+        - gcc-6
+        - g++-6
+        - libicu-dev  # from: libboost-regex-dev
 
 env:
   global:
@@ -26,34 +51,60 @@ env:
     #   system: (qi|x3)/tst.cpp
     - BOOST_BUILD_DEPS=date_time,filesystem,regex,system
 
-  # Replace >>>CASES<<< with a list in the following oneliner to generate a build matrix
-  #   for m in {c++03,c++11,c++1y}#{>>>CASES<<<}; do echo "STD=${m//#/ JOB=}"; done
   # Tests: test,classic/test,repository/test
   # Headers: repository/test/test_headers,test/test_headers
   # Examples: example,classic/example,repository/example
   # Documentation: doc,classic/doc,repository/doc
-  matrix:
-    - STD=c++03 JOB=example
-    - STD=c++11 JOB=example
-    - STD=c++1y JOB=example
-    - STD=c++1z JOB=example
-    - STD=c++03 JOB=classic/example
-    - STD=c++1y JOB=classic/example
+
+matrix:
+  include:
+    - {compiler: clang-5.0, addons: *clang50, env: 'TOOLSET=clang-5.0 STD=c++03 JOB=example'}
+    - {compiler: clang-5.0, addons: *clang50, env: 'TOOLSET=clang-5.0 STD=c++03 JOB=repository/example/qi,repository/example/karma'}
+    - {compiler: clang-5.0, addons: *clang50, env: 'TOOLSET=clang-5.0 STD=c++1y JOB=example'}
+    - {compiler: clang-5.0, addons: *clang50, env: 'TOOLSET=clang-5.0 STD=c++1y JOB=repository/example/qi,repository/example/karma'}
+    - {compiler: gcc-6, addons: *gcc6, env: 'TOOLSET=gcc-6 STD=c++03 JOB=example'}
+    - {compiler: gcc-6, addons: *gcc6, env: 'TOOLSET=gcc-6 STD=c++03 JOB=repository/example/qi,repository/example/karma'}
+    - {compiler: gcc-6, addons: *gcc6, env: 'TOOLSET=gcc-6 STD=c++1y JOB=example'}
+    - {compiler: gcc-6, addons: *gcc6, env: 'TOOLSET=gcc-6 STD=c++1y JOB=repository/example/qi,repository/example/karma'}
 
 cache: ccache
 
 before_install:
   - |
     # Creating ~/user-config.jam file
-    cat > ~/user-config.jam <<EOF
+    cat > ~/user-config.jam << 'EOF'
 
+    import common ; 
     import feature ;
+    import os ;
     import toolset ;
 
-    using clang : 5.0 : ccache clang++-5.0 : 
-        <compileflags>-std=$STD
-        <cxxflags>-stdlib=libc++
-        <linkflags>-stdlib=libc++ ;
+    local CCACHE = [ common.find-tool ccache ] ; 
+
+    local TOOLSET = [ os.environ TOOLSET ] ;
+
+    if $(TOOLSET) = "gcc-5"
+    {
+      using gcc : 5 : $(CCACHE) g++-5 : <compileflags>-std=$STD <cxxflags>-ftemplate-backtrace-limit=0 ;
+    }
+    else if $(TOOLSET) = "gcc-6"
+    {
+      using gcc : 6 : $(CCACHE) g++-6 : <compileflags>-std=$STD <cxxflags>-ftemplate-backtrace-limit=0 ;
+    }
+    else if $(TOOLSET) = "clang-3.9"
+    {
+      using clang : 3.9 : $(CCACHE) clang++-3.9 : 
+          <compileflags>-std=$STD
+          <cxxflags>"-stdlib=libc++ -ftemplate-backtrace-limit=0"
+          <linkflags>-stdlib=libc++ ;
+    }
+    else if $(TOOLSET) = "clang-5.0"
+    {
+      using clang : 5.0 : $(CCACHE) clang++-5.0 : 
+          <compileflags>-std=$STD
+          <cxxflags>"-stdlib=libc++ -ftemplate-backtrace-limit=0"
+          <linkflags>-stdlib=libc++ ;
+    }
 
     feature.extend warnings : extra ;
     toolset.flags gcc.compile OPTIONS <warnings>extra :
@@ -80,31 +131,11 @@ before_install:
 
   - sed 's/^  //' -i ~/user-config.jam
   - cat ~/user-config.jam
-  - |
-    # Setting a toolset depend on a compiler
-    if [[ "$CXX" = "g++" ]]; then
-      export TOOLSET=gcc-7
-    elif [ "$CXX" = "clang++" ]; then
-      export TOOLSET=clang-5.0
-      export CC=clang-5.0
-      export CXX=clang++ -5.0
-      export LIBS="-stdlib=libc++" 
-      export CXXFLAGS="-std=$STD -stdlib=libc++"
-    fi
-    echo Toolset is $TOOLSET
 
   - cat $BOOST_BUILD_PATH/cache.name
     || mkdir -p "$BOOST_BUILD_PATH" && echo "Cache not exists"
   - export CACHE_NAME=$TOOLSET-$STD
   - echo "$CACHE_NAME" > $BOOST_BUILD_PATH/cache.name
-  - # Dump environment variables
-    export
-  - $CC --version
-  - $CXX --version
-  - which clang && clang --version
-  - which clang++ && clang++ --version
-  - which gcc && gcc --version
-  - which g++ && g++ --version
   - |
     # Determining the branch
     if [[ "$TRAVIS_PULL_REQUEST" == "false" ]]; then
@@ -120,33 +151,21 @@ before_install:
       export BRANCH=develop
     fi
     echo Root branch is $BRANCH
-  - travis_retry git clone https://github.com/boostorg/boost.git $BOOST_ROOT
-                           --branch=$BRANCH --depth=1
+
+  - # Dump environment variables
+    export
+  - $CC --version
+  - $CXX --version
+  - which clang && clang --version
+  - which clang++ && clang++ --version
+  - which gcc && gcc --version
+  - which g++ && g++ --version
+
+  # Checkout Boost
+  - git clone -j10 --branch=$BRANCH --depth=50
+      --recurse-submodules=":(exclude)libs/spirit" --shallow-submodules
+      https://github.com/boostorg/boost.git $BOOST_ROOT
   - pushd $BOOST_ROOT
-  
-  - parallel --version
-  - # Checkout Boost submodules
-
-    git submodule init 2>&1 |
-    tee submodule_init.log |
-    awk '{ print substr($2, 2, length($2) - 2) "\t"
-                 substr($3, 2, length($3) - 2) "\t"
-                 substr($7, 2, length($7) - 2) }' |
-    grep -v 'spirit' |
-    tee checkout.list |
-    parallel --gnu --retries 3 -j10 --colsep '\t' -k
-             --joblog checkout.joblog --tagstring "[{1}]"
-             git clone --branch=$BRANCH --depth=1 --recursive {2} {3}
-    || (
-      echo "=== submodule init ===" ;
-      cat submodule_init.log ;
-      echo "=== checkout list ===" ;
-      cat checkout.list ;
-      echo "=== checkout joblog ===" ;
-      cat checkout.joblog ;
-      exit 1 ;
-     )
-
   - rm -rf libs/spirit
   - ./bootstrap.sh --with-toolset=${TOOLSET%%-*}
                    --with-libraries=$BOOST_BUILD_DEPS
@@ -154,26 +173,17 @@ before_install:
   - ./b2 headers
   - ./b2 -j`nproc` toolset=$TOOLSET --build-dir=$BOOST_BUILD_PATH
 
-  #- export BOOST_BUILD_PATH=$(pwd)
-  #- export PATH=$BOOST_BUILD_PATH:$PATH
-
-  #- ln -s $TRAVIS_BUILD_DIR libs/spirit
-
   - mv $TRAVIS_BUILD_DIR libs/spirit
   - ln -s libs/spirit $TRAVIS_BUILD_DIR
 
   #- popd
   - cd libs/spirit
 
-  # extract_sig signature patch
-  - PATCH_URL=https://github.com/Kojoley/spirit/pull/2.patch;
-    curl -sL $PATCH_URL | patch -sup 1
-
   #- touch Jamroot
   - cd $JOB
 
 script:
-  - $BOOST_ROOT/b2 -j`nproc` toolset=$TOOLSET coverage=on define=BOOST_OPTIONAL_CONFIG_USE_OLD_IMPLEMENTATION_OF_OPTIONAL #include="$BOOST_ROOT"
+  - $BOOST_ROOT/b2 -j`nproc` toolset=$TOOLSET coverage=on define=BOOST_OPTIONAL_CONFIG_USE_OLD_IMPLEMENTATION_OF_OPTIONAL define=BOOST_VARIANT_USE_RELAXED_GET_BY_DEFAULT #include="$BOOST_ROOT"
 
 after_success:
   - bash <(curl -s https://codecov.io/bash) -e TOOLSET,STD -s "$BOOST_BUILD_PATH" -s "$BOOST_ROOT/bin.v2"

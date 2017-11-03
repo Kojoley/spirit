@@ -62,7 +62,7 @@ namespace client { namespace parser
     auto const primary_expr_def =
             uint_
         |   identifier
-        |   '(' > expression > ')'
+        |   ('(' > expression > ')')
         ;
 
     auto const expression_def = additive_expr;

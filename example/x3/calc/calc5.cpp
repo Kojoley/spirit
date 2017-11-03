@@ -212,7 +212,7 @@ namespace client
 
         auto const factor_def =
                 uint_
-            |   '(' > expression > ')'
+            |   ('(' > expression > ')')
             |   (char_('-') > factor)
             |   (char_('+') > factor)
             ;

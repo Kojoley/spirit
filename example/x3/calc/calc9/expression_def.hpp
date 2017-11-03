@@ -149,7 +149,7 @@ namespace client { namespace parser
             uint_
         |   bool_
         |   (!keywords >> identifier)
-        |   '(' > expression > ')'
+        |   ('(' > expression > ')')
         ;
 
     auto const expression_def = logical_expr;

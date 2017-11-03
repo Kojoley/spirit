@@ -46,7 +46,7 @@ namespace client { namespace calculator_grammar
 
     auto const factor_def =
             uint_
-        |   '(' > expression > ')'
+        |   ('(' > expression > ')')
         |   (char_('-') > factor)
         |   (char_('+') > factor)
         ;

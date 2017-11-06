@@ -1,0 +1,191 @@
+language: cpp
+
+sudo: false
+os: linux
+dist: trusty
+
+addons_shortcuts:
+  addons_clang39: &clang39
+    apt:
+      sources:
+        - llvm-toolchain-trusty-3.9
+      packages:
+        - clang-3.9
+        - libc++-dev
+        - libc++abi-dev
+        - libicu-dev  # from: libboost-regex-dev
+
+  addons_clang50: &clang50
+    apt:
+      sources:
+        - llvm-toolchain-trusty-5.0
+      packages:
+        - clang-5.0
+        - libc++-dev
+        - libc++abi-dev
+        - libicu-dev  # from: libboost-regex-dev
+
+  addons_gcc5: &gcc5
+    apt:
+      sources:
+        - ubuntu-toolchain-r-test
+      packages:
+        - gcc-5
+        - g++-5
+        - libicu-dev  # from: libboost-regex-dev
+
+  addons_gcc6: &gcc6
+    apt:
+      sources:
+        - ubuntu-toolchain-r-test
+      packages:
+        - gcc-6
+        - g++-6
+        - libicu-dev  # from: libboost-regex-dev
+
+env:
+  global:
+    - BOOST_ROOT=$HOME/boost
+    - BOOST_BUILD_PATH=$HOME/build-boost
+    # List of libraries required to build
+    #   system: (qi|x3)/tst.cpp
+    - BOOST_BUILD_DEPS=date_time,filesystem,regex,system
+
+  # Tests: test,classic/test,repository/test
+  # Headers: repository/test/test_headers,test/test_headers
+  # Examples: example,classic/example,repository/example
+  # Documentation: doc,classic/doc,repository/doc
+
+matrix:
+  include:
+    ### Spirit v2
+    # Clang
+    - { env: 'STD=03 JOB=repository/test  TOOLSET=clang-5.0', compiler: clang-5.0, addons: *clang50 }
+    - { env: 'STD=11 JOB=repository/test  TOOLSET=clang-5.0', compiler: clang-5.0, addons: *clang50 }
+    # GCC
+    - { env: 'STD=03 JOB=repository/test  TOOLSET=gcc-6', compiler: gcc-6, addons: *gcc6 }
+    - { env: 'STD=11 JOB=repository/test  TOOLSET=gcc-6', compiler: gcc-6, addons: *gcc6 }
+
+cache: ccache
+
+before_install:
+  - |
+    # Creating ~/user-config.jam file
+    cat > ~/user-config.jam << 'EOF'
+
+    import common ; 
+    import feature ;
+    import os ;
+    import toolset ;
+
+    local CCACHE = [ common.find-tool ccache ] ; 
+
+    local TOOLSET = [ os.environ TOOLSET ] ;
+
+    # Toolsets
+    if $(TOOLSET) = "gcc-5"
+    {
+      using gcc : 5 : $(CCACHE) g++-5 : <cxxflags>-ftemplate-backtrace-limit=0 ;
+    }
+    else if $(TOOLSET) = "gcc-6"
+    {
+      using gcc : 6 : $(CCACHE) g++-6 : <cxxflags>-ftemplate-backtrace-limit=0 ;
+    }
+    else if $(TOOLSET) = "clang-3.9"
+    {
+      using clang : 3.9 : $(CCACHE) clang++-3.9 : 
+          <cxxflags>"-stdlib=libc++ -ftemplate-backtrace-limit=0"
+          <linkflags>-stdlib=libc++ ;
+    }
+    else if $(TOOLSET) = "clang-5.0"
+    {
+      using clang : 5.0 : $(CCACHE) clang++-5.0 : 
+          <cxxflags>"-stdlib=libc++ -ftemplate-backtrace-limit=0"
+          <linkflags>-stdlib=libc++ ;
+    }
+
+    # Warnings
+    feature.extend warnings : extra ;
+    toolset.flags gcc.compile OPTIONS <warnings>extra :
+        -Wall -Wextra -Wno-long-long
+      : unchecked ; 
+    toolset.flags clang-linux.compile OPTIONS <warnings>extra :
+        -Wall -Wextra -Wno-long-long
+      : unchecked ; 
+
+    # Coverage
+    feature.feature coverage : off on : optional incidental propagated ;
+
+    # --coverage compiler flag is synonym for -fprofile-arcs -ftest-coverage
+    # --coverage linker flag is synonym for -lgcov
+    toolset.flags gcc.compile OPTIONS <coverage>on : --coverage : unchecked ;
+    toolset.flags gcc.link OPTIONS <coverage>on : --coverage : unchecked ; 
+
+    # `--coverage` flag forces clang to produce profiling data
+    # in gcc format. We need this bacause codecov does not support
+    # clang profiling format
+    #toolset.flags clang-linux.compile OPTIONS <coverage>on : -fprofile-instr-generate -fcoverage-mapping : unchecked ; 
+    #toolset.flags clang-linux.link OPTIONS <coverage>on : -fprofile-instr-generate -fcoverage-mapping : unchecked ; 
+    toolset.flags clang-linux.compile OPTIONS <coverage>on : --coverage : unchecked ; 
+    toolset.flags clang-linux.link OPTIONS <coverage>on : --coverage : unchecked ; 
+
+  - sed 's/^  //' -i ~/user-config.jam
+  - cat ~/user-config.jam
+
+  - cat $BOOST_BUILD_PATH/cache.name
+    || mkdir -p "$BOOST_BUILD_PATH" && echo "Cache not exists"
+  - export CACHE_NAME=$TOOLSET-$STD
+  - echo "$CACHE_NAME" > $BOOST_BUILD_PATH/cache.name
+  - |
+    # Determining the branch
+    if [[ "$TRAVIS_PULL_REQUEST" == "false" ]]; then
+      export BRANCH=$TRAVIS_BRANCH
+    else
+      # It is a pull request. Retrieve the base branch from GitHub
+      GH_PR_API=https://api.github.com/repos/$TRAVIS_REPO_SLUG/pulls/$TRAVIS_PULL_REQUEST
+      export BRANCH=`curl -s $GH_PR_API | jq -r .head.ref`;
+    fi
+    if [[ "$BRANCH" != "master" && "$BRANCH" != "develop" ]]; then
+      # Travis has been triggered not from our main branches.
+      # Find out the base branch from the git history
+      export BRANCH=develop
+    fi
+    echo Root branch is $BRANCH
+
+  - # Dump environment variables
+    export
+  - $CC --version
+  - $CXX --version
+  - which clang && clang --version
+  - which clang++ && clang++ --version
+  - which gcc && gcc --version
+  - which g++ && g++ --version
+
+  # Checkout Boost
+  - git clone -j10 --branch=$BRANCH --depth=50
+      --recurse-submodules=":(exclude)libs/spirit" --shallow-submodules
+      https://github.com/boostorg/boost.git $BOOST_ROOT
+  - pushd $BOOST_ROOT
+  - rm -rf libs/spirit
+  - ./bootstrap.sh --with-toolset=${TOOLSET%%-*}
+                   --with-libraries=$BOOST_BUILD_DEPS
+    || ( cat bootstrap.log ; exit 1 ; )
+  - ./b2 headers
+  - ./b2 -j`nproc` toolset=$TOOLSET --build-dir=$BOOST_BUILD_PATH
+
+  - mv $TRAVIS_BUILD_DIR libs/spirit
+  - ln -s libs/spirit $TRAVIS_BUILD_DIR
+
+  #- popd
+  - cd libs/spirit
+
+  #- touch Jamroot
+  - cd $JOB
+
+script:
+  - $BOOST_ROOT/b2 -j`nproc` toolset=$TOOLSET cxxstd=$STD coverage=on
+    define=BOOST_OPTIONAL_CONFIG_USE_OLD_IMPLEMENTATION_OF_OPTIONAL
+    define=BOOST_VARIANT_USE_RELAXED_GET_BY_DEFAULT
+
+#after_success:
+#  - bash <(curl -s https://codecov.io/bash) -e TOOLSET,STD -s "$BOOST_BUILD_PATH" -s "$BOOST_ROOT/bin.v2"

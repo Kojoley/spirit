@@ -1,0 +1,245 @@
+language: cpp
+
+sudo: false
+
+addons_shortcuts:
+  addons_default: &default
+    apt:
+      packages:
+        - libicu-dev  # from: libboost-regex-dev
+
+  addons_clang39: &clang39
+    apt:
+      sources:
+        - llvm-toolchain-trusty-3.9
+      packages:
+        - clang-3.9
+        - libc++-dev
+        - libc++abi-dev
+        - libicu-dev  # from: libboost-regex-dev
+
+  addons_clang50: &clang50
+    apt:
+      sources:
+        - llvm-toolchain-trusty-5.0
+      packages:
+        - clang-5.0
+        - libc++-dev
+        - libc++abi-dev
+        - libicu-dev  # from: libboost-regex-dev
+
+  addons_gcc5: &gcc5
+    apt:
+      sources:
+        - ubuntu-toolchain-r-test
+      packages:
+        - gcc-5
+        - g++-5
+        - libicu-dev  # from: libboost-regex-dev
+
+  addons_gcc6: &gcc6
+    apt:
+      sources:
+        - ubuntu-toolchain-r-test
+      packages:
+        - gcc-6
+        - g++-6
+        - libicu-dev  # from: libboost-regex-dev
+
+  addons_gcc7: &gcc7
+    apt:
+      sources:
+        - ubuntu-toolchain-r-test
+      packages:
+        - gcc-7
+        - g++-7
+        - libicu-dev  # from: libboost-regex-dev
+
+os: linux
+dist: trusty
+
+env:
+  global:
+    - BOOST_ROOT=$HOME/boost
+    - BOOST_BUILD_PATH=$HOME/build-boost
+    # List of libraries required to build
+    #   system: (qi|x3)/tst.cpp
+    - BOOST_BUILD_DEPS=date_time,filesystem,regex,system
+
+  # Tests: test,classic/test,repository/test
+  # Headers: repository/test/test_headers,test/test_headers
+  # Examples: example,classic/example,repository/example
+  # Documentation: doc,classic/doc,repository/doc
+
+matrix:
+  include:
+    ### Spirit v3
+    - { env: 'STD=14 JOB=test/x3          TOOLSET=clang-5.0', compiler: clang-5.0, addons: *clang50 }
+    - { env: 'STD=14 JOB=test/x3          TOOLSET=gcc-6', compiler: gcc-6, addons: *gcc6 }
+    - { env: 'STD=2a JOB=test/x3          TOOLSET=clang-5.0', compiler: clang-5.0, addons: *clang50 }
+    - { env: 'STD=1z JOB=test/x3          TOOLSET=gcc-7', compiler: gcc-7, addons: *gcc7 }
+    ### Spirit v2
+    # Clang
+    - { env: 'STD=03 JOB=test/qi          TOOLSET=clang', compiler: clang, addons: *default }
+    - { env: 'STD=03 JOB=test/karma       TOOLSET=clang', compiler: clang, addons: *default }
+    - { env: 'STD=03 JOB=test/lex         TOOLSET=clang', compiler: clang, addons: *default }
+    - { env: 'STD=03 JOB=test/support     TOOLSET=clang', compiler: clang, addons: *default }
+    - { env: 'STD=03 JOB=repository/test  TOOLSET=clang', compiler: clang, addons: *default }
+    - { env: 'STD=11 JOB=test/qi          TOOLSET=clang', compiler: clang, addons: *clang }
+    - { env: 'STD=11 JOB=test/karma       TOOLSET=clang', compiler: clang, addons: *clang }
+    - { env: 'STD=11 JOB=test/lex         TOOLSET=clang', compiler: clang, addons: *clang }
+    - { env: 'STD=11 JOB=test/support     TOOLSET=clang', compiler: clang, addons: *clang }
+    - { env: 'STD=11 JOB=repository/test  TOOLSET=clang', compiler: clang, addons: *clang }
+    - { env: 'STD=2a JOB=test/qi          TOOLSET=clang-5.0', compiler: clang-5.0, addons: *clang50 }
+    - { env: 'STD=2a JOB=test/karma       TOOLSET=clang-5.0', compiler: clang-5.0, addons: *clang50 }
+    - { env: 'STD=2a JOB=test/lex         TOOLSET=clang-5.0', compiler: clang-5.0, addons: *clang50 }
+    - { env: 'STD=2a JOB=test/support     TOOLSET=clang-5.0', compiler: clang-5.0, addons: *clang50 }
+    - { env: 'STD=2a JOB=repository/test  TOOLSET=clang-5.0', compiler: clang-5.0, addons: *clang50 }
+    # GCC
+    - { env: 'STD=03 JOB=test/qi          TOOLSET=gcc', compiler: gcc, addons: *default }
+    - { env: 'STD=03 JOB=test/karma       TOOLSET=gcc', compiler: gcc, addons: *default }
+    - { env: 'STD=03 JOB=test/lex         TOOLSET=gcc', compiler: gcc, addons: *default }
+    - { env: 'STD=03 JOB=test/support     TOOLSET=gcc', compiler: gcc, addons: *default }
+    - { env: 'STD=03 JOB=repository/test  TOOLSET=gcc', compiler: gcc, addons: *default }
+    - { env: 'STD=11 JOB=test/qi          TOOLSET=gcc', compiler: gcc, addons: *default }
+    - { env: 'STD=11 JOB=test/karma       TOOLSET=gcc', compiler: gcc, addons: *default }
+    - { env: 'STD=11 JOB=test/lex         TOOLSET=gcc', compiler: gcc, addons: *default }
+    - { env: 'STD=11 JOB=test/support     TOOLSET=gcc', compiler: gcc, addons: *default }
+    - { env: 'STD=11 JOB=repository/test  TOOLSET=gcc', compiler: gcc, addons: *default }
+    - { env: 'STD=1z JOB=test/qi          TOOLSET=gcc-7', compiler: gcc-7, addons: *gcc7 }
+    - { env: 'STD=1z JOB=test/karma       TOOLSET=gcc-7', compiler: gcc-7, addons: *gcc7 }
+    - { env: 'STD=1z JOB=test/lex         TOOLSET=gcc-7', compiler: gcc-7, addons: *gcc7 }
+    - { env: 'STD=1z JOB=test/support     TOOLSET=gcc-7', compiler: gcc-7, addons: *gcc7 }
+    - { env: 'STD=1z JOB=repository/test  TOOLSET=gcc-7', compiler: gcc-7, addons: *gcc7 }
+    ### Spirit v1
+    - { env: 'STD=03,11 JOB=classic/test  TOOLSET=clang', compiler: clang, addons: *default }
+    - { env: 'STD=03,11 JOB=classic/test  TOOLSET=gcc', compiler: gcc, addons: *default }
+    - { env: 'STD=2a    JOB=classic/test  TOOLSET=clang-5.0', compiler: clang50, addons: *clang50 }
+    - { env: 'STD=1z    JOB=classic/test  TOOLSET=gcc-7', compiler: gcc-7, addons: *gcc7 }
+
+cache: ccache
+
+before_install:
+  - |
+    # Creating ~/user-config.jam file
+    cat > ~/user-config.jam << 'EOF'
+
+    import common ; 
+    import feature ;
+    import os ;
+    import toolset ;
+
+    local CCACHE = [ common.find-tool ccache ] ; 
+
+    local TOOLSET = [ os.environ TOOLSET ] ;
+
+    # Toolsets
+    if $(TOOLSET) = "gcc"
+    {
+      using gcc : : $(CCACHE) g++ : <cxxflags>-ftemplate-backtrace-limit=0 ;
+    }
+    else if $(TOOLSET) = "gcc-5"
+    {
+      using gcc : 5 : $(CCACHE) g++-5 : <cxxflags>-ftemplate-backtrace-limit=0 ;
+    }
+    else if $(TOOLSET) = "gcc-6"
+    {
+      using gcc : 6 : $(CCACHE) g++-6 : <cxxflags>-ftemplate-backtrace-limit=0 ;
+    }
+    else if $(TOOLSET) = "clang"
+    {
+      using clang : : $(CCACHE) clang++ : <cxxflags>-ftemplate-backtrace-limit=0 ;
+    }
+    else if $(TOOLSET) = "clang-3.9"
+    {
+      using clang : 3.9 : $(CCACHE) clang++-3.9 : 
+          <cxxflags>"-stdlib=libc++ -ftemplate-backtrace-limit=0"
+          <linkflags>-stdlib=libc++ ;
+    }
+    else if $(TOOLSET) = "clang-5.0"
+    {
+      using clang : 5.0 : $(CCACHE) clang++-5.0 : 
+          <cxxflags>"-stdlib=libc++ -ftemplate-backtrace-limit=0"
+          <linkflags>-stdlib=libc++ ;
+    }
+
+    # Warnings
+    feature.extend warnings : extra ;
+    toolset.flags gcc.compile OPTIONS <warnings>extra :
+        -Wall -Wextra -Wno-long-long
+      : unchecked ; 
+    toolset.flags clang-linux.compile OPTIONS <warnings>extra :
+        -Wall -Wextra -Wno-long-long
+      : unchecked ; 
+
+    # Coverage
+    feature.feature coverage : off on : optional incidental propagated ;
+
+    # --coverage compiler flag is synonym for -fprofile-arcs -ftest-coverage
+    # --coverage linker flag is synonym for -lgcov
+    toolset.flags gcc.compile OPTIONS <coverage>on : --coverage : unchecked ;
+    toolset.flags gcc.link OPTIONS <coverage>on : --coverage : unchecked ; 
+
+    # `--coverage` flag forces clang to produce profiling data
+    # in gcc format. We need this bacause codecov does not support
+    # clang profiling format
+    #toolset.flags clang-linux.compile OPTIONS <coverage>on : -fprofile-instr-generate -fcoverage-mapping : unchecked ; 
+    #toolset.flags clang-linux.link OPTIONS <coverage>on : -fprofile-instr-generate -fcoverage-mapping : unchecked ; 
+    toolset.flags clang-linux.compile OPTIONS <coverage>on : --coverage : unchecked ; 
+    toolset.flags clang-linux.link OPTIONS <coverage>on : --coverage : unchecked ; 
+
+  - sed 's/^  //' -i ~/user-config.jam
+  - cat ~/user-config.jam
+
+  - cat $BOOST_BUILD_PATH/cache.name
+    || mkdir -p "$BOOST_BUILD_PATH" && echo "Cache not exists"
+  - export CACHE_NAME=$TOOLSET-$STD-$JOB
+  - echo "$CACHE_NAME" > $BOOST_BUILD_PATH/cache.name
+  - |
+    # Determining the branch
+    if [[ "$TRAVIS_PULL_REQUEST" == "false" ]]; then
+      export BRANCH=$TRAVIS_BRANCH
+    else
+      # It is a pull request. Retrieve the base branch from GitHub
+      GH_PR_API=https://api.github.com/repos/$TRAVIS_REPO_SLUG/pulls/$TRAVIS_PULL_REQUEST
+      export BRANCH=`curl -s $GH_PR_API | jq -r .head.ref`;
+    fi
+    if [[ "$BRANCH" != "master" && "$BRANCH" != "develop" ]]; then
+      # Travis has been triggered not from our main branches.
+      # Find out the base branch from the git history
+      # TODO: Not implemented yet, but in most cases it will be develop branch
+      export BRANCH=develop
+    fi
+    echo Root branch is $BRANCH
+    # Check for errors
+    [[ "$BRANCH" =~ ^(master|develop)$ ]]
+
+  - # Dump environment variables
+    export
+
+  # Checkout Boost
+  - git clone -j10 --branch=$BRANCH --depth=50
+      --recurse-submodules=":(exclude)libs/spirit" --shallow-submodules
+      https://github.com/boostorg/boost.git $BOOST_ROOT
+  - pushd $BOOST_ROOT
+  # Remove empty folder
+  - rm -rf libs/spirit
+  - ./bootstrap.sh --with-toolset=${TOOLSET%%-*}
+                   --with-libraries=$BOOST_BUILD_DEPS
+    || ( cat bootstrap.log ; exit 1 ; )
+  - ./b2 headers
+  - ./b2 -j`nproc` toolset=$TOOLSET --build-dir=$BOOST_BUILD_PATH
+
+  - mv $TRAVIS_BUILD_DIR libs/spirit
+  - ln -s libs/spirit $TRAVIS_BUILD_DIR
+
+  #- popd
+  - cd libs/spirit
+
+  #- touch Jamroot
+  - cd $JOB
+
+  - export PATH=$BOOST_ROOT:$PATH
+
+script:
+  - b2 -j`nproc` toolset=$TOOLSET cxxstd=$STD warnings=all

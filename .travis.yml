@@ -59,13 +59,13 @@ env:
 matrix:
   include:
     - {compiler: clang-5.0, addons: *clang50, env: 'TOOLSET=clang-5.0 STD=c++03 JOB=example'}
-    - {compiler: clang-5.0, addons: *clang50, env: 'TOOLSET=clang-5.0 STD=c++03 JOB=repository/example/qi,repository/example/karma'}
+    #- {compiler: clang-5.0, addons: *clang50, env: 'TOOLSET=clang-5.0 STD=c++03 JOB=repository/example/qi,repository/example/karma'}
     - {compiler: clang-5.0, addons: *clang50, env: 'TOOLSET=clang-5.0 STD=c++1y JOB=example'}
-    - {compiler: clang-5.0, addons: *clang50, env: 'TOOLSET=clang-5.0 STD=c++1y JOB=repository/example/qi,repository/example/karma'}
+    #- {compiler: clang-5.0, addons: *clang50, env: 'TOOLSET=clang-5.0 STD=c++1y JOB=repository/example/qi,repository/example/karma'}
     - {compiler: gcc-6, addons: *gcc6, env: 'TOOLSET=gcc-6 STD=c++03 JOB=example'}
-    - {compiler: gcc-6, addons: *gcc6, env: 'TOOLSET=gcc-6 STD=c++03 JOB=repository/example/qi,repository/example/karma'}
+    #- {compiler: gcc-6, addons: *gcc6, env: 'TOOLSET=gcc-6 STD=c++03 JOB=repository/example/qi,repository/example/karma'}
     - {compiler: gcc-6, addons: *gcc6, env: 'TOOLSET=gcc-6 STD=c++1y JOB=example'}
-    - {compiler: gcc-6, addons: *gcc6, env: 'TOOLSET=gcc-6 STD=c++1y JOB=repository/example/qi,repository/example/karma'}
+    #- {compiler: gcc-6, addons: *gcc6, env: 'TOOLSET=gcc-6 STD=c++1y JOB=repository/example/qi,repository/example/karma'}
 
 cache: ccache
 

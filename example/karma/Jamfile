@@ -15,7 +15,7 @@ project spirit-karma-example
 
 exe actions_example : actions.cpp ;
 exe auto_facilities : auto_facilities.cpp ;
-exe basic_facilities : basic_facilities.cpp /boost//date_time ;
+#exe basic_facilities : basic_facilities.cpp /boost//date_time ;
 exe karma_calc2_ast_dump : calc2_ast_dump.cpp ;
 exe karma_calc2_ast_rpn : calc2_ast_rpn.cpp ;
 exe karma_calc2_ast_vm : calc2_ast_vm.cpp ;

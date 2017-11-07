@@ -70,7 +70,7 @@ namespace client { namespace code_gen
             using boost::phoenix::function;
 
             error_handler = function<ErrorHandler>(error_handler_)(
-                "Error! ", _2, phx::cref(error_handler_.iters)[_1]);
+                phx::val("Error! "), _2, phx::cref(error_handler_.iters)[_1]);
         }
 
         bool operator()(ast::nil) { BOOST_ASSERT(0); return false; }

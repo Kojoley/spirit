@@ -60,11 +60,11 @@ matrix:
   include:
     ### Spirit v2
     # Clang
-    - { env: 'STD=03 JOB=repository/test  TOOLSET=clang-5.0', compiler: clang-5.0, addons: *clang50 }
-    - { env: 'STD=11 JOB=repository/test  TOOLSET=clang-5.0', compiler: clang-5.0, addons: *clang50 }
+    - { env: 'STD=03 JOB=test/karma  TOOLSET=clang-5.0', compiler: clang-5.0, addons: *clang50 }
+    - { env: 'STD=11 JOB=test/karma  TOOLSET=clang-5.0', compiler: clang-5.0, addons: *clang50 }
     # GCC
-    - { env: 'STD=03 JOB=repository/test  TOOLSET=gcc-6', compiler: gcc-6, addons: *gcc6 }
-    - { env: 'STD=11 JOB=repository/test  TOOLSET=gcc-6', compiler: gcc-6, addons: *gcc6 }
+    - { env: 'STD=03 JOB=test/karma  TOOLSET=gcc-6', compiler: gcc-6, addons: *gcc6 }
+    - { env: 'STD=11 JOB=test/karma  TOOLSET=gcc-6', compiler: gcc-6, addons: *gcc6 }
 
 cache: ccache
 

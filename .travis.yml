@@ -184,8 +184,7 @@ before_install:
 
 script:
   - $BOOST_ROOT/b2 -j`nproc` toolset=$TOOLSET cxxstd=$STD coverage=on
-    define=BOOST_OPTIONAL_CONFIG_USE_OLD_IMPLEMENTATION_OF_OPTIONAL
-    define=BOOST_VARIANT_USE_RELAXED_GET_BY_DEFAULT
+    warnings=all
 
 #after_success:
 #  - bash <(curl -s https://codecov.io/bash) -e TOOLSET,STD -s "$BOOST_BUILD_PATH" -s "$BOOST_ROOT/bin.v2"

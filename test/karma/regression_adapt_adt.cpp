@@ -104,9 +104,9 @@ public:
 
 BOOST_FUSION_ADAPT_ADT(
     data4,
-    (boost::optional<int>, boost::optional<int> const&, obj.a(), void)
-    (boost::optional<double>, boost::optional<double> const&, obj.b(), void)
-    (boost::optional<std::string>, boost::optional<std::string> const&, obj.c(), void)
+    (boost::optional<int>, boost::optional<int> const&, obj.a(), 0)
+    (boost::optional<double>, boost::optional<double> const&, obj.b(), 0)
+    (boost::optional<std::string>, boost::optional<std::string> const&, obj.c(), 0)
 );
 
 ///////////////////////////////////////////////////////////////////////////////

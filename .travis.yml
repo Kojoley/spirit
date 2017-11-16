@@ -74,47 +74,23 @@ env:
 matrix:
   include:
     ### Spirit v3
-    - { env: 'STD=14 JOB=test/x3          TOOLSET=clang-5.0', compiler: clang-5.0, addons: *clang50 }
-    - { env: 'STD=14 JOB=test/x3          TOOLSET=gcc-6', compiler: gcc-6, addons: *gcc6 }
-    - { env: 'STD=2a JOB=test/x3          TOOLSET=clang-5.0', compiler: clang-5.0, addons: *clang50 }
-    - { env: 'STD=1z JOB=test/x3          TOOLSET=gcc-7', compiler: gcc-7, addons: *gcc7 }
+    - { env: 'STD=17    JOB=test/x3       TOOLSET=clang-5.0', compiler: clang-5.0, addons: *clang50 }
+    - { env: 'STD=1z    JOB=test/x3       TOOLSET=gcc-7', compiler: gcc-7, addons: *gcc7 }
     ### Spirit v2
     # Clang
-    - { env: 'STD=03 JOB=test/qi          TOOLSET=clang', compiler: clang, addons: *default }
-    - { env: 'STD=03 JOB=test/karma       TOOLSET=clang', compiler: clang, addons: *default }
-    - { env: 'STD=03 JOB=test/lex         TOOLSET=clang', compiler: clang, addons: *default }
-    - { env: 'STD=03 JOB=test/support     TOOLSET=clang', compiler: clang, addons: *default }
-    - { env: 'STD=03 JOB=repository/test  TOOLSET=clang', compiler: clang, addons: *default }
-    - { env: 'STD=11 JOB=test/qi          TOOLSET=clang', compiler: clang, addons: *clang }
-    - { env: 'STD=11 JOB=test/karma       TOOLSET=clang', compiler: clang, addons: *clang }
-    - { env: 'STD=11 JOB=test/lex         TOOLSET=clang', compiler: clang, addons: *clang }
-    - { env: 'STD=11 JOB=test/support     TOOLSET=clang', compiler: clang, addons: *clang }
-    - { env: 'STD=11 JOB=repository/test  TOOLSET=clang', compiler: clang, addons: *clang }
-    - { env: 'STD=2a JOB=test/qi          TOOLSET=clang-5.0', compiler: clang-5.0, addons: *clang50 }
-    - { env: 'STD=2a JOB=test/karma       TOOLSET=clang-5.0', compiler: clang-5.0, addons: *clang50 }
-    - { env: 'STD=2a JOB=test/lex         TOOLSET=clang-5.0', compiler: clang-5.0, addons: *clang50 }
-    - { env: 'STD=2a JOB=test/support     TOOLSET=clang-5.0', compiler: clang-5.0, addons: *clang50 }
-    - { env: 'STD=2a JOB=repository/test  TOOLSET=clang-5.0', compiler: clang-5.0, addons: *clang50 }
+    - { env: 'STD=17 JOB=test/qi          TOOLSET=clang-5.0', compiler: clang-5.0, addons: *clang50 }
+    - { env: 'STD=17 JOB=test/karma       TOOLSET=clang-5.0', compiler: clang-5.0, addons: *clang50 }
+    - { env: 'STD=17 JOB=test/lex         TOOLSET=clang-5.0', compiler: clang-5.0, addons: *clang50 }
+    - { env: 'STD=17 JOB=test/support     TOOLSET=clang-5.0', compiler: clang-5.0, addons: *clang50 }
+    - { env: 'STD=17 JOB=repository/test  TOOLSET=clang-5.0', compiler: clang-5.0, addons: *clang50 }
     # GCC
-    - { env: 'STD=03 JOB=test/qi          TOOLSET=gcc', compiler: gcc, addons: *default }
-    - { env: 'STD=03 JOB=test/karma       TOOLSET=gcc', compiler: gcc, addons: *default }
-    - { env: 'STD=03 JOB=test/lex         TOOLSET=gcc', compiler: gcc, addons: *default }
-    - { env: 'STD=03 JOB=test/support     TOOLSET=gcc', compiler: gcc, addons: *default }
-    - { env: 'STD=03 JOB=repository/test  TOOLSET=gcc', compiler: gcc, addons: *default }
-    - { env: 'STD=11 JOB=test/qi          TOOLSET=gcc', compiler: gcc, addons: *default }
-    - { env: 'STD=11 JOB=test/karma       TOOLSET=gcc', compiler: gcc, addons: *default }
-    - { env: 'STD=11 JOB=test/lex         TOOLSET=gcc', compiler: gcc, addons: *default }
-    - { env: 'STD=11 JOB=test/support     TOOLSET=gcc', compiler: gcc, addons: *default }
-    - { env: 'STD=11 JOB=repository/test  TOOLSET=gcc', compiler: gcc, addons: *default }
     - { env: 'STD=1z JOB=test/qi          TOOLSET=gcc-7', compiler: gcc-7, addons: *gcc7 }
     - { env: 'STD=1z JOB=test/karma       TOOLSET=gcc-7', compiler: gcc-7, addons: *gcc7 }
     - { env: 'STD=1z JOB=test/lex         TOOLSET=gcc-7', compiler: gcc-7, addons: *gcc7 }
     - { env: 'STD=1z JOB=test/support     TOOLSET=gcc-7', compiler: gcc-7, addons: *gcc7 }
     - { env: 'STD=1z JOB=repository/test  TOOLSET=gcc-7', compiler: gcc-7, addons: *gcc7 }
     ### Spirit v1
-    - { env: 'STD=03,11 JOB=classic/test  TOOLSET=clang', compiler: clang, addons: *default }
-    - { env: 'STD=03,11 JOB=classic/test  TOOLSET=gcc', compiler: gcc, addons: *default }
-    - { env: 'STD=2a    JOB=classic/test  TOOLSET=clang-5.0', compiler: clang50, addons: *clang50 }
+    - { env: 'STD=17    JOB=classic/test  TOOLSET=clang-5.0', compiler: clang-5.0, addons: *clang50 }
     - { env: 'STD=1z    JOB=classic/test  TOOLSET=gcc-7', compiler: gcc-7, addons: *gcc7 }
 
 cache: ccache
@@ -129,37 +105,35 @@ before_install:
     import os ;
     import toolset ;
 
-    local CCACHE = [ common.find-tool ccache ] ; 
-
     local TOOLSET = [ os.environ TOOLSET ] ;
 
     # Toolsets
     if $(TOOLSET) = "gcc"
     {
-      using gcc : : $(CCACHE) g++ : <cxxflags>-ftemplate-backtrace-limit=0 ;
+      using gcc : : g++ : <cxxflags>"-ftemplate-backtrace-limit=0 -Wno-uninitialized" ;
     }
     else if $(TOOLSET) = "gcc-5"
     {
-      using gcc : 5 : $(CCACHE) g++-5 : <cxxflags>-ftemplate-backtrace-limit=0 ;
+      using gcc : 5 : g++-5 : <cxxflags>"-ftemplate-backtrace-limit=0 -Wno-uninitialized" ;
     }
     else if $(TOOLSET) = "gcc-6"
     {
-      using gcc : 6 : $(CCACHE) g++-6 : <cxxflags>-ftemplate-backtrace-limit=0 ;
+      using gcc : 6 : g++-6 : <cxxflags>"-ftemplate-backtrace-limit=0 -Wno-uninitialized" ;
     }
     else if $(TOOLSET) = "clang"
     {
-      using clang : : $(CCACHE) clang++ : <cxxflags>-ftemplate-backtrace-limit=0 ;
+      using clang : : clang++ : <cxxflags>"-ftemplate-backtrace-limit=0 -Wno-uninitialized -Wno-invalid-source-encoding" ;
     }
     else if $(TOOLSET) = "clang-3.9"
     {
-      using clang : 3.9 : $(CCACHE) clang++-3.9 : 
-          <cxxflags>"-stdlib=libc++ -ftemplate-backtrace-limit=0"
+      using clang : 3.9 : clang++-3.9 : 
+          <cxxflags>"-stdlib=libc++ -ftemplate-backtrace-limit=0 -Wno-uninitialized -Wno-invalid-source-encoding"
           <linkflags>-stdlib=libc++ ;
     }
     else if $(TOOLSET) = "clang-5.0"
     {
-      using clang : 5.0 : $(CCACHE) clang++-5.0 : 
-          <cxxflags>"-stdlib=libc++ -ftemplate-backtrace-limit=0"
+      using clang : 5.0 : clang++-5.0 : 
+          <cxxflags>"-stdlib=libc++ -ftemplate-backtrace-limit=0 -Wno-uninitialized -Wno-invalid-source-encoding"
           <linkflags>-stdlib=libc++ ;
     }
 
@@ -228,7 +202,7 @@ before_install:
                    --with-libraries=$BOOST_BUILD_DEPS
     || ( cat bootstrap.log ; exit 1 ; )
   - ./b2 headers
-  - ./b2 -j`nproc` toolset=$TOOLSET --build-dir=$BOOST_BUILD_PATH
+  - ./b2 -j`nproc` toolset=$TOOLSET cxxstd=$STD variant=release --build-dir=$BOOST_BUILD_PATH
 
   - mv $TRAVIS_BUILD_DIR libs/spirit
   - ln -s libs/spirit $TRAVIS_BUILD_DIR
@@ -242,4 +216,4 @@ before_install:
   - export PATH=$BOOST_ROOT:$PATH
 
 script:
-  - b2 -j`nproc` toolset=$TOOLSET cxxstd=$STD warnings=all
+  - b2 -j`nproc` toolset=$TOOLSET cxxstd=$STD variant=release warnings=all warnings-as-errors=on

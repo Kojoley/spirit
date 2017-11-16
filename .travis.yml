@@ -8,6 +8,13 @@ addons_shortcuts:
       packages:
         - libicu-dev  # from: libboost-regex-dev
 
+  addons_clang: &clang
+    apt:
+      packages:
+        - libc++-dev
+        - libc++abi-dev
+        - libicu-dev  # from: libboost-regex-dev
+
   addons_clang39: &clang39
     apt:
       sources:
@@ -73,8 +80,7 @@ env:
 
 matrix:
   include:
-    - { env: 'STD=11 JOB=repository/test  TOOLSET=clang', compiler: clang, addons: *default }
-    - { env: 'STD=14 JOB=repository/test  TOOLSET=clang', compiler: clang, addons: *default }
+    - { env: 'STD=11 JOB=repository/test  TOOLSET=clang', compiler: clang, addons: *clang }
     - { env: 'STD=11 JOB=repository/test  TOOLSET=clang-5.0', compiler: clang-5.0, addons: *clang50 }
     - { env: 'STD=14 JOB=repository/test  TOOLSET=clang-5.0', compiler: clang-5.0, addons: *clang50 }
     - { env: 'STD=17 JOB=repository/test  TOOLSET=clang-5.0', compiler: clang-5.0, addons: *clang50 }

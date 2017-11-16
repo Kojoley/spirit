@@ -73,26 +73,11 @@ env:
 
 matrix:
   include:
-    ### Spirit v3
-    - { env: 'STD=14    JOB=test/x3       TOOLSET=clang-5.0', compiler: clang-5.0, addons: *clang50 }
-    - { env: 'STD=1z    JOB=test/x3       TOOLSET=gcc-7', compiler: gcc-7, addons: *gcc7 }
-    ### Spirit v2
-    # Clang
-    - { env: 'STD=14 JOB=test/qi          TOOLSET=clang-5.0', compiler: clang-5.0, addons: *clang50 }
-    - { env: 'STD=14 JOB=test/karma       TOOLSET=clang-5.0', compiler: clang-5.0, addons: *clang50 }
-    - { env: 'STD=14 JOB=test/lex         TOOLSET=clang-5.0', compiler: clang-5.0, addons: *clang50 }
-    - { env: 'STD=14 JOB=test/support     TOOLSET=clang-5.0', compiler: clang-5.0, addons: *clang50 }
+    - { env: 'STD=11 JOB=repository/test  TOOLSET=clang', compiler: clang, addons: *default }
+    - { env: 'STD=14 JOB=repository/test  TOOLSET=clang', compiler: clang, addons: *default }
+    - { env: 'STD=11 JOB=repository/test  TOOLSET=clang-5.0', compiler: clang-5.0, addons: *clang50 }
     - { env: 'STD=14 JOB=repository/test  TOOLSET=clang-5.0', compiler: clang-5.0, addons: *clang50 }
     - { env: 'STD=17 JOB=repository/test  TOOLSET=clang-5.0', compiler: clang-5.0, addons: *clang50 }
-    # GCC
-    - { env: 'STD=1z JOB=test/qi          TOOLSET=gcc-7', compiler: gcc-7, addons: *gcc7 }
-    - { env: 'STD=1z JOB=test/karma       TOOLSET=gcc-7', compiler: gcc-7, addons: *gcc7 }
-    - { env: 'STD=1z JOB=test/lex         TOOLSET=gcc-7', compiler: gcc-7, addons: *gcc7 }
-    - { env: 'STD=1z JOB=test/support     TOOLSET=gcc-7', compiler: gcc-7, addons: *gcc7 }
-    - { env: 'STD=1z JOB=repository/test  TOOLSET=gcc-7', compiler: gcc-7, addons: *gcc7 }
-    ### Spirit v1
-    - { env: 'STD=17    JOB=classic/test  TOOLSET=clang-5.0', compiler: clang-5.0, addons: *clang50 }
-    - { env: 'STD=1z    JOB=classic/test  TOOLSET=gcc-7', compiler: gcc-7, addons: *gcc7 }
 
 cache: ccache
 
@@ -123,7 +108,9 @@ before_install:
     }
     else if $(TOOLSET) = "clang"
     {
-      using clang : : clang++ : <cxxflags>"-ftemplate-backtrace-limit=0 -Wno-uninitialized -Wno-invalid-source-encoding" ;
+      using clang : : clang++ : 
+          <cxxflags>"-stdlib=libc++ -ftemplate-backtrace-limit=0 -Wno-uninitialized -Wno-invalid-source-encoding"
+          <linkflags>-stdlib=libc++ ;
     }
     else if $(TOOLSET) = "clang-3.9"
     {

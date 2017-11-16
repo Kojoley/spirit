@@ -74,14 +74,15 @@ env:
 matrix:
   include:
     ### Spirit v3
-    - { env: 'STD=17    JOB=test/x3       TOOLSET=clang-5.0', compiler: clang-5.0, addons: *clang50 }
+    - { env: 'STD=14    JOB=test/x3       TOOLSET=clang-5.0', compiler: clang-5.0, addons: *clang50 }
     - { env: 'STD=1z    JOB=test/x3       TOOLSET=gcc-7', compiler: gcc-7, addons: *gcc7 }
     ### Spirit v2
     # Clang
-    - { env: 'STD=17 JOB=test/qi          TOOLSET=clang-5.0', compiler: clang-5.0, addons: *clang50 }
-    - { env: 'STD=17 JOB=test/karma       TOOLSET=clang-5.0', compiler: clang-5.0, addons: *clang50 }
-    - { env: 'STD=17 JOB=test/lex         TOOLSET=clang-5.0', compiler: clang-5.0, addons: *clang50 }
-    - { env: 'STD=17 JOB=test/support     TOOLSET=clang-5.0', compiler: clang-5.0, addons: *clang50 }
+    - { env: 'STD=14 JOB=test/qi          TOOLSET=clang-5.0', compiler: clang-5.0, addons: *clang50 }
+    - { env: 'STD=14 JOB=test/karma       TOOLSET=clang-5.0', compiler: clang-5.0, addons: *clang50 }
+    - { env: 'STD=14 JOB=test/lex         TOOLSET=clang-5.0', compiler: clang-5.0, addons: *clang50 }
+    - { env: 'STD=14 JOB=test/support     TOOLSET=clang-5.0', compiler: clang-5.0, addons: *clang50 }
+    - { env: 'STD=14 JOB=repository/test  TOOLSET=clang-5.0', compiler: clang-5.0, addons: *clang50 }
     - { env: 'STD=17 JOB=repository/test  TOOLSET=clang-5.0', compiler: clang-5.0, addons: *clang50 }
     # GCC
     - { env: 'STD=1z JOB=test/qi          TOOLSET=gcc-7', compiler: gcc-7, addons: *gcc7 }
@@ -216,4 +217,4 @@ before_install:
   - export PATH=$BOOST_ROOT:$PATH
 
 script:
-  - b2 -j`nproc` toolset=$TOOLSET cxxstd=$STD variant=release warnings=all warnings-as-errors=on
+  - b2 -j`nproc` toolset=$TOOLSET cxxstd=$STD variant=release warnings=all

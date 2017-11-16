@@ -185,8 +185,15 @@ before_install:
   - # Dump environment variables
     export
 
+  # Sadly git's --shallow-submodules has hardcoded depth of 1 commit
+  # Patch the git binary with a little more depth to deal with boost-commitbot's lag
+  - sed 's/\-\-depth\=1/\-\-depth\=9/g' `which git` > ~/git
+  - chmod +x ~/git
+  - export PATH=$HOME:$PATH
+  #- bbe 's/--depth=1/--depth=9/' `which git`
+
   # Checkout Boost
-  - git clone -j10 --branch=$BRANCH --depth=50
+  - git clone -j10 --branch=$BRANCH --depth=1
       --recurse-submodules=":(exclude)libs/spirit" --shallow-submodules
       https://github.com/boostorg/boost.git $BOOST_ROOT
   - pushd $BOOST_ROOT

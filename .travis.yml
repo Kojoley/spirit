@@ -80,6 +80,7 @@ env:
 
 matrix:
   include:
+    - { env: 'STD=11 JOB=repository/test  TOOLSET=gcc', compiler: gcc, addons: *default }
     - { env: 'STD=11 JOB=repository/test  TOOLSET=clang', compiler: clang, addons: *clang }
     - { env: 'STD=11 JOB=repository/test  TOOLSET=clang-5.0', compiler: clang-5.0, addons: *clang50 }
     - { env: 'STD=14 JOB=repository/test  TOOLSET=clang-5.0', compiler: clang-5.0, addons: *clang50 }
@@ -88,48 +89,41 @@ matrix:
 cache: ccache
 
 before_install:
+  # 
+  - |
+    case ${TOOLSET%%-*} in
+        clang) export CC=clang ; export CXX=clang++ ; ;;
+        gcc)   export CC=gcc   ; export CXX=g++     ; ;;
+        *)     echo Unsupported toolset ; exit 1    ; ;;
+    esac
+  - |
+    if [[ "${TOOLSET#*-}" != "$TOOLSET" ]]; then
+      export CC=$CC-${TOOLSET#*-}
+      export CXX=$CXX-${TOOLSET#*-}
+    fi
   - |
     # Creating ~/user-config.jam file
-    cat > ~/user-config.jam << 'EOF'
+    cat > ~/user-config.jam << EOF
 
     import common ; 
     import feature ;
     import os ;
     import toolset ;
 
-    local TOOLSET = [ os.environ TOOLSET ] ;
+    #local CCACHE = [ common.find-tool ccache ] ;
 
-    # Toolsets
-    if $(TOOLSET) = "gcc"
-    {
-      using gcc : : g++ : <cxxflags>"-ftemplate-backtrace-limit=0 -Wno-uninitialized" ;
-    }
-    else if $(TOOLSET) = "gcc-5"
-    {
-      using gcc : 5 : g++-5 : <cxxflags>"-ftemplate-backtrace-limit=0 -Wno-uninitialized" ;
-    }
-    else if $(TOOLSET) = "gcc-6"
-    {
-      using gcc : 6 : g++-6 : <cxxflags>"-ftemplate-backtrace-limit=0 -Wno-uninitialized" ;
-    }
-    else if $(TOOLSET) = "clang"
-    {
-      using clang : : clang++ : 
-          <cxxflags>"-stdlib=libc++ -ftemplate-backtrace-limit=0 -Wno-uninitialized -Wno-invalid-source-encoding"
-          <linkflags>-stdlib=libc++ ;
-    }
-    else if $(TOOLSET) = "clang-3.9"
-    {
-      using clang : 3.9 : clang++-3.9 : 
-          <cxxflags>"-stdlib=libc++ -ftemplate-backtrace-limit=0 -Wno-uninitialized -Wno-invalid-source-encoding"
-          <linkflags>-stdlib=libc++ ;
-    }
-    else if $(TOOLSET) = "clang-5.0"
-    {
-      using clang : 5.0 : clang++-5.0 : 
-          <cxxflags>"-stdlib=libc++ -ftemplate-backtrace-limit=0 -Wno-uninitialized -Wno-invalid-source-encoding"
-          <linkflags>-stdlib=libc++ ;
-    }
+    #local TOOLSET = [ os.environ TOOLSET ] ;
+    local CCACHE = [ os.environ CCACHE ] ;
+
+    feature.feature ccache : off on : optional incidental ;
+
+    #using ${TOOLSET%%-*} : ${TOOLSET#*-} : $CXX : : <ccache>off ;
+    #using ${TOOLSET%%-*} : ${TOOLSET#*-} : \$(CCACHE) $CXX : : <ccache>on ;
+    using ${TOOLSET%%-*} : ${TOOLSET#*-} : \$(CCACHE) $CXX ;
+
+    # Extend stdlib with libc++
+    feature.extend stdlib : libc++ ;
+    feature.compose <stdlib>libc++ : <cxxflags>-stdlib=libc++ <linkflags>-stdlib=libc++ ;
 
     # Warnings
     feature.extend warnings : extra ;
@@ -158,6 +152,8 @@ before_install:
 
   - sed 's/^  //' -i ~/user-config.jam
   - cat ~/user-config.jam
+
+  - if [[ "${TOOLSET%%-*}" == "clang" ]]; then export STDLIB=stdlib=libc++; fi
 
   - cat $BOOST_BUILD_PATH/cache.name
     || mkdir -p "$BOOST_BUILD_PATH" && echo "Cache not exists"
@@ -199,11 +195,11 @@ before_install:
   - pushd $BOOST_ROOT
   # Remove empty folder
   - rm -rf libs/spirit
-  - ./bootstrap.sh --with-toolset=${TOOLSET%%-*}
+  - ./bootstrap.sh --with-toolset=clang
                    --with-libraries=$BOOST_BUILD_DEPS
     || ( cat bootstrap.log ; exit 1 ; )
   - ./b2 headers
-  - ./b2 -j`nproc` toolset=$TOOLSET cxxstd=$STD variant=release --build-dir=$BOOST_BUILD_PATH
+  - CCACHE=ccache ./b2 -j`nproc` toolset=$TOOLSET cxxstd=$STD $STDLIB variant=release warnings=off
 
   - mv $TRAVIS_BUILD_DIR libs/spirit
   - ln -s libs/spirit $TRAVIS_BUILD_DIR
@@ -216,5 +212,8 @@ before_install:
 
   - export PATH=$BOOST_ROOT:$PATH
 
+  - export
+
 script:
-  - b2 -j`nproc` toolset=$TOOLSET cxxstd=$STD variant=release warnings=all
+  - b2 -j`nproc` toolset=$TOOLSET cxxstd=$STD $STDLIB variant=release warnings=all
+    cxxflags="-ftemplate-backtrace-limit=0 -Wno-uninitialized"

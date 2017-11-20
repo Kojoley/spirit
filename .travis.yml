@@ -107,8 +107,8 @@ before_install:
   # 
   - |
     case ${TOOLSET%%-*} in
-        clang) export CC=clang ; export CXX=clang++ ; ;;
-        gcc)   export CC=gcc   ; export CXX=g++     ; ;;
+        clang) export CC=clang ; export CXX=clang++ ; export IGNORED_WARNINGS=-Wno-invalid-source-encoding ; ;;
+        gcc)   export CC=gcc   ; export CXX=g++     ; export IGNORED_WARNINGS=-Wno-bool-operation ; ;;
         *)     echo Unsupported toolset ; exit 1    ; ;;
     esac
   - |
@@ -230,5 +230,5 @@ before_install:
   - export
 
 script:
-  - b2 -j`nproc` toolset=$TOOLSET cxxstd=$STD $STDLIB variant=release warnings=all
-    cxxflags="-ftemplate-backtrace-limit=0 -Wno-uninitialized"
+  - b2 -j`nproc` toolset=$TOOLSET cxxstd=$STD $STDLIB variant=release warnings=all warnings-as-errors=on
+    cxxflags="-ftemplate-backtrace-limit=0 -Wno-uninitialized $IGNORED_WARNINGS"

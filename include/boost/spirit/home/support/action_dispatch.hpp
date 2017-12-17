@@ -53,8 +53,6 @@ namespace boost { namespace spirit { namespace traits
         template <typename T>
         T fake_call();
 
-#define BOOST_SPIRIT_FAKE_CALL(T) (*(T*)0)
-
         // the forwarders, here we could tweak the implementation of
         // how parameters are passed to the functions, if needed
         struct fwd_none
@@ -109,7 +107,7 @@ namespace boost { namespace spirit { namespace traits
 
         template <typename F, typename A>
         static auto do_call(F && f, fwd_tag<A>, ...)
-           -> typename fwd_storage<decltype(f(BOOST_SPIRIT_FAKE_CALL(A)))
+           -> typename fwd_storage<decltype(f(std::declval<A>()))
                  , fwd_attrib>::type
         {
             return {};
@@ -118,7 +116,7 @@ namespace boost { namespace spirit { namespace traits
         template <typename F, typename A, typename B>
         static auto do_call(F && f, fwd_tag<A>, fwd_tag<B>, ...)
            -> typename fwd_storage<
-                    decltype(f(BOOST_SPIRIT_FAKE_CALL(A), BOOST_SPIRIT_FAKE_CALL(B)))
+                    decltype(f(std::declval<A>(), std::declval<B>()))
                 , fwd_attrib_context>::type
         {
             return {};
@@ -127,8 +125,8 @@ namespace boost { namespace spirit { namespace traits
         template <typename F, typename A, typename B, typename C>
         static auto do_call(F && f, fwd_tag<A>, fwd_tag<B>, fwd_tag<C>, ...)
            -> typename fwd_storage<
-                  decltype(f(BOOST_SPIRIT_FAKE_CALL(A), BOOST_SPIRIT_FAKE_CALL(B)
-                    , BOOST_SPIRIT_FAKE_CALL(C)))
+                  decltype(f(std::declval<A>(), std::declval<B>()
+                    , std::declval<C>()))
                 , fwd_attrib_context_pass>::type
         {
             return {};
@@ -142,8 +140,6 @@ namespace boost { namespace spirit { namespace traits
             do_call(f, fwd_tag<typename std::remove_reference<A>::type>()...)
                 (std::forward<F>(f), std::forward<A>(a)...);
         }
-
-#undef BOOST_SPIRIT_FAKE_CALL
 
     public:
         template <typename F, typename Attribute, typename Context>

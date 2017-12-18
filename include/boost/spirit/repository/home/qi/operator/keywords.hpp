@@ -24,7 +24,7 @@
 #include <boost/fusion/include/value_at.hpp>
 #include <boost/fusion/include/mpl.hpp>
 #include <boost/optional.hpp>
-#include <boost/foreach.hpp>
+#include <boost/algorithm/cxx11/all_of.hpp>
 #include <boost/array.hpp>
 #include <boost/spirit/home/qi/string/symbols.hpp>
 #include <boost/spirit/home/qi/string/lit.hpp>
@@ -279,14 +279,7 @@ namespace boost { namespace spirit { namespace repository { namespace qi
                   {
                     first = save;
                     // Check that we are leaving the keywords parser in a successfull state
-                    BOOST_FOREACH(bool &valid,flags)
-                    {
-                      if(!valid)
-                      {
-                        return false;
-                      }
-                    }
-                    return true;
+                    return algorithm::all_of_equal(flags, true);
                   }
                   else
                     save = first;
@@ -360,14 +353,7 @@ namespace boost { namespace spirit { namespace repository { namespace qi
                   {
                     first = save;
                     // Check that we are leaving the keywords parser in a successfull state
-                    BOOST_FOREACH(bool &valid,flags)
-                    {
-                      if(!valid)
-                      {
-                        return false;
-                      }
-                    }
-                    return true;
+                    return algorithm::all_of_equal(flags, true);
                   }
                   else
                   {

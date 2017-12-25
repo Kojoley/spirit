@@ -73,7 +73,7 @@ before_install:
 
 
     # Ccache
-    local CCACHE = [ common.find-tool ccache ] ;
+    #local CCACHE = [ common.find-tool ccache ] ;
     local TOOLSET = [ os.environ TOOLSET ] ;
     local toolset-parts = [ regex.split $(TOOLSET) "-" ] ;
     local toolset-name = $(toolset-parts[1]) ;

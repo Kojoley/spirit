@@ -168,7 +168,6 @@ main()
 
     ///////////////////////////////////////////////////////////////////////////
     {
-        using boost::spirit::qi::int_;
         using boost::spirit::qi::_1;
         using boost::spirit::qi::_val;
         using boost::spirit::qi::space;

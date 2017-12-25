@@ -63,12 +63,12 @@ namespace boost { namespace spirit { namespace x3
       , typename Context, typename RuleContext, typename Attribute>
     auto call(
         F f, Iterator& first, Iterator const& last
-      , Context const& context, RuleContext& rcontext, Attribute& attr)
+      , Context const& context, RuleContext& rcontext, Attribute& attr_)
     {
         boost::iterator_range<Iterator> rng(first, last);
         auto val_context = make_context<rule_val_context_tag>(rcontext, context);
         auto where_context = make_context<where_context_tag>(rng, val_context);
-        auto attr_context = make_context<attr_context_tag>(attr, where_context);
+        auto attr_context = make_context<attr_context_tag>(attr_, where_context);
         return detail::call(f, attr_context, is_callable<F(decltype(attr_context) const&)>());
     }
 }}}

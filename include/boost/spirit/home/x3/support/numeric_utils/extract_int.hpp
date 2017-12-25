@@ -74,10 +74,10 @@ namespace boost { namespace spirit { namespace x3
         inline static bool call(Iterator& first, Iterator const& last, Attribute& attr_)
         {
             // this case is called when Attribute is not T
-            T attr;
-            if (call(first, last, attr))
+            T attr_tmp;
+            if (call(first, last, attr_tmp))
             {
-                traits::move_to(attr, attr_);
+                traits::move_to(attr_tmp, attr_);
                 return true;
             }
             return false;
@@ -128,10 +128,10 @@ namespace boost { namespace spirit { namespace x3
         inline static bool call(Iterator& first, Iterator const& last, Attribute& attr_)
         {
             // this case is called when Attribute is not T
-            T attr;
-            if (call(first, last, attr))
+            T attr_tmp;
+            if (call(first, last, attr_tmp))
             {
-                traits::move_to(attr, attr_);
+                traits::move_to(attr_tmp, attr_);
                 return true;
             }
             return false;

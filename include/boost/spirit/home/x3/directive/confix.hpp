@@ -22,12 +22,12 @@ namespace boost { namespace spirit { namespace x3
         static bool const is_pass_through_unary = true;
         static bool const handles_container = Subject::handles_container;
 
-        confix_directive(Prefix const& prefix
-                         , Subject const& subject
-                         , Postfix const& postfix) :
-            base_type(subject),
-            prefix(prefix),
-            postfix(postfix)
+        confix_directive(Prefix const& prefix_
+                         , Subject const& subject_
+                         , Postfix const& postfix_) :
+            base_type(subject_),
+            prefix(prefix_),
+            postfix(postfix_)
         {
         }
 
@@ -35,12 +35,12 @@ namespace boost { namespace spirit { namespace x3
                  , typename RContext, typename Attribute>
         bool parse(
             Iterator& first, Iterator const& last
-            , Context const& context, RContext& rcontext, Attribute& attr) const
+            , Context const& context, RContext& rcontext, Attribute& attr_) const
         {
             Iterator save = first;
 
             if (!(prefix.parse(first, last, context, rcontext, unused) &&
-                  this->subject.parse(first, last, context, rcontext, attr) &&
+                  this->subject.parse(first, last, context, rcontext, attr_) &&
                   postfix.parse(first, last, context, rcontext, unused)))
             {
                 first = save;

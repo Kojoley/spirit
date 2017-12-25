@@ -27,14 +27,14 @@ namespace boost { namespace spirit { namespace x3
         template <typename Iterator, typename Context
           , typename RContext, typename Attribute>
         bool parse(Iterator& first, Iterator const& last
-          , Context const& context, RContext& rcontext, Attribute& attr) const
+          , Context const& context, RContext& rcontext, Attribute& attr_) const
         {
             if (!detail::parse_into_container(
-                this->subject, first, last, context, rcontext, attr))
+                this->subject, first, last, context, rcontext, attr_))
                 return false;
 
             while (detail::parse_into_container(
-                this->subject, first, last, context, rcontext, attr))
+                this->subject, first, last, context, rcontext, attr_))
                 ;
             return true;
         }

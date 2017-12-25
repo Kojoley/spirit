@@ -90,8 +90,9 @@ namespace boost { namespace spirit { namespace x3
         typedef Subject subject_type;
         static bool const has_action = Subject::has_action;
 
-        unary_parser(Subject const& subject)
-            : subject(subject) { detail::assert_initialized_rule(subject); }
+        unary_parser(Subject const& subject_)
+            : subject(subject_)
+        { detail::assert_initialized_rule(subject_); }
 
         unary_parser const& get_unary() const { return *this; }
 
@@ -107,11 +108,11 @@ namespace boost { namespace spirit { namespace x3
         static bool const has_action =
             left_type::has_action || right_type::has_action;
 
-        binary_parser(Left const& left, Right const& right)
-            : left(left), right(right)
+        binary_parser(Left const& left_, Right const& right_)
+            : left(left_), right(right_)
         {
-            detail::assert_initialized_rule(left);
-            detail::assert_initialized_rule(right);
+            detail::assert_initialized_rule(left_);
+            detail::assert_initialized_rule(right_);
         }
 
         binary_parser const& get_binary() const { return *this; }

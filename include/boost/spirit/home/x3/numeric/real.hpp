@@ -23,8 +23,8 @@ namespace boost { namespace spirit { namespace x3
         real_parser()
         	: policies() {}
 
-        real_parser(RealPolicies const& policies)
-        	: policies(policies) {}
+        real_parser(RealPolicies const& policies_)
+        	: policies(policies_) {}
 
         template <typename Iterator, typename Context>
         bool parse(Iterator& first, Iterator const& last
@@ -36,13 +36,13 @@ namespace boost { namespace spirit { namespace x3
 
         template <typename Iterator, typename Context, typename Attribute>
         bool parse(Iterator& first, Iterator const& last
-          , Context const& context, unused_type, Attribute& attr_param) const
+          , Context const& context, unused_type, Attribute& attr_) const
         {
             // this case is called when Attribute is not T
-            T attr_;
-            if (parse(first, last, context, unused, attr_))
+            T attr_tmp;
+            if (parse(first, last, context, unused, attr_tmp))
             {
-                traits::move_to(attr_, attr_param);
+                traits::move_to(attr_tmp, attr_);
                 return true;
             }
             return false;

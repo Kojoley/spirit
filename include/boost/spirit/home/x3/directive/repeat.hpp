@@ -66,14 +66,14 @@ namespace boost { namespace spirit { namespace x3
           , typename RContext, typename Attribute>
         bool parse(
             Iterator& first, Iterator const& last
-          , Context const& context, RContext& rcontext, Attribute& attr) const
+          , Context const& context, RContext& rcontext, Attribute& attr_) const
         {
             Iterator local_iterator = first;
             typename RepeatCountLimit::type i{};
             for (/**/; !repeat_limit.got_min(i); ++i)
             {
                 if (!detail::parse_into_container(
-                      this->subject, local_iterator, last, context, rcontext, attr))
+                      this->subject, local_iterator, last, context, rcontext, attr_))
                     return false;
             }
 
@@ -82,7 +82,7 @@ namespace boost { namespace spirit { namespace x3
             for (/**/; !repeat_limit.got_max(i); ++i)
             {
                 if (!detail::parse_into_container(
-                      this->subject, first, last, context, rcontext, attr))
+                      this->subject, first, last, context, rcontext, attr_))
                     break;
             }
             return true;

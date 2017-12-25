@@ -16,8 +16,8 @@ namespace boost { namespace spirit { namespace x3
     template <typename ID, typename T, typename Next = unused_type>
     struct context
     {
-        context(T& val, Next const& next)
-            : val(val), next(next) {}
+        context(T& val_, Next const& next_)
+            : val(val_), next(next_) {}
 
         T& get(mpl::identity<ID>) const
         {
@@ -37,11 +37,11 @@ namespace boost { namespace spirit { namespace x3
     template <typename ID, typename T>
     struct context<ID, T, unused_type>
     {
-        context(T& val)
-            : val(val) {}
+        context(T& val_)
+            : val(val_) {}
 
-        context(T& val, unused_type)
-            : val(val) {}
+        context(T& val_, unused_type)
+            : val(val_) {}
 
         T& get(mpl::identity<ID>) const
         {

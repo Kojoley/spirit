@@ -34,10 +34,10 @@ namespace boost { namespace spirit { namespace x3
           , typename RContext, typename Attribute>
         bool parse(
             Iterator& first, Iterator const& last
-          , Context const& context, RContext& rcontext, Attribute& attr) const
+          , Context const& context, RContext& rcontext, Attribute& attr_) const
         {
-            return detail::parse_alternative(this->left, first, last, context, rcontext, attr)
-               || detail::parse_alternative(this->right, first, last, context, rcontext, attr);
+            return detail::parse_alternative(this->left, first, last, context, rcontext, attr_)
+               || detail::parse_alternative(this->right, first, last, context, rcontext, attr_);
         }
     };
 

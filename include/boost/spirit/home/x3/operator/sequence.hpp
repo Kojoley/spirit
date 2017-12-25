@@ -39,9 +39,9 @@ namespace boost { namespace spirit { namespace x3
           , typename RContext, typename Attribute>
         bool parse(
             Iterator& first, Iterator const& last
-          , Context const& context, RContext& rcontext, Attribute& attr) const
+          , Context const& context, RContext& rcontext, Attribute& attr_) const
         {
-            return detail::parse_sequence(*this, first, last, context, rcontext, attr
+            return detail::parse_sequence(*this, first, last, context, rcontext, attr_
               , typename traits::attribute_category<Attribute>::type());
         }
     };

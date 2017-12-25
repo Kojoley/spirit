@@ -23,8 +23,8 @@ namespace boost { namespace spirit { namespace x3
             !is_same<unused_type, attribute_type>::value;
 
         template <typename Char>
-        literal_char(Char ch)
-          : ch(static_cast<char_type>(ch)) {}
+        literal_char(Char ch_)
+          : ch(static_cast<char_type>(ch_)) {}
 
         template <typename Char, typename Context>
         bool test(Char ch_, Context const& context) const

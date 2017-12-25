@@ -26,8 +26,8 @@ namespace boost { namespace spirit { namespace x3
     template <typename Skipper>
     struct unused_skipper : unused_type
     {
-        unused_skipper(Skipper const& skipper)
-          : skipper(skipper) {}
+        unused_skipper(Skipper const& skipper_)
+          : skipper(skipper_) {}
         Skipper const& skipper;
     };
 

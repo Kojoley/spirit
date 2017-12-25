@@ -32,29 +32,29 @@ namespace boost { namespace spirit { namespace x3
         static bool const is_pass_through_unary = true;
         static bool const has_action = true;
 
-        action(Subject const& subject, Action f)
-          : base_type(subject), f(f) {}
+        action(Subject const& subject, Action f_)
+          : base_type(subject), f(f_) {}
 
         template <typename Iterator, typename Context, typename RuleContext, typename Attribute>
         bool call_action(
             Iterator& first, Iterator const& last
-          , Context const& context, RuleContext& rcontext, Attribute& attr) const
+          , Context const& context, RuleContext& rcontext, Attribute& attr_) const
         {
             bool pass = true;
             auto action_context = make_context<parse_pass_context_tag>(pass, context);
-            call(f, first, last, action_context, rcontext, attr);
+            call(f, first, last, action_context, rcontext, attr_);
             return pass;
         }
 
         template <typename Iterator, typename Context
           , typename RuleContext, typename Attribute>
         bool parse_main(Iterator& first, Iterator const& last
-          , Context const& context, RuleContext& rcontext, Attribute& attr) const
+          , Context const& context, RuleContext& rcontext, Attribute& attr_) const
         {
             Iterator save = first;
-            if (this->subject.parse(first, last, context, rcontext, attr))
+            if (this->subject.parse(first, last, context, rcontext, attr_))
             {
-                if (call_action(first, last, context, rcontext, attr))
+                if (call_action(first, last, context, rcontext, attr_))
                     return true;
 
                 // reset iterators if semantic action failed the match
@@ -89,17 +89,17 @@ namespace boost { namespace spirit { namespace x3
 
             // synthesize the attribute since one is not supplied
             typename make_attribute::type made_attr = make_attribute::call(unused_type());
-            typename transform::type attr = transform::pre(made_attr);
-            return parse_main(first, last, context, rcontext, attr);
+            typename transform::type attr_ = transform::pre(made_attr);
+            return parse_main(first, last, context, rcontext, attr_);
         }
         
         // main parse function
         template <typename Iterator, typename Context
             , typename RuleContext, typename Attribute>
         bool parse(Iterator& first, Iterator const& last
-          , Context const& context, RuleContext& rcontext, Attribute& attr) const
+          , Context const& context, RuleContext& rcontext, Attribute& attr_) const
         {
-            return parse_main(first, last, context, rcontext, attr);
+            return parse_main(first, last, context, rcontext, attr_);
         }
 
         Action f;

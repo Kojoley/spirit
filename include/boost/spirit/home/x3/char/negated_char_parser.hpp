@@ -20,8 +20,8 @@ namespace boost { namespace spirit { namespace x3
     struct negated_char_parser :
         char_parser<negated_char_parser<Positive>>
     {
-        negated_char_parser(Positive const& positive)
-          : positive(positive) {}
+        negated_char_parser(Positive const& positive_)
+          : positive(positive_) {}
 
         template <typename CharParam, typename Context>
         bool test(CharParam ch, Context const& context) const

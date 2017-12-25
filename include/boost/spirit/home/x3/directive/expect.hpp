@@ -48,9 +48,9 @@ namespace boost { namespace spirit { namespace x3
         template <typename Iterator, typename Context
           , typename RContext, typename Attribute>
         bool parse(Iterator& first, Iterator const& last
-          , Context const& context, RContext& rcontext, Attribute& attr) const
+          , Context const& context, RContext& rcontext, Attribute& attr_) const
         {
-            bool r = this->subject.parse(first, last, context, rcontext, attr);
+            bool r = this->subject.parse(first, last, context, rcontext, attr_);
 
             if (!r)
             {
@@ -85,10 +85,10 @@ namespace boost { namespace spirit { namespace x3 { namespace detail
         static bool call(
             expect_directive<Subject> const& parser
           , Iterator& first, Iterator const& last
-          , Context const& context, RContext& rcontext, Attribute& attr)
+          , Context const& context, RContext& rcontext, Attribute& attr_)
         {
             bool r = parse_into_container(
-                parser.subject, first, last, context, rcontext, attr);
+                parser.subject, first, last, context, rcontext, attr_);
 
             if (!r)
             {

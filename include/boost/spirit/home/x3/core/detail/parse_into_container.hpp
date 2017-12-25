@@ -55,8 +55,8 @@ namespace boost { namespace spirit { namespace x3 { namespace detail
     template <typename Attribute, typename Value>
     struct saver_visitor  : boost::static_visitor<void>
     {
-        saver_visitor(Attribute& attr, Value& value)
-            : attr(attr), value(value) {};
+        saver_visitor(Attribute& attr_, Value& value_)
+            : attr(attr_), value(value_) {};
 
         Attribute& attr;
         Value& value;

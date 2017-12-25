@@ -25,7 +25,7 @@ namespace boost { namespace spirit { namespace x3
         template <typename Iterator, typename Context
           , typename RContext, typename Attribute>
         bool parse(Iterator& first, Iterator const& last
-          , Context const& context, RContext& rcontext, Attribute& attr) const
+          , Context const& context, RContext& rcontext, Attribute& attr_) const
         {
             // Try Right first
             Iterator start = first;
@@ -36,7 +36,7 @@ namespace boost { namespace spirit { namespace x3
                 return false;
             }
             // Right fails, now try Left
-            return this->left.parse(first, last, context, rcontext, attr);
+            return this->left.parse(first, last, context, rcontext, attr_);
         }
 
         template <typename Left_, typename Right_>

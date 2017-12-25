@@ -32,11 +32,11 @@ namespace boost { namespace spirit { namespace x3
         template <typename Iterator, typename Context
           , typename RContext, typename Attribute>
         bool parse_subject(Iterator& first, Iterator const& last
-          , Context const& context, RContext& rcontext, Attribute& attr
+          , Context const& context, RContext& rcontext, Attribute& attr_
           , traits::container_attribute) const
         {
             detail::parse_into_container(
-                this->subject, first, last, context, rcontext, attr);
+                this->subject, first, last, context, rcontext, attr_);
             return true;
         }
 
@@ -44,7 +44,7 @@ namespace boost { namespace spirit { namespace x3
         template <typename Iterator, typename Context
           , typename RContext, typename Attribute>
         bool parse_subject(Iterator& first, Iterator const& last
-          , Context const& context, RContext& rcontext, Attribute& attr
+          , Context const& context, RContext& rcontext, Attribute& attr_
           , traits::optional_attribute) const
         {
             typedef typename
@@ -57,7 +57,7 @@ namespace boost { namespace spirit { namespace x3
             if (this->subject.parse(first, last, context, rcontext, val))
             {
                 // assign the parsed value into our attribute
-                x3::traits::move_to(val, attr);
+                x3::traits::move_to(val, attr_);
             }
             return true;
         }

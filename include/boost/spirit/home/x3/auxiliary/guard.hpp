@@ -26,20 +26,20 @@ namespace boost { namespace spirit { namespace x3
         typedef unary_parser<Subject, guard<Subject, Handler>> base_type;
         static bool const is_pass_through_unary = true;
 
-        guard(Subject const& subject, Handler handler)
-          : base_type(subject), handler(handler) {}
+        guard(Subject const& subject, Handler handler_)
+          : base_type(subject), handler(handler_) {}
 
         template <typename Iterator, typename Context
           , typename RuleContext, typename Attribute>
         bool parse(Iterator& first, Iterator const& last
-          , Context const& context, RuleContext& rcontext, Attribute& attr) const
+          , Context const& context, RuleContext& rcontext, Attribute& attr_) const
         {
             for (;;)
             {
                 try
                 {
                     Iterator i = first;
-                    bool r = this->subject.parse(i, last, context, rcontext, attr);
+                    bool r = this->subject.parse(i, last, context, rcontext, attr_);
                     if (r)
                         first = i;
                     return r;

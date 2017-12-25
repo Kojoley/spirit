@@ -33,7 +33,7 @@ namespace boost { namespace spirit { namespace x3
           , typename RContext, typename Attribute>
         typename enable_if<has_skipper<Context>, bool>::type
         parse(Iterator& first, Iterator const& last
-          , Context const& context, RContext& rcontext, Attribute& attr) const
+          , Context const& context, RContext& rcontext, Attribute& attr_) const
         {
             auto const& skipper = x3::get<skipper_tag>(context);
 
@@ -46,19 +46,19 @@ namespace boost { namespace spirit { namespace x3
                 first, last
               , make_context<skipper_tag>(unused_skipper, context)
               , rcontext
-              , attr);
+              , attr_);
         }
         template <typename Iterator, typename Context
           , typename RContext, typename Attribute>
         typename disable_if<has_skipper<Context>, bool>::type
         parse(Iterator& first, Iterator const& last
-          , Context const& context, RContext& rcontext, Attribute& attr) const
+          , Context const& context, RContext& rcontext, Attribute& attr_) const
         {
             return this->subject.parse(
                 first, last
               , context
               , rcontext
-              , attr);
+              , attr_);
         }
     };
 

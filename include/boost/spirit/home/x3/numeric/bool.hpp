@@ -24,16 +24,16 @@ namespace boost { namespace spirit { namespace x3
         bool_parser()
         	: policies() {}
 
-        bool_parser(BoolPolicies const& policies)
-        	: policies(policies) {}
+        bool_parser(BoolPolicies const& policies_)
+        	: policies(policies_) {}
 
         template <typename Iterator, typename Context>
         bool parse(Iterator& first, Iterator const& last
-          , Context const& context, unused_type, T& attr) const
+          , Context const& context, unused_type, T& attr_) const
         {
             x3::skip_over(first, last, context);
-            return policies.parse_true(first, last, attr, get_case_compare<encoding>(context))
-                || policies.parse_false(first, last, attr, get_case_compare<encoding>(context));
+            return policies.parse_true(first, last, attr_, get_case_compare<encoding>(context))
+                || policies.parse_false(first, last, attr_, get_case_compare<encoding>(context));
         }
 
         template <typename Iterator, typename Context, typename Attribute>
@@ -65,23 +65,23 @@ namespace boost { namespace spirit { namespace x3
         	: policies(), n_(n) {}
 
         template <typename Value>
-        literal_bool_parser(Value const& n, BoolPolicies const& policies)
-        	: policies(policies), n_(n) {}
+        literal_bool_parser(Value const& n, BoolPolicies const& policies_)
+        	: policies(policies_), n_(n) {}
 
         template <typename Iterator, typename Context>
         bool parse_main(Iterator& first, Iterator const& last
-          , Context const& context, T& attr) const
+          , Context const& context, T& attr_) const
         {
             x3::skip_over(first, last, context);
-            return (n_ && policies.parse_true(first, last, attr, get_case_compare<encoding>(context)))
-                || (!n_ && policies.parse_false(first, last, attr, get_case_compare<encoding>(context)));
+            return (n_ && policies.parse_true(first, last, attr_, get_case_compare<encoding>(context)))
+                || (!n_ && policies.parse_false(first, last, attr_, get_case_compare<encoding>(context)));
         }
 
         template <typename Iterator, typename Context>
         bool parse(Iterator& first, Iterator const& last
-          , Context const& context, unused_type, T& attr) const
+          , Context const& context, unused_type, T& attr_) const
         {
-            return parse_main(first, last, context, attr);
+            return parse_main(first, last, context, attr_);
         }
 
         template <typename Iterator, typename Context, typename Attribute>

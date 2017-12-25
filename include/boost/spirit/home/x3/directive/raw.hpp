@@ -33,13 +33,13 @@ namespace boost { namespace spirit { namespace x3
         template <typename Iterator, typename Context
             , typename RContext, typename Attribute>
         bool parse(Iterator& first, Iterator const& last
-          , Context const& context, RContext& rcontext, Attribute& attr) const
+          , Context const& context, RContext& rcontext, Attribute& attr_) const
         {
             x3::skip_over(first, last, context);
             Iterator i = first;
             if (this->subject.parse(i, last, context, rcontext, unused))
             {
-                traits::move_to(first, i, attr);
+                traits::move_to(first, i, attr_);
                 first = i;
                 return true;
             }

@@ -217,14 +217,14 @@ namespace boost { namespace spirit { namespace x3
 
         template <typename Iterator, typename Context, typename Attribute>
         bool parse(Iterator& first, Iterator const& last
-          , Context const& context, unused_type, Attribute& attr) const
+          , Context const& context, unused_type, Attribute& attr_) const
         {
             x3::skip_over(first, last, context);
 
             if (value_type const* val_ptr
                 = lookup->find(first, last, get_case_compare<Encoding>(context)))
             {
-                x3::traits::move_to(*val_ptr, attr);
+                x3::traits::move_to(*val_ptr, attr_);
                 return true;
             }
             return false;
@@ -244,8 +244,8 @@ namespace boost { namespace spirit { namespace x3
             template <typename, typename = unused_type, typename = unused_type>
             struct result { typedef adder const& type; };
 
-            adder(symbols_parser& sym)
-              : sym(sym)
+            adder(symbols_parser& sym_)
+              : sym(sym_)
             {
             }
 
@@ -283,8 +283,8 @@ namespace boost { namespace spirit { namespace x3
             template <typename, typename = unused_type, typename = unused_type>
             struct result { typedef remover const& type; };
 
-            remover(symbols_parser& sym)
-              : sym(sym)
+            remover(symbols_parser& sym_)
+              : sym(sym_)
             {
             }
 

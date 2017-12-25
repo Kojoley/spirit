@@ -26,9 +26,9 @@ namespace boost { namespace spirit { namespace x3
         template <typename Iterator, typename Context
           , typename RuleContext, typename Attribute, typename Category>
         bool parse_subject(Iterator& first, Iterator const& last
-          , Context const& context, RuleContext& rcontext, Attribute& attr, Category) const
+          , Context const& context, RuleContext& rcontext, Attribute& attr_, Category) const
         {
-            this->subject.parse(first, last, context, rcontext, attr);
+            this->subject.parse(first, last, context, rcontext, attr_);
             return true;
         }
 
@@ -36,9 +36,9 @@ namespace boost { namespace spirit { namespace x3
         template <typename Iterator, typename Context
           , typename RuleContext, typename Attribute>
         bool parse(Iterator& first, Iterator const& last
-          , Context const& context, RuleContext& rcontext, Attribute& attr) const
+          , Context const& context, RuleContext& rcontext, Attribute& attr_) const
         {
-            return this->derived().parse_subject(first, last, context, rcontext, attr
+            return this->derived().parse_subject(first, last, context, rcontext, attr_
                 , typename traits::attribute_category<Attribute>::type());
         }
     };

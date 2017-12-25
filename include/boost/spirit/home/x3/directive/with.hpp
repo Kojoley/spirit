@@ -21,9 +21,9 @@ namespace boost { namespace spirit { namespace x3
     {
         typedef unary_parser<Subject, Derived> base_type;
         mutable T val;
-        with_value_holder(Subject const& subject, T&& val)
+        with_value_holder(Subject const& subject, T&& val_)
           : base_type(subject)
-          , val(std::forward<T>(val)) {}
+          , val(std::forward<T>(val_)) {}
     };
     
     template <typename Subject, typename Derived, typename T>
@@ -32,9 +32,9 @@ namespace boost { namespace spirit { namespace x3
     {
         typedef unary_parser<Subject, Derived> base_type;
         T& val;
-        with_value_holder(Subject const& subject, T& val)
+        with_value_holder(Subject const& subject, T& val_)
           : base_type(subject)
-          , val(val) {}
+          , val(val_) {}
     };
 
     template <typename Subject, typename ID, typename T>
@@ -53,13 +53,13 @@ namespace boost { namespace spirit { namespace x3
         template <typename Iterator, typename Context
           , typename RContext, typename Attribute>
         bool parse(Iterator& first, Iterator const& last
-          , Context const& context, RContext& rcontext, Attribute& attr) const
+          , Context const& context, RContext& rcontext, Attribute& attr_) const
         {
             return this->subject.parse(
                 first, last
               , make_context<ID>(this->val, context)
               , rcontext
-              , attr);
+              , attr_);
         }
     };
    

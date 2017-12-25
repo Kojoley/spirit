@@ -28,17 +28,17 @@ namespace boost { namespace spirit { namespace x3
         template <typename Iterator, typename Context
           , typename RContext, typename Attribute>
         bool parse(Iterator& first, Iterator const& last
-          , Context const& context, RContext& rcontext, Attribute& attr) const
+          , Context const& context, RContext& rcontext, Attribute& attr_) const
         {
             // in order to succeed we need to match at least one element
             if (!detail::parse_into_container(
-                this->left, first, last, context, rcontext, attr))
+                this->left, first, last, context, rcontext, attr_))
                 return false;
 
             Iterator save = first;
             while (this->right.parse(first, last, context, rcontext, unused)
                 && detail::parse_into_container(
-                    this->left, first, last, context, rcontext, attr))
+                    this->left, first, last, context, rcontext, attr_))
             {
                 save = first;
             }

@@ -26,12 +26,12 @@ namespace boost { namespace spirit { namespace x3
           , typename RContext, typename Attribute>
         bool parse(
             Iterator& first, Iterator const& last
-          , Context const& context, RContext& rcontext, Attribute& attr) const
+          , Context const& context, RContext& rcontext, Attribute& attr_) const
         {
             Iterator current(first);
             for (/**/; current != last; ++current)
             {
-                if (this->subject.parse(current, last, context, rcontext, attr))
+                if (this->subject.parse(current, last, context, rcontext, attr_))
                 {
                     first = current;
                     return true;
@@ -40,7 +40,7 @@ namespace boost { namespace spirit { namespace x3
 
             // Test for when subjects match on input empty. Example:
             //     comment = "//" >> seek[eol | eoi]
-            if (this->subject.parse(current, last, context, rcontext, attr))
+            if (this->subject.parse(current, last, context, rcontext, attr_))
             {
                 first = current;
                 return true;

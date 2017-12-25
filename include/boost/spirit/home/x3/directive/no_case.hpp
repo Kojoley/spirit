@@ -28,13 +28,13 @@ namespace boost { namespace spirit { namespace x3
         template <typename Iterator, typename Context
           , typename RContext, typename Attribute>
         bool parse(Iterator& first, Iterator const& last
-          , Context const& context, RContext& rcontext, Attribute& attr) const
+          , Context const& context, RContext& rcontext, Attribute& attr_) const
         {
             return this->subject.parse(
                 first, last
               , make_context<no_case_tag>(no_case_compare_, context)
               , rcontext
-              , attr);
+              , attr_);
         }
     };
 

@@ -27,11 +27,11 @@ namespace boost { namespace spirit { namespace x3
     parse_rule(
         rule<ID, Attribute> /* rule_ */
       , Iterator& first, Iterator const& last
-      , Context const& context, ActualAttribute& attr)
+      , Context const& context, ActualAttribute& attr_)
     {
         static_assert(!is_same<decltype(get<ID>(context)), unused_type>::value,
             "BOOST_SPIRIT_DEFINE undefined for this rule.");
-        return get<ID>(context).parse(first, last, context, unused, attr);
+        return get<ID>(context).parse(first, last, context, unused, attr_);
     }
 
     template <typename ID, typename RHS, typename Attribute, bool force_attribute_>
@@ -50,18 +50,18 @@ namespace boost { namespace spirit { namespace x3
         static bool const force_attribute =
             force_attribute_;
 
-        rule_definition(RHS const& rhs, char const* name)
-          : rhs(rhs), name(name) {}
+        rule_definition(RHS const& rhs_, char const* name_)
+          : rhs(rhs_), name(name_) {}
 
         template <typename Iterator, typename Context, typename Attribute_>
         bool parse(Iterator& first, Iterator const& last
-          , Context const& context, unused_type, Attribute_& attr) const
+          , Context const& context, unused_type, Attribute_& attr_) const
         {
             return detail::rule_parser<attribute_type, ID>
                 ::call_rule_definition(
                     rhs, name, first, last
                   , context
-                  , attr
+                  , attr_
                   , mpl::bool_<force_attribute>());
         }
 
@@ -86,8 +86,8 @@ namespace boost { namespace spirit { namespace x3
         rule() : name("unnamed") {}
 #endif
 
-        rule(char const* name)
-          : name(name) {}
+        rule(char const* name_)
+          : name(name_) {}
 
         template <typename RHS>
         rule_definition<
@@ -108,9 +108,9 @@ namespace boost { namespace spirit { namespace x3
 
         template <typename Iterator, typename Context, typename Attribute_>
         bool parse(Iterator& first, Iterator const& last
-          , Context const& context, unused_type, Attribute_& attr) const
+          , Context const& context, unused_type, Attribute_& attr_) const
         {
-            return parse_rule(*this, first, last, context, attr);
+            return parse_rule(*this, first, last, context, attr_);
         }
 
         char const* name;

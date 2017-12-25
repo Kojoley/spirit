@@ -32,11 +32,11 @@ namespace boost { namespace spirit { namespace x3
 
         template <typename Iterator, typename Context, typename Attribute>
         bool parse(Iterator& first, Iterator const& last
-          , Context const& context, unused_type, Attribute& attr) const
+          , Context const& context, unused_type, Attribute& attr_) const
         {
             typedef extract_int<T, Radix, MinDigits, MaxDigits> extract;
             x3::skip_over(first, last, context);
-            return extract::call(first, last, attr);
+            return extract::call(first, last, attr_);
         }
     };
 

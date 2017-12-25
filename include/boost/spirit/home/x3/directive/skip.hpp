@@ -30,7 +30,7 @@ namespace boost { namespace spirit { namespace x3
           , typename RContext, typename Attribute>
         typename disable_if<has_skipper<Context>, bool>::type
         parse(Iterator& first, Iterator const& last
-          , Context const& context, RContext& rcontext, Attribute& attr) const
+          , Context const& context, RContext& rcontext, Attribute& attr_) const
         {
             auto const& skipper =
                 detail::get_unused_skipper(x3::get<skipper_tag>(context));
@@ -39,19 +39,19 @@ namespace boost { namespace spirit { namespace x3
                 first, last
               , make_context<skipper_tag>(skipper, context)
               , rcontext
-              , attr);
+              , attr_);
         }
         template <typename Iterator, typename Context
           , typename RContext, typename Attribute>
         typename enable_if<has_skipper<Context>, bool>::type
         parse(Iterator& first, Iterator const& last
-          , Context const& context, RContext& rcontext, Attribute& attr) const
+          , Context const& context, RContext& rcontext, Attribute& attr_) const
         {
             return this->subject.parse(
                 first, last
               , context
               , rcontext
-              , attr);
+              , attr_);
         }
     };
 
@@ -62,21 +62,21 @@ namespace boost { namespace spirit { namespace x3
         static bool const is_pass_through_unary = true;
         static bool const handles_container = Subject::handles_container;
 
-        skip_directive(Subject const& subject, Skipper const& skipper)
+        skip_directive(Subject const& subject, Skipper const& skipper_)
           : base_type(subject)
-          , skipper(skipper)
+          , skipper(skipper_)
         {}
 
         template <typename Iterator, typename Context
           , typename RContext, typename Attribute>
         bool parse(Iterator& first, Iterator const& last
-          , Context const& context, RContext& rcontext, Attribute& attr) const
+          , Context const& context, RContext& rcontext, Attribute& attr_) const
         {
             return this->subject.parse(
                 first, last
               , make_context<skipper_tag>(skipper, context)
               , rcontext
-              , attr);
+              , attr_);
         }
 
         Skipper const skipper;

@@ -37,8 +37,8 @@ namespace boost { namespace spirit { namespace x3
         // is the being called.
         struct default_parse_rule_result
         {
-            default_parse_rule_result(bool r)
-              : r(r) {}
+            default_parse_rule_result(bool r_)
+              : r(r_) {}
             operator bool() const { return r; }
             bool r;
         };
@@ -61,17 +61,17 @@ namespace boost { namespace spirit { namespace x3 { namespace detail
     struct context_debug
     {
         context_debug(
-            char const* rule_name
-          , Iterator const& first, Iterator const& last
+            char const* rule_name_
+          , Iterator const& first_, Iterator const& last_
           , Attribute const& attr
-          , bool const& ok_parse //was parse successful?
+          , bool const& ok_parse_ //was parse successful?
           )
-          : ok_parse(ok_parse), rule_name(rule_name)
-          , first(first), last(last)
+          : ok_parse(ok_parse_), rule_name(rule_name_)
+          , first(first_), last(last_)
           , attr(attr)
           , f(detail::get_simple_trace())
         {
-            f(first, last, attr, pre_parse, rule_name);
+            f(first_, last_, attr, pre_parse, rule_name_);
         }
 
         ~context_debug()

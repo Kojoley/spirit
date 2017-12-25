@@ -58,7 +58,7 @@ namespace boost { namespace spirit { namespace x3
 
         template <typename Iterator_, typename Context_>
         bool parse(Iterator_& first, Iterator_ const& last
-          , Context_ const& context, unused_type, Attribute& attr) const
+          , Context_ const& context, unused_type, Attribute& attr_) const
         {
             BOOST_STATIC_ASSERT_MSG(
                 (is_same<Iterator, Iterator_>::value)
@@ -70,17 +70,17 @@ namespace boost { namespace spirit { namespace x3
               , "Invalid use of uninitialized any_parser"
             );
 
-            return _content->parse(first, last, context, attr);
+            return _content->parse(first, last, context, attr_);
         }
 
         template <typename Iterator_, typename Context_, typename Attribute_>
         bool parse(Iterator_& first, Iterator_ const& last
           , Context_ const& context, unused_type, Attribute_& attr_) const
         {
-            Attribute attr;
-            if (parse(first, last, context, unused, attr))
+            Attribute attr_tmp;
+            if (parse(first, last, context, unused, attr_tmp))
             {
-                traits::move_to(attr, attr_);
+                traits::move_to(attr_tmp, attr_);
                 return true;
             }
             return false;
@@ -119,9 +119,9 @@ namespace boost { namespace spirit { namespace x3
             }
 
             bool parse(Iterator& first, Iterator const& last
-              , Context const& context, Attribute& attr) const override
+              , Context const& context, Attribute& attr_) const override
             {
-                return _parser.parse(first, last, context, unused, attr);
+                return _parser.parse(first, last, context, unused, attr_);
             }
 
             std::string get_info() const override

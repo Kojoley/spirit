@@ -21,7 +21,7 @@ namespace boost { namespace spirit { namespace x3
         Iterator& first
       , Iterator last
       , Parser const& p
-      , Attribute& attr)
+      , Attribute& attr_)
     {
         // Make sure the iterator is at least a readable forward traversal iterator.
         // If you got a compilation error here, then you are using a weaker iterator
@@ -33,7 +33,7 @@ namespace boost { namespace spirit { namespace x3
         // If you get an error no matching function for call to 'as_parser'
         // here, then p is not a parser or there is no suitable conversion
         // from p to a parser.
-        return as_parser(p).parse(first, last, unused, unused, attr);
+        return as_parser(p).parse(first, last, unused, unused, attr_);
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -43,9 +43,9 @@ namespace boost { namespace spirit { namespace x3
         Iterator& first
       , Iterator last
       , Parser const& p
-      , Attribute& attr)
+      , Attribute& attr_)
     {
-        return parse_main(first, last, p, attr);
+        return parse_main(first, last, p, attr_);
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -55,10 +55,10 @@ namespace boost { namespace spirit { namespace x3
         Iterator const& first_
       , Iterator last
       , Parser const& p
-      , Attribute& attr)
+      , Attribute& attr_)
     {
         Iterator first = first_;
-        return parse_main(first, last, p, attr);
+        return parse_main(first, last, p, attr_);
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -99,7 +99,7 @@ namespace boost { namespace spirit { namespace x3
       , Iterator last
       , Parser const& p
       , Skipper const& s
-      , Attribute& attr
+      , Attribute& attr_
       , skip_flag post_skip = skip_flag::post_skip)
     {
         // Make sure the iterator is at least a readable forward traversal iterator.
@@ -116,7 +116,7 @@ namespace boost { namespace spirit { namespace x3
         // here, for either p or s, then p or s is not a parser or there is
         // no suitable conversion from p to a parser.
         auto skipper_ctx = make_context<skipper_tag>(as_parser(s));
-        bool r = as_parser(p).parse(first, last, skipper_ctx, unused, attr);
+        bool r = as_parser(p).parse(first, last, skipper_ctx, unused, attr_);
         if (post_skip == skip_flag::post_skip)
             x3::skip_over(first, last, skipper_ctx);
         return r;
@@ -130,10 +130,10 @@ namespace boost { namespace spirit { namespace x3
       , Iterator last
       , Parser const& p
       , Skipper const& s
-      , Attribute& attr
+      , Attribute& attr_
       , skip_flag post_skip = skip_flag::post_skip)
     {
-        return phrase_parse_main(first, last, p, s, attr, post_skip);
+        return phrase_parse_main(first, last, p, s, attr_, post_skip);
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -144,11 +144,11 @@ namespace boost { namespace spirit { namespace x3
       , Iterator last
       , Parser const& p
       , Skipper const& s
-      , Attribute& attr
+      , Attribute& attr_
       , skip_flag post_skip = skip_flag::post_skip)
     {
         Iterator first = first_;
-        return phrase_parse_main(first, last, p, s, attr, post_skip);
+        return phrase_parse_main(first, last, p, s, attr_, post_skip);
     }
 
     ///////////////////////////////////////////////////////////////////////////

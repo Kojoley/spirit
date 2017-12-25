@@ -23,12 +23,12 @@ namespace boost { namespace spirit { namespace x3
         template <typename Iterator, typename Context, typename Attribute>
         bool parse(
             Iterator& first, Iterator const& last
-          , Context const& context, unused_type, Attribute& attr) const
+          , Context const& context, unused_type, Attribute& attr_) const
         {
             x3::skip_over(first, last, context);
             if (first != last && this->derived().test(*first, context))
             {
-                x3::traits::move_to(*first, attr);
+                x3::traits::move_to(*first, attr_);
                 ++first;
                 return true;
             }

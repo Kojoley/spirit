@@ -39,11 +39,9 @@ main()
     using boost::spirit::qi::locals;
     using boost::spirit::qi::rule;
     using boost::spirit::qi::int_;
-    using boost::spirit::qi::uint_;
     using boost::spirit::qi::fail;
     using boost::spirit::qi::on_error;
     using boost::spirit::qi::debug;
-    using boost::spirit::qi::lit;
 
     namespace phx = boost::phoenix;
 

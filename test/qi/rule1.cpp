@@ -17,10 +17,6 @@
 #include <boost/spirit/include/qi_directive.hpp>
 #include <boost/spirit/include/qi_nonterminal.hpp>
 #include <boost/spirit/include/qi_action.hpp>
-#include <boost/spirit/include/phoenix_core.hpp>
-#include <boost/spirit/include/phoenix_operator.hpp>
-#include <boost/spirit/include/phoenix_object.hpp>
-#include <boost/spirit/include/phoenix_bind.hpp>
 #include <boost/fusion/include/std_pair.hpp>
 
 #include <string>
@@ -41,8 +37,6 @@ main()
     using boost::spirit::qi::fail;
     using boost::spirit::qi::on_error;
     using boost::spirit::qi::debug;
-
-    namespace phx = boost::phoenix;
 
     { // basic tests
 

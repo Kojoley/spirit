@@ -169,6 +169,13 @@ before_install:
   - pushd $BOOST_ROOT
   # Remove the empty folder
   - rm -rf $PROJECT
+
+  # apply random unused parameter warnings patch
+  - pushd libs/random
+  - PATCH_URL=https://github.com/boostorg/random/pull/25.patch;
+    curl -sL $PATCH_URL | patch -sup 1
+  - popd
+
   - ./bootstrap.sh --with-toolset=clang --with-libraries=$TEST_LINK_DEPS
     || ( echo === bootstrap.log === ; cat bootstrap.log ; exit 1 ; )
   - ./b2 headers

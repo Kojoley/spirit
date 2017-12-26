@@ -859,8 +859,8 @@ namespace boost { namespace spirit { namespace traits
       , lex::lexertl::position_token<Iterator, lex::omit, HasState, Idtype> >
     {
         static void 
-        call(lex::lexertl::position_token<Iterator, lex::omit, HasState, Idtype> const& t
-          , Attribute& attr)
+        call(lex::lexertl::position_token<Iterator, lex::omit, HasState, Idtype> const& /*t*/
+          , Attribute& /*attr*/)
         {
             // do nothing
         }

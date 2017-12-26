@@ -445,6 +445,7 @@ namespace boost { namespace spirit
         template <typename A, typename B>                                     \
         static utree eval(A const& a, B const& b)                             \
         {                                                                     \
+            (void) b;                                                         \
             return utree(expr);                                               \
         }                                                                     \
         template <typename A>                                                 \

@@ -101,13 +101,16 @@ public:
     boost::optional<std::string> const& c() const { return c_; }
 };
 
+#define UNUSED_SETTER BOOST_VERIFY_MSG(obj && val && false, "unused setter called")
 
 BOOST_FUSION_ADAPT_ADT(
     data4,
-    (boost::optional<int>, boost::optional<int> const&, obj.a(), /**/)
-    (boost::optional<double>, boost::optional<double> const&, obj.b(), /**/)
-    (boost::optional<std::string>, boost::optional<std::string> const&, obj.c(), /**/)
+    (boost::optional<int>, boost::optional<int> const&, obj.a(), UNUSED_SETTER)
+    (boost::optional<double>, boost::optional<double> const&, obj.b(), UNUSED_SETTER)
+    (boost::optional<std::string>, boost::optional<std::string> const&, obj.c(), UNUSED_SETTER)
 )
+
+#undef UNUSED_SETTER
 
 ///////////////////////////////////////////////////////////////////////////////
 int main () 

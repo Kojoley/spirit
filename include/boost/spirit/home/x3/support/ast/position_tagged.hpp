@@ -47,7 +47,7 @@ namespace boost { namespace spirit { namespace x3
         // This will catch all nodes except those inheriting from position_tagged
         template <typename AST>
         boost::iterator_range<iterator_type>
-        position_of(AST const& ast) const
+        position_of(AST const& /*ast*/) const
         {
             // returns an empty position
             return boost::iterator_range<iterator_type>();
@@ -55,7 +55,7 @@ namespace boost { namespace spirit { namespace x3
         
         // This will catch all nodes except those inheriting from position_tagged
         template <typename AST>
-        void annotate(AST& ast, iterator_type first, iterator_type last, mpl::false_)
+        void annotate(AST& /*ast*/, iterator_type /*first*/, iterator_type /*last*/, mpl::false_)
         {
             // (no-op) no need for tags
         }

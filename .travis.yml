@@ -70,20 +70,20 @@ matrix:
     - { env: 'STD=03  JOB=repository/test  TOOLSET=clang-5.0', compiler: clang-5.0, addons: *clang50 }
     ## GCC
     # 11
-    - { env: 'STD=11  JOB=test/qi          TOOLSET=gcc-6', compiler: gcc-6, addons: *gcc6 }
-    - { env: 'STD=11  JOB=test/karma       TOOLSET=gcc-6', compiler: gcc-6, addons: *gcc6 }
-    - { env: 'STD=11  JOB=test/lex         TOOLSET=gcc-6', compiler: gcc-6, addons: *gcc6 }
-    - { env: 'STD=11  JOB=test/support     TOOLSET=gcc-6', compiler: gcc-6, addons: *gcc6 }
-    - { env: 'STD=11  JOB=repository/test  TOOLSET=gcc-6', compiler: gcc-6, addons: *gcc6 }
+    - { env: 'STD=11  JOB=test/qi          TOOLSET=gcc-7', compiler: gcc-7, addons: *gcc7 }
+    - { env: 'STD=11  JOB=test/karma       TOOLSET=gcc-7', compiler: gcc-7, addons: *gcc7 }
+    - { env: 'STD=11  JOB=test/lex         TOOLSET=gcc-7', compiler: gcc-7, addons: *gcc7 }
+    - { env: 'STD=11  JOB=test/support     TOOLSET=gcc-7', compiler: gcc-7, addons: *gcc7 }
+    - { env: 'STD=11  JOB=repository/test  TOOLSET=gcc-7', compiler: gcc-7, addons: *gcc7 }
     # 03
-    - { env: 'STD=03  JOB=test/qi          TOOLSET=gcc-6', compiler: gcc-6, addons: *gcc6 }
-    - { env: 'STD=03  JOB=test/karma       TOOLSET=gcc-6', compiler: gcc-6, addons: *gcc6 }
-    - { env: 'STD=03  JOB=test/lex         TOOLSET=gcc-6', compiler: gcc-6, addons: *gcc6 }
-    - { env: 'STD=03  JOB=test/support     TOOLSET=gcc-6', compiler: gcc-6, addons: *gcc6 }
-    - { env: 'STD=03  JOB=repository/test  TOOLSET=gcc-6', compiler: gcc-6, addons: *gcc6 }
+    - { env: 'STD=03  JOB=test/qi          TOOLSET=gcc-7', compiler: gcc-7, addons: *gcc7 }
+    - { env: 'STD=03  JOB=test/karma       TOOLSET=gcc-7', compiler: gcc-7, addons: *gcc7 }
+    - { env: 'STD=03  JOB=test/lex         TOOLSET=gcc-7', compiler: gcc-7, addons: *gcc7 }
+    - { env: 'STD=03  JOB=test/support     TOOLSET=gcc-7', compiler: gcc-7, addons: *gcc7 }
+    - { env: 'STD=03  JOB=repository/test  TOOLSET=gcc-7', compiler: gcc-7, addons: *gcc7 }
     ### Spirit 1
     - { env: 'STD=03  JOB=classic/test     TOOLSET=clang-5.0', compiler: clang-5.0, addons: *clang50 }
-    - { env: 'STD=03  JOB=classic/test     TOOLSET=gcc-6', compiler: gcc-6, addons: *gcc6 }
+    - { env: 'STD=03  JOB=classic/test     TOOLSET=gcc-7', compiler: gcc-7, addons: *gcc7 }
 
 cache: ccache
 

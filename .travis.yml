@@ -45,6 +45,8 @@ env:
     - BOOST_ROOT=$HOME/boost
     - BOOST_BUILD_PATH=$HOME/build-boost
     - TEST_LINK_DEPS=date_time,filesystem,regex,system,thread
+    # detect_leaks=0 due to https://github.com/travis-ci/travis-ci/issues/9033
+    - ASAN_OPTIONS=detect_stack_use_after_return=1:detect_leaks=0  #:check_initialization_order=1
 
 matrix:
   include:
@@ -130,6 +132,17 @@ before_install:
         -Wno-nested-anon-types # Boost.Random
         -Wno-uninitialized -Wno-invalid-source-encoding : unchecked ;
 
+    # LD
+    #feature.feature ld : : free optional ;
+    #toolset.flags gcc.link OPTIONS <ld> : -fuse-ld=[ feature.get-values <ld> ] : unchecked ;
+
+    # ASAN
+    feature.feature asan : off on : propagated optional implicit ;
+    toolset.flags gcc.compile OPTIONS <asan>on : -fsanitize=address -fsanitize-address-use-after-scope : unchecked ;
+    toolset.flags gcc.link OPTIONS <asan>on : -fsanitize=address -fsanitize-address-use-after-scope -fuse-ld=gold : unchecked ;
+    toolset.flags clang-linux.compile OPTIONS <asan>on : -fsanitize=address -fsanitize-address-use-after-scope : unchecked ;
+    toolset.flags clang-linux.link OPTIONS <asan>on : -fsanitize=address -fsanitize-address-use-after-scope : unchecked ;
+
   - |
     # Determining the root branch
     if [[ "$TRAVIS_PULL_REQUEST" == "false" ]]; then
@@ -179,3 +192,4 @@ script:
   - b2 -j`nproc` link=shared threading=multi variant=release
       toolset=$TOOLSET cxxstd=$STD $STDLIB
       warnings=on known-warnings=suppress warnings-as-errors=on
+      asan=on debug-symbols=on inlining=off cxxflags="-fno-omit-frame-pointer -fno-optimize-sibling-calls"

@@ -15,9 +15,10 @@ addon_shortcuts:
     apt:
       sources:
         - llvm-toolchain-trusty-5.0
+        - ubuntu-toolchain-r-test
       packages:
         - clang-5.0
-        - libc++-dev
+        - libstdc++-7-dev
 
   gcc6: &gcc6
     apt:
@@ -89,7 +90,6 @@ cache: ccache
 before_install:
   - export CACHE_NAME=$TRAVIS_OS_NAME-$TOOLSET-$STD-$JOB
   - export PATH=$BOOST_ROOT:$PATH
-  - if [[ "$TOOLSET" =~ ^clang- ]]; then export STDLIB=stdlib=libc++ ; fi
   - |
     # Creating ~/user-config.jam file
     sed 's/^  //' > ~/user-config.jam << 'EOF'
@@ -116,11 +116,6 @@ before_install:
     }
 
     using $(toolset-name) : $(toolset-feature) : $(CCACHE) $(cxx) ;
-
-
-    # Extend stdlib with libc++
-    feature.extend stdlib : libc++ ;
-    feature.compose <stdlib>libc++ : <cxxflags>-stdlib=libc++ <linkflags>-stdlib=libc++ ;
 
 
     # Ignore some warnings
@@ -184,7 +179,7 @@ before_install:
     || ( echo === bootstrap.log === ; cat bootstrap.log ; exit 1 ; )
   - ./b2 headers
   - ./b2 -j`nproc` link=shared threading=multi variant=release
-      toolset=$TOOLSET cxxstd=${STD#*,} $STDLIB
+      toolset=$TOOLSET cxxstd=${STD#*,}
       warnings=off
 
   # Move the repository to boost/libs and make a link to previous place
@@ -196,6 +191,6 @@ before_install:
 
 script:
   - b2 -j`nproc` link=shared threading=multi variant=release
-      toolset=$TOOLSET cxxstd=$STD $STDLIB
+      toolset=$TOOLSET cxxstd=$STD
       warnings=on known-warnings=suppress warnings-as-errors=on
       asan=on debug-symbols=on inlining=off cxxflags="-fno-omit-frame-pointer -fno-optimize-sibling-calls"

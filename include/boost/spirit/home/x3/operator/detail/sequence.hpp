@@ -391,6 +391,38 @@ namespace boost { namespace spirit { namespace x3 { namespace detail
       , Context const& context, RContext& rcontext, Attribute& attr
       , traits::container_attribute);
 
+    template <typename Parser, bool Unary = Parser::is_pass_through_unary>
+    struct should_sequence_proxy : mpl::false_ {};
+
+    template <typename Left, typename Right>
+    struct should_sequence_proxy<sequence<Left, Right>, false> : mpl::true_ {};
+
+    template <typename Parser>
+    struct should_sequence_proxy<Parser, true>
+      : should_sequence_proxy<typename Parser::subject_type> {};
+
+    template <typename Parser, typename Iterator, typename Context
+      , typename RContext, typename Attribute>
+    typename enable_if<should_sequence_proxy<Parser>, bool>::type
+    parse_into_container_or_proxy(
+        Parser const& parser
+      , Iterator& first, Iterator const& last, Context const& context
+      , RContext& rcontext, Attribute& attr)
+    {
+        return parser.parse(first, last, context, rcontext, attr);
+    }
+
+    template <typename Parser, typename Iterator, typename Context
+      , typename RContext, typename Attribute>
+    typename disable_if<should_sequence_proxy<Parser>, bool>::type
+    parse_into_container_or_proxy(
+        Parser const& parser
+      , Iterator& first, Iterator const& last, Context const& context
+      , RContext& rcontext, Attribute& attr)
+    {
+        return parse_into_container(parser, first, last, context, rcontext, attr);
+    }
+
     template <typename Parser, typename Iterator, typename Context
       , typename RContext, typename Attribute>
     bool parse_sequence(
@@ -399,8 +431,8 @@ namespace boost { namespace spirit { namespace x3 { namespace detail
       , traits::container_attribute)
     {
         Iterator save = first;
-        if (parse_into_container(parser.left, first, last, context, rcontext, attr)
-            && parse_into_container(parser.right, first, last, context, rcontext, attr))
+        if (parse_into_container_or_proxy(parser.left, first, last, context, rcontext, attr)
+            && parse_into_container_or_proxy(parser.right, first, last, context, rcontext, attr))
             return true;
         first = save;
         return false;

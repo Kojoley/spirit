@@ -187,9 +187,11 @@ script:
   - b2 -j`nproc` link=shared threading=multi variant=debug
       toolset=$TOOLSET cxxstd=$STD $STDLIB coverage=on
       warnings=on known-warnings=suppress warnings-as-errors=on
+      -d2
 
 after_success:
   #- if [[ "$TOOLSET" =~ ^clang- ]]; then llvm-cov gcov $BOOST_ROOT/bin.v2/$PROJECT/$JOB -info-output-file=collected.log fi
   #- cat collected.log
   #- bash <(curl -s https://codecov.io/bash)
+  - find $BOOST_ROOT/bin.v2/$PROJECT -print
   - bash <(curl -s https://codecov.io/bash) -v -s $BOOST_ROOT/bin.v2/$PROJECT

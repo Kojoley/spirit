@@ -193,5 +193,12 @@ after_success:
   #- if [[ "$TOOLSET" =~ ^clang- ]]; then llvm-cov gcov $BOOST_ROOT/bin.v2/$PROJECT/$JOB -info-output-file=collected.log fi
   #- cat collected.log
   #- bash <(curl -s https://codecov.io/bash)
+  - case $TOOLSET in
+      clang*) COV_TOOL=${TOOLSET/clang/llvm-cov} gcov ;;
+      gcc*)   COV_TOOL=${TOOLSET/gcc/gcov} ;;
+    esac
+  - echo COV_TOOL=$COV_TOOL
   - find $BOOST_ROOT/bin.v2/$PROJECT -print
-  - bash <(curl -s https://codecov.io/bash) -v -p $BOOST_ROOT/bin.v2/$PROJECT
+  - bash <(curl -s https://codecov.io/bash) -x "$COV_TOOL" -v -p $BOOST_ROOT/bin.v2/$PROJECT
+  - find . -name '*.gcov'
+

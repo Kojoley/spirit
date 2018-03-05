@@ -194,11 +194,13 @@ after_success:
   #- cat collected.log
   #- bash <(curl -s https://codecov.io/bash)
   - echo TOOLSET=$TOOLSET
-  - find $BOOST_ROOT/bin.v2/$PROJECT -print
   - |
     case $TOOLSET in
-      clang*) bash <(curl -s https://codecov.io/bash) -v -p $BOOST_ROOT/bin.v2/$PROJECT -s `pwd` -a -a -x 'llvm-cov gcov' ; echo clang ;;
-        gcc*) bash <(curl -s https://codecov.io/bash) -v -p $BOOST_ROOT/bin.v2/$PROJECT -s `pwd` -a -a -x ${TOOLSET/gcc/gcov} ; echo gcc ;;
+      clang*) export COV_TOOL="llvm-cov gcov" ; echo clang ;;
+        gcc*) export COV_TOOL="${TOOLSET/gcc/gcov}" ; echo gcc ;;
            *) echo Unsupported toolset $TOOLSET ; exit 1 ;;
     esac
+  - echo COV_TOOL=$COV_TOOL
+  - find $BOOST_ROOT/bin.v2/$PROJECT -print
+  - bash <(curl -s https://codecov.io/bash) -v -x "$COV_TOOL" -a -a -p $BOOST_ROOT/bin.v2/$PROJECT -s `pwd`
   - find . -name '*.gcov'

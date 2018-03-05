@@ -195,10 +195,10 @@ after_success:
   #- bash <(curl -s https://codecov.io/bash)
   - case $TOOLSET in
       clang*) export COV_ARGS="-x llvm-cov -a 'gcov -ab'" ;;
-      gcc*)   export COV_ARGS="-x ${TOOLSET/gcc/gcov} -a '-ab'" ;;
+      gcc*)   export COV_ARGS="-x ${TOOLSET/gcc/gcov} -a -ab" ;;
+      *)      echo Unsupported toolset $TOOLSET ;;
     esac
   - echo COV_TOOL=$COV_TOOL
   - find $BOOST_ROOT/bin.v2/$PROJECT -print
-  - bash <(curl -s https://codecov.io/bash) $COV_ARGS -p $BOOST_ROOT/bin.v2/$PROJECT -s `pwd`
+  - bash <(curl -s https://codecov.io/bash) $COV_ARGS -v -p $BOOST_ROOT/bin.v2/$PROJECT -s `pwd`
   - find . -name '*.gcov'
-

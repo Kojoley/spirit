@@ -194,4 +194,4 @@ after_success:
   #- cat collected.log
   #- bash <(curl -s https://codecov.io/bash)
   - find $BOOST_ROOT/bin.v2/$PROJECT -print
-  - bash <(curl -s https://codecov.io/bash) -v -s $BOOST_ROOT/bin.v2/$PROJECT
+  - bash <(curl -s https://codecov.io/bash) -v -p $BOOST_ROOT/bin.v2/$PROJECT

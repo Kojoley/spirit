@@ -194,11 +194,11 @@ after_success:
   #- cat collected.log
   #- bash <(curl -s https://codecov.io/bash)
   - case $TOOLSET in
-      clang*) export COV_TOOL=${TOOLSET/clang/llvm-cov} gcov ;;
-      gcc*)   export COV_TOOL=${TOOLSET/gcc/gcov} ;;
+      clang*) export COV_ARGS="-x llvm-cov -a 'gcov -ab'" ;;
+      gcc*)   export COV_ARGS="-x ${TOOLSET/gcc/gcov} -a '-ab'" ;;
     esac
   - echo COV_TOOL=$COV_TOOL
   - find $BOOST_ROOT/bin.v2/$PROJECT -print
-  - bash <(curl -s https://codecov.io/bash) -x "$COV_TOOL" -v -p $BOOST_ROOT/bin.v2/$PROJECT
+  - bash <(curl -s https://codecov.io/bash) $COV_ARGS -v -p $BOOST_ROOT/bin.v2/$PROJECT -s `pwd`
   - find . -name '*.gcov'
 

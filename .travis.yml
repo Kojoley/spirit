@@ -196,7 +196,7 @@ after_success:
   - echo TOOLSET=$TOOLSET
   - |
     case $TOOLSET in
-      clang*) export COV_ARGS="-x 'llvm-cov gcov'" ; echo clang ;;
+      clang*) export COV_ARGS="-x \'llvm-cov gcov\'" ; echo clang ;;
         gcc*) export COV_ARGS="-x ${TOOLSET/gcc/gcov}" ; echo gcc ;;
            *) echo Unsupported toolset $TOOLSET ; exit 1 ;;
     esac

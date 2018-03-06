@@ -198,7 +198,7 @@ after_success:
   #- llvm-profdata merge -output=code.profdata cov/
   - find -type f -name '*.profraw' -exec sh -c 'llvm-profdata merge -sparse "$0" -o "${0%.profraw}.profdata"' {} \;
   - find -type f -name '*.profdata'
-  - bash <(curl -s https://codecov.io/bash) -v -f '*.profdata'
+  - bash <(curl -s https://codecov.io/bash | sed 's/profdata/dummy/g') -v -f '*.profdata'
 
 _after_success:
   #- if [[ "$TOOLSET" =~ ^clang- ]]; then llvm-cov gcov $BOOST_ROOT/bin.v2/$PROJECT/$JOB -info-output-file=collected.log fi

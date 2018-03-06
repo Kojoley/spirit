@@ -191,10 +191,10 @@ script:
 
 after_success:
   - ccache --show-stats
-  - find . -name *.profraw -or -name *.profdata -print
-  - find $BOOST_ROOT/bin.v2/$PROJECT -type f -name *.profraw -or -name *.profdata -print
-  - find $BOOST_ROOT/bin.v2/$PROJECT -type f -name *.profraw -print | xargs llvm-profdata merge
-  - find . -type f -name *.profdata -print
+  - find . -name '*.profraw' -or -name '*.profdata'
+  - find $BOOST_ROOT/bin.v2/$PROJECT -type f -name '*.profraw' -or -name '*.profdata'
+  - find $BOOST_ROOT/bin.v2/$PROJECT -type f -name '*.profraw' | xargs llvm-profdata merge
+  - find . -type f -name '*.profdata'
   - bash <(curl -s https://codecov.io/bash) -v -X gcov
 
 _after_success:
@@ -212,3 +212,4 @@ _after_success:
   - find $BOOST_ROOT/bin.v2/$PROJECT -print
   - bash <(curl -s https://codecov.io/bash) -v -x "$COV_TOOL" -a -a -p $BOOST_ROOT/bin.v2/$PROJECT -s `pwd`
   - find . -name '*.gcov'
+                                                                                  	

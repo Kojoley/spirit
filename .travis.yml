@@ -45,7 +45,7 @@ env:
     - BOOST_ROOT=$HOME/boost
     - BOOST_BUILD_PATH=$HOME/build-boost
     - TEST_LINK_DEPS=date_time,filesystem,regex,system
-    - LLVM_PROFILE_FILE=cov/%m.profraw
+    - LLVM_PROFILE_FILE=%p-%m.profraw
 
 matrix:
   include:
@@ -195,7 +195,8 @@ after_success:
   - find -type f -name '*.profraw' -or -name '*.profdata'
   - find $BOOST_ROOT/bin.v2/$PROJECT -type f -name '*.profraw' -or -name '*.profdata'
   #- find -type f -name '*.profraw' | xargs llvm-profdata merge -sparse -o coverage.profdata
-  - llvm-profdata merge -output=code.profdata cov/
+  #- llvm-profdata merge -output=code.profdata cov/
+  - find -type f -name '*.profraw' -exec sh -c 'llvm-profdata merge -sparse "$0" -o "${0%.profraw}.profdata"' {} \;
   - find -type f -name '*.profdata'
   - bash <(curl -s https://codecov.io/bash) -v -X gcov
 

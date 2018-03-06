@@ -202,5 +202,5 @@ after_success:
     esac
   - echo COV_TOOL=$COV_TOOL
   - find $BOOST_ROOT/bin.v2/$PROJECT -print
-  - bash <(curl -s https://codecov.io/bash) -v -x "$COV_TOOL" -a -a -p $BOOST_ROOT/bin.v2/$PROJECT -s `pwd`
+  - bash <(curl -s https://codecov.io/bash) -v -x "$COV_TOOL" -a -a -p $BOOST_ROOT/bin.v2/$PROJECT -s `pwd` -X fix
   - find . -name '*.gcov'

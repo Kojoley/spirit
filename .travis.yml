@@ -45,7 +45,7 @@ env:
     - BOOST_ROOT=$HOME/boost
     - BOOST_BUILD_PATH=$HOME/build-boost
     - TEST_LINK_DEPS=date_time,filesystem,regex,system
-    #- LLVM_PROFILE_FILE=%Nm.profraw
+    - LLVM_PROFILE_FILE=cov/%m.profraw
 
 matrix:
   include:
@@ -136,7 +136,7 @@ before_install:
     feature.feature coverage : off on : optional incidental propagated ;
     toolset.flags gcc.compile OPTIONS <coverage>on : --coverage : unchecked ;
     toolset.flags gcc.link OPTIONS <coverage>on : --coverage : unchecked ; 
-    toolset.flags clang-linux.compile OPTIONS <coverage>on : -fprofile-instr-generate=cov -fcoverage-mapping : unchecked ; 
+    toolset.flags clang-linux.compile OPTIONS <coverage>on : -fprofile-instr-generate -fcoverage-mapping : unchecked ; 
     toolset.flags clang-linux.link OPTIONS <coverage>on : -fprofile-instr-generate : unchecked ; 
 
   - |

@@ -130,15 +130,21 @@ namespace boost { namespace spirit { namespace x3 { namespace detail
 
     template <typename Parser, typename Attribute>
     struct pass_sequence_attribute<Parser, Attribute
-      , typename enable_if_c<(Parser::is_pass_through_unary)>::type>
+      , typename enable_if_c<(Parser::is_pass_through_unary
+          && !traits::is_size_one_sequence<Attribute>::value)>::type>
       : pass_sequence_attribute_subject<Parser, Attribute> {};
+
+    template <typename Parser, typename Attribute, typename Context>
+    constexpr bool is_passing_optional
+        = traits::is_optional<typename traits::attribute_of<Parser, Context>::type>::value
+        && traits::is_optional<typename remove_cv<typename remove_reference<Attribute>::type>::type>::value;
 
     template <typename L, typename R, typename Attribute, typename Context
       , typename Enable = void>
     struct partition_attribute
     {
-        static int const l_size = sequence_size<L, Context>::value;
-        static int const r_size = sequence_size<R, Context>::value;
+        static int const l_size = is_passing_optional<L, typename fusion::result_of::front<Attribute>::type, Context> ? 1 : sequence_size<L, Context>::value;
+        static int const r_size = is_passing_optional<R, typename fusion::result_of::back<Attribute>::type, Context> ? 1 : sequence_size<R, Context>::value;
 
         static int constexpr actual_size = fusion::result_of::size<Attribute>::value;
         static int constexpr expected_size = l_size + r_size;

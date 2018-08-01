@@ -379,6 +379,49 @@ main()
         //~ BOOST_TEST(v.size() == 1 && v[0] == 'a');
     }
 
+    // test optional flatten
+    {
+        typedef vector<int, int, int> attr_type;
+        attr_type attr;
+
+        BOOST_TEST(test_attr("123 456 789", int_ >> -(int_ >> int_), attr, space));
+        BOOST_TEST(attr == attr_type(123, 456, 789));
+
+        BOOST_TEST(test_attr("987 654 321", -(int_ >> int_) >> int_, attr, space));
+        BOOST_TEST(attr == attr_type(987, 654, 321));
+    }
+    {
+        typedef vector<int, int, int, int> attr_type;
+        attr_type attr;
+
+        BOOST_TEST(test_attr("1 2 3 4", -(int_ >> int_) >> -(int_ >> int_), attr, space));
+        BOOST_TEST(attr == attr_type(1, 2, 3, 4));
+    }
+
+    // test optional unflatten
+    {
+        typedef vector<int, boost::optional<vector<int, int>>> attr_type;
+        attr_type attr;
+
+        BOOST_TEST(test_attr("123 456 789", int_ >> -(int_ >> int_), attr, space));
+        BOOST_TEST(attr == attr_type(123, vector<int, int>(456, 789)));
+    }
+    {
+        typedef vector<boost::optional<vector<int, int>>, int> attr_type;
+        attr_type attr;
+
+        BOOST_TEST(test_attr("123 456 789", -(int_ >> int_) >> int_, attr, space));
+        BOOST_TEST(attr == attr_type(vector<int, int>(123, 456), 789));
+    }
+    {
+        typedef boost::optional<vector<int, int>> inner_type;
+        typedef vector<inner_type, inner_type> attr_type;
+        attr_type attr;
+
+        BOOST_TEST(test_attr("1 2 3 4", -(int_ >> int_) >> -(int_ >> int_), attr, space));
+        BOOST_TEST(attr == attr_type(vector<int, int>(1, 2), vector<int, int>(3, 4)));
+    }
+
     // test from spirit mailing list
     // "Optional operator causes string attribute concatenation"
     {

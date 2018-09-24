@@ -24,9 +24,6 @@
 
 namespace boost { namespace spirit { namespace x3 { namespace detail
 {
-    template <typename Attribute, typename Value>
-    struct saver_visitor;
-
     // save to associative fusion container where Key is simple type
     template <typename Key, typename Enable = void>
     struct save_to_assoc_attr
@@ -48,23 +45,11 @@ namespace boost { namespace spirit { namespace x3 { namespace detail
         template <typename Value, typename Attribute>
         static void call(const variant_t key, Value& value, Attribute& attr)
         {
-            apply_visitor(saver_visitor<Attribute, Value>(attr, value), key);
-        }
-    };
-
-    template <typename Attribute, typename Value>
-    struct saver_visitor  : boost::static_visitor<void>
-    {
-        saver_visitor(Attribute& attr, Value& value)
-            : attr(attr), value(value) {};
-
-        Attribute& attr;
-        Value& value;
-
-        template <typename Key>
-        void operator()(Key) const
-        {
-            save_to_assoc_attr<Key>::call(Key(), value,attr);
+            apply_visitor([&value, &attr](auto key_)
+            {
+                using key_type = decltype(key_);
+                save_to_assoc_attr<key_type>::call(key_type(), value, attr);
+            }, key);
         }
     };
 

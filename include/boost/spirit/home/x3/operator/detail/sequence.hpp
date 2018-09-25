@@ -496,64 +496,6 @@ namespace boost { namespace spirit { namespace x3 { namespace detail
           , should_split());
     }
 
-    template <typename Left, typename Right, typename Context, typename RContext>
-    struct parse_into_container_impl<sequence<Left, Right>, Context, RContext>
-    {
-        typedef sequence<Left, Right> parser_type;
-
-        template <typename Iterator, typename Attribute>
-        static bool call(
-            parser_type const& parser
-          , Iterator& first, Iterator const& last
-          , Context const& context, RContext& rcontext, Attribute& attr, mpl::false_)
-        {
-            // inform user what went wrong if we jumped here in attempt to
-            // parse incompatible sequence into fusion::map
-            static_assert(!is_same< typename traits::attribute_category<Attribute>::type,
-                  traits::associative_attribute>::value,
-                  "To parse directly into fusion::map sequence must produce tuple attribute "
-                  "where type of first element is existing key in fusion::map and second element "
-                  "is value to be stored under that key");
-
-            Attribute attr_;
-            if (!parse_sequence(parser
-			       , first, last, context, rcontext, attr_, traits::container_attribute()))
-            {
-                return false;
-            }
-            traits::append(attr, traits::begin(attr_), traits::end(attr_));
-            return true;
-        }
-
-        template <typename Iterator, typename Attribute>
-        static bool call(
-            parser_type const& parser
-          , Iterator& first, Iterator const& last
-          , Context const& context, RContext& rcontext, Attribute& attr, mpl::true_)
-        {
-            return parse_into_container_base_impl<parser_type>::call(
-                parser, first, last, context, rcontext, attr);
-        }
-
-        template <typename Iterator, typename Attribute>
-        static bool call(
-            parser_type const& parser
-          , Iterator& first, Iterator const& last
-          , Context const& context, RContext& rcontext, Attribute& attr)
-        {
-            typedef typename
-                traits::attribute_of<parser_type, Context>::type
-            attribute_type;
-
-            typedef typename
-                traits::container_value<Attribute>::type
-            value_type;
-
-            return call(parser, first, last, context, rcontext, attr
-	        , typename traits::is_substitute<attribute_type, value_type>::type());
-        }
-    };
-
 }}}}
 
 #endif

@@ -21,7 +21,7 @@ local keywords_reqs ;
 if [ os.environ APPVEYOR ]
 {
     # Workaround MSVC codegen bug. See #400 for the info.
-    keywords_reqs = <toolset>msvc-14.1:<inlining>off ;
+    #keywords_reqs = <toolset>msvc-14.1:<inlining>off ;
 }
 
 # bring in rules for testing

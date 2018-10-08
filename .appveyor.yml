@@ -107,6 +107,12 @@ build_script:
 test_script:
   - set B2_ARGS=%B2_ARGS% warnings=on known-warnings=suppress warnings-as-errors=on
   - echo B2 argumets %B2_ARGS%
-  - b2 %B2_ARGS% %PROJECT%\classic\test
-  - b2 %B2_ARGS% %PROJECT%\repository\test
-  - b2 %B2_ARGS% %PROJECT%\test
+  - b2 %B2_ARGS% %PROJECT%\repository\test//qi_repo_keywords
+
+on_failure:
+  - 7z a binaries.zip %BOOST_ROOT%\bin.v2\%PROJECT%
+  - appveyor PushArtifact result_images.zip
+
+artifacts:
+  - path: binaries.zip
+    name: binaries

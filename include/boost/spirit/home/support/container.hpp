@@ -19,7 +19,7 @@
 #include <boost/mpl/has_xxx.hpp>
 #include <boost/mpl/bool.hpp>
 #include <boost/optional/optional_fwd.hpp>
-#include <boost/variant.hpp>
+#include <boost/variant/variant_fwd.hpp>
 #include <boost/preprocessor/cat.hpp>
 #include <boost/preprocessor/repeat.hpp>
 #include <boost/range/iterator_range.hpp>

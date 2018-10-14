@@ -6,7 +6,7 @@
 #if !defined(BOOST_SPIRIT_LEX_TEST_MAR_23_2007_0721PM)
 #define BOOST_SPIRIT_LEX_TEST_MAR_23_2007_0721PM
 
-#include <boost/variant.hpp>
+#include <boost/variant/variant_fwd.hpp>
 #include <boost/range/iterator_range.hpp>
 
 namespace spirit_test

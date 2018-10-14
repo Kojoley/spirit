@@ -19,6 +19,7 @@
 #include <boost/spirit/include/qi_auto.hpp>
 
 #include <boost/optional.hpp>
+#include <boost/variant.hpp>
 
 #include "test.hpp"
 

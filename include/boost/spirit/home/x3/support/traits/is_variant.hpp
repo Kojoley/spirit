@@ -8,7 +8,7 @@
 #if !defined(BOOST_SPIRIT_X3_IS_VARIANT_JAN_10_2012_0823AM)
 #define BOOST_SPIRIT_X3_IS_VARIANT_JAN_10_2012_0823AM
 
-#include <boost/variant.hpp>
+#include <boost/variant/variant_fwd.hpp>
 #include <boost/mpl/has_xxx.hpp>
 #include <boost/mpl/bool.hpp>
 

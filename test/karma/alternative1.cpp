@@ -19,6 +19,7 @@
 #include <boost/spirit/include/karma_auxiliary.hpp>
 
 #include <boost/optional.hpp>
+#include <boost/variant.hpp>
 #include "test.hpp"
 
 using namespace spirit_test;

@@ -12,6 +12,7 @@
 #include <boost/fusion/include/comparison.hpp>
 
 #include <boost/optional.hpp>
+#include <boost/variant.hpp>
 #include <string>
 #include <iostream>
 #include "test.hpp"

@@ -14,6 +14,7 @@
 #include <boost/fusion/include/at.hpp>
 
 #include <boost/optional.hpp>
+#include <boost/variant.hpp>
 #include <string>
 #include <cstring>
 #include <iostream>

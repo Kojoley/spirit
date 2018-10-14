@@ -6,6 +6,7 @@
 #include "auto.hpp"
 
 #include <boost/optional.hpp>
+#include <boost/variant.hpp>
 
 ///////////////////////////////////////////////////////////////////////////////
 int main()

@@ -16,6 +16,8 @@
 
 #include "test.hpp"
 
+#include <boost/variant.hpp>
+
 inline bool check(boost::spirit::utree const& val, std::string expected)
 {
     std::stringstream s;

@@ -14,7 +14,6 @@
 #include <boost/spirit/home/x3/support/traits/variant_has_substitute.hpp>
 #include <boost/spirit/home/x3/support/traits/variant_find_substitute.hpp>
 #include <boost/spirit/home/x3/core/detail/parse_into_container.hpp>
-#include <boost/variant/variant.hpp>
 
 #include <boost/mpl/copy_if.hpp>
 #include <boost/mpl/not.hpp>

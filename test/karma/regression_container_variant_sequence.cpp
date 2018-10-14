@@ -9,6 +9,8 @@
 
 #include <boost/spirit/include/karma.hpp>
 #include <boost/fusion/include/adapt_struct.hpp>
+
+#include <boost/variant.hpp>
 #include <set>
 
 namespace generator

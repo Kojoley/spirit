@@ -43,7 +43,7 @@
 #include <boost/mpl/equal.hpp>
 #include <boost/proto/proto_fwd.hpp>
 #include <boost/utility/enable_if.hpp>
-#include <boost/variant.hpp>
+#include <boost/variant/variant_fwd.hpp>
 #include <boost/range/iterator_range.hpp>
 #include <boost/config.hpp>
 #include <vector>

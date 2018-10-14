@@ -25,7 +25,6 @@ int main()
     using fusion::result_of::as_nview;
     using fusion::at_c;
     using boost::optional;
-    using boost::variant;
     using ascii::space_type;
     using ascii::no_case;
     using qi::lit;

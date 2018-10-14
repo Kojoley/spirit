@@ -20,7 +20,7 @@
 #include <string>
 
 #include <boost/cstdint.hpp>
-#include <boost/variant.hpp>
+#include <boost/variant/variant_fwd.hpp>
 #include <boost/range/iterator_range.hpp>
 #include <boost/mpl/bool.hpp>
 #include <boost/mpl/identity.hpp>

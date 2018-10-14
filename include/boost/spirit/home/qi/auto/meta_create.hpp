@@ -15,7 +15,7 @@
 #include <boost/spirit/home/support/auto/meta_create.hpp>
 
 #include <boost/utility/enable_if.hpp>
-#include <boost/variant.hpp>
+#include <boost/variant/variant_fwd.hpp>
 #include <boost/optional/optional_fwd.hpp>
 #include <boost/config.hpp>
 #include <boost/mpl/and.hpp>

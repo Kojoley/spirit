@@ -10,6 +10,7 @@
 #include <boost/spirit/include/karma_generate.hpp>
 
 #include <boost/predef/other/endian.h>
+#include <boost/optional.hpp>
 
 #include "test.hpp"
 

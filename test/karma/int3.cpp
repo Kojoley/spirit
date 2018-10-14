@@ -23,6 +23,7 @@
 #include <boost/spirit/include/karma_phoenix_attributes.hpp>
 
 #include <boost/limits.hpp>
+#include <boost/optional.hpp>
 #include "test.hpp"
 
 using namespace spirit_test;

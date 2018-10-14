@@ -12,6 +12,7 @@
 #include <boost/detail/lightweight_test.hpp>
 #include <boost/spirit/home/x3.hpp>
 
+#include <boost/optional.hpp>
 #include <string>
 #include <iostream>
 #include "test.hpp"

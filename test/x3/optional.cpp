@@ -9,6 +9,7 @@
 #include <boost/fusion/adapted/struct.hpp>
 #include <boost/fusion/include/vector.hpp>
 
+#include <boost/optional.hpp>
 #include <iostream>
 #include "test.hpp"
 

@@ -13,6 +13,7 @@
 #include <boost/spirit/include/phoenix_operator.hpp>
 
 #include <boost/predef/other/endian.h>
+#include <boost/optional.hpp>
 
 #include "test.hpp"
 

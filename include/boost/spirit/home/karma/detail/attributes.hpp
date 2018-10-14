@@ -32,7 +32,7 @@ namespace boost { namespace spirit { namespace karma
         typedef Transformed const& type;
         static Transformed const& pre(boost::optional<Exposed> const& val)
         {
-            return boost::get<Transformed>(val);
+            return *val;
         }
     };
 

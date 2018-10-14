@@ -17,7 +17,7 @@
 #include <boost/spirit/home/support/attributes_fwd.hpp>
 #include <boost/mpl/has_xxx.hpp>
 #include <boost/mpl/bool.hpp>
-#include <boost/optional.hpp>
+#include <boost/optional/optional_fwd.hpp>
 #include <boost/variant.hpp>
 #include <boost/preprocessor/cat.hpp>
 #include <boost/preprocessor/repeat.hpp>
@@ -247,7 +247,7 @@ namespace boost { namespace spirit { namespace traits
 
         static type call(boost::optional<T> const& val)
         {
-            return boost::get<T>(val);
+            return *val;
         }
 
         static bool is_valid(boost::optional<T> const& val)
@@ -302,7 +302,7 @@ namespace boost { namespace spirit { namespace traits
         {
             if (!c)
                 c = Container();
-            return push_back(boost::get<Container>(c), val);
+            return push_back(*c, val);
         }
     };
 

@@ -10,7 +10,7 @@
 #define BOOST_SPIRIT_X3_OPTIONAL_TRAITS_FEBRUARY_06_2007_1001AM
 
 #include <boost/spirit/home/x3/support/unused.hpp>
-#include <boost/optional/optional.hpp>
+#include <boost/optional/optional_fwd.hpp>
 #include <boost/mpl/identity.hpp>
 
 namespace boost { namespace spirit { namespace x3 { namespace traits

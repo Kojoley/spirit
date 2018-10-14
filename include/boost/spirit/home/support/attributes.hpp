@@ -18,7 +18,8 @@
 #include <boost/spirit/home/support/container.hpp>
 #include <boost/spirit/home/support/detail/hold_any.hpp>
 #include <boost/spirit/home/support/detail/as_variant.hpp>
-#include <boost/optional/optional.hpp>
+#include <boost/optional/optional_fwd.hpp>
+#include <boost/none.hpp>
 #include <boost/fusion/include/transform.hpp>
 #include <boost/fusion/include/filter_if.hpp>
 #include <boost/fusion/include/as_vector.hpp>

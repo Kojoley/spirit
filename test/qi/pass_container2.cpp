@@ -25,6 +25,7 @@
 #include <boost/fusion/include/std_pair.hpp>
 #include <boost/fusion/include/vector.hpp>
 
+#include <boost/optional.hpp>
 #include "test.hpp"
 
 using namespace spirit_test;

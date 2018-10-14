@@ -13,6 +13,7 @@
 #include <boost/spirit/include/qi_directive.hpp>
 #include <boost/spirit/include/qi_nonterminal.hpp>
 #include <boost/fusion/include/nview.hpp>
+#include <boost/optional.hpp>
 
 namespace qi = boost::spirit::qi;
 namespace ascii = boost::spirit::ascii;

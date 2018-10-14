@@ -9,6 +9,7 @@
 
 #include <boost/spirit/include/qi.hpp>
 #include <boost/fusion/tuple.hpp>
+#include <boost/optional.hpp>
 #include <string>
 
 struct foo_parts 

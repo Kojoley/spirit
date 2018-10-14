@@ -22,7 +22,7 @@
 #include <boost/mpl/at.hpp>
 #include <boost/mpl/count_if.hpp>
 #include <boost/utility/enable_if.hpp>
-#include <boost/optional/optional.hpp>
+#include <boost/optional/optional_fwd.hpp>
 #include <boost/type_traits/is_same.hpp>
 
 namespace boost { namespace spirit { namespace x3 { namespace traits

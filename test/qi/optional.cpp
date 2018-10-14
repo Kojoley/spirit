@@ -15,6 +15,7 @@
 #include <boost/spirit/include/phoenix_operator.hpp>
 #include <boost/fusion/adapted/struct.hpp>
 
+#include <boost/optional.hpp>
 #include <iostream>
 #include "test.hpp"
 

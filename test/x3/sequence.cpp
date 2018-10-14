@@ -11,6 +11,7 @@
 #include <boost/fusion/include/at.hpp>
 #include <boost/fusion/include/comparison.hpp>
 
+#include <boost/optional.hpp>
 #include <string>
 #include <iostream>
 #include "test.hpp"

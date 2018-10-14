@@ -13,6 +13,7 @@
 #include <boost/fusion/include/vector.hpp>
 #include <boost/fusion/include/at.hpp>
 
+#include <boost/optional.hpp>
 #include <string>
 #include <cstring>
 #include <iostream>

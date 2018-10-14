@@ -17,7 +17,7 @@
 #include <boost/spirit/home/support/container.hpp>
 
 #include <boost/ref.hpp>
-#include <boost/optional.hpp>
+#include <boost/optional/optional_fwd.hpp>
 
 ///////////////////////////////////////////////////////////////////////////////
 namespace boost { namespace spirit { namespace traits
@@ -92,7 +92,7 @@ namespace boost { namespace spirit { namespace traits
         template <typename Context>
         static type call(boost::optional<Attribute> const& attr, Context& ctx)
         {
-            return extract_from<Exposed>(boost::get<Attribute>(attr), ctx);
+            return extract_from<Exposed>(*attr, ctx);
         }
     };
 
@@ -104,7 +104,7 @@ namespace boost { namespace spirit { namespace traits
         template <typename Context>
         static type call(boost::optional<Attribute const> const& attr, Context& ctx)
         {
-            return extract_from<Exposed>(boost::get<Attribute const>(attr), ctx);
+            return extract_from<Exposed>(*attr, ctx);
         }
     };
 

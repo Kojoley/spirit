@@ -18,6 +18,8 @@
 #include <boost/spirit/include/qi_directive.hpp>
 #include <boost/spirit/include/qi_auto.hpp>
 
+#include <boost/optional.hpp>
+
 #include "test.hpp"
 
 namespace qi = boost::spirit::qi;

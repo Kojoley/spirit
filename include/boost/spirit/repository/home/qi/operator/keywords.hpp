@@ -23,7 +23,6 @@
 #include <boost/fusion/include/at.hpp>
 #include <boost/fusion/include/value_at.hpp>
 #include <boost/fusion/include/mpl.hpp>
-#include <boost/optional.hpp>
 #include <boost/foreach.hpp>
 #include <boost/array.hpp>
 #include <boost/spirit/home/qi/string/symbols.hpp>

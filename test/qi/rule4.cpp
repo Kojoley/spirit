@@ -23,6 +23,7 @@
 #include <boost/spirit/include/phoenix_bind.hpp>
 #include <boost/fusion/include/std_pair.hpp>
 
+#include <boost/optional.hpp>
 #include <string>
 #include <cstring>
 #include <iostream>

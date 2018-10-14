@@ -24,6 +24,7 @@
 #include <boost/spirit/include/phoenix_container.hpp>
 #include <boost/fusion/include/std_pair.hpp>
 
+#include <boost/optional.hpp>
 #include <string>
 #include <iostream>
 #include "test.hpp"

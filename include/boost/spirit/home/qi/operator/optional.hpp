@@ -21,7 +21,6 @@
 #include <boost/spirit/home/qi/parser.hpp>
 #include <boost/spirit/home/qi/meta_compiler.hpp>
 #include <boost/spirit/home/qi/detail/assign_to.hpp>
-#include <boost/optional.hpp>
 #include <vector>
 
 namespace boost { namespace spirit

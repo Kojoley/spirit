@@ -16,7 +16,7 @@
 
 #include <boost/utility/enable_if.hpp>
 #include <boost/variant.hpp>
-#include <boost/optional.hpp>
+#include <boost/optional/optional_fwd.hpp>
 #include <boost/config.hpp>
 #include <boost/mpl/not.hpp>
 #include <boost/mpl/fold.hpp>

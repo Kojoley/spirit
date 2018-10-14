@@ -13,6 +13,7 @@
 #include <boost/spirit/include/karma.hpp>
 #include <boost/spirit/include/support_adapt_adt_attributes.hpp>
 
+#include <boost/optional.hpp>
 #include "test.hpp"
 
 ///////////////////////////////////////////////////////////////////////////////

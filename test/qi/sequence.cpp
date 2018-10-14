@@ -16,6 +16,7 @@
 #include <boost/spirit/include/phoenix_core.hpp>
 #include <boost/spirit/include/phoenix_operator.hpp>
 
+#include <boost/optional.hpp>
 #include <string>
 #include <iostream>
 #include "test.hpp"

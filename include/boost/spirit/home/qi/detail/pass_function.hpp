@@ -12,7 +12,7 @@
 #endif
 
 #include <boost/spirit/home/support/unused.hpp>
-#include <boost/optional.hpp>
+#include <boost/optional/optional_fwd.hpp>
 
 namespace boost { namespace spirit { namespace qi { namespace detail
 {

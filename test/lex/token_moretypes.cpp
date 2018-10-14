@@ -15,6 +15,8 @@
 #include <boost/spirit/include/phoenix_container.hpp>
 #include <boost/spirit/include/qi_numeric.hpp>
 
+#include <boost/optional.hpp>
+
 namespace spirit = boost::spirit;
 namespace lex = boost::spirit::lex;
 namespace phoenix = boost::phoenix;

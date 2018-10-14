@@ -10,6 +10,7 @@
 #include <boost/spirit/include/karma_phoenix_attributes.hpp>
 #include <boost/spirit/include/phoenix_core.hpp>
 #include <boost/spirit/include/phoenix_operator.hpp>
+#include <boost/optional.hpp>
 #include "real.hpp"
 
 ///////////////////////////////////////////////////////////////////////////////

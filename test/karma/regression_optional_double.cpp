@@ -7,6 +7,7 @@
 #include <boost/config/warning_disable.hpp>
 #include <boost/spirit/include/karma.hpp>
 #include <boost/detail/lightweight_test.hpp>
+#include <boost/optional.hpp>
 
 namespace client
 {

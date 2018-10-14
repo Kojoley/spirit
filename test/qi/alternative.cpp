@@ -20,6 +20,7 @@
 #include <boost/spirit/include/phoenix_core.hpp>
 #include <boost/spirit/include/phoenix_operator.hpp>
 #include <boost/fusion/include/adapt_struct.hpp>
+#include <boost/optional.hpp>
 #include <boost/variant.hpp>
 #include <boost/assert.hpp>
 

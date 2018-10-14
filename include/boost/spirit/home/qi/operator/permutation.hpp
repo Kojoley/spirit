@@ -20,7 +20,6 @@
 #include <boost/spirit/home/support/handles_container.hpp>
 #include <boost/spirit/home/support/info.hpp>
 #include <boost/fusion/include/size.hpp>
-#include <boost/optional.hpp>
 #include <boost/array.hpp>
 
 namespace boost { namespace spirit

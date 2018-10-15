@@ -46,21 +46,6 @@ namespace boost { namespace spirit { namespace x3 { namespace traits
             Out& out;
             mutable bool is_first;
         };
-
-        // print elements in a variant
-        template <typename Out>
-        struct print_visitor : static_visitor<>
-        {
-            print_visitor(Out& out) : out(out) {}
-
-            template <typename T>
-            void operator()(T const& val) const
-            {
-                x3::traits::print_attribute(out, val);
-            }
-
-            Out& out;
-        };
     }
 
     template <typename Out, typename T, typename Enable = void>
@@ -114,7 +99,9 @@ namespace boost { namespace spirit { namespace x3 { namespace traits
         template <typename T_>
         static void call(Out& out, T_ const& val, variant_attribute)
         {
-            apply_visitor(detail::print_visitor<Out>(out), val);
+            apply_visitor([&out](auto const& val_) {
+                x3::traits::print_attribute(out, val_);
+            }, val);
         }
 
         // for optional types

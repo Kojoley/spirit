@@ -25,6 +25,7 @@
 #include <boost/utility/enable_if.hpp>
 #include <boost/optional/optional_fwd.hpp>
 #include <boost/type_traits/is_same.hpp>
+#include <boost/type_traits/declval.hpp>
 
 namespace boost { namespace spirit { namespace x3 { namespace traits
 {
@@ -46,6 +47,12 @@ namespace boost { namespace spirit { namespace x3 { namespace traits
               , typename container_value<Attribute>::type>
         {};
 
+        template <typename T, typename Attribute, typename Enable = void>
+        struct is_substitute_impl : mpl::false_ {};
+
+        template <typename T, typename Attribute>
+        struct is_substitute_impl<T, Attribute, decltype(void(std::declval<T&>() = std::declval<Attribute>()))> : mpl::true_ {};
+#if 0
         template <typename T, typename Attribute, typename Enable = void>
         struct is_substitute_impl : is_same<T, Attribute> {};
 
@@ -81,6 +88,7 @@ namespace boost { namespace spirit { namespace x3 { namespace traits
               , variant_has_substitute<Attribute, T>
             >
         {};
+#endif
     }
 
     template <typename T, typename Attribute, typename Enable /*= void*/>

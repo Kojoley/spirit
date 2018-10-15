@@ -174,9 +174,12 @@ namespace boost { namespace spirit { namespace x3 { namespace detail
 
         template <template <typename...> class F>
         using transfer = F<T...>;
+
+        template <typename U, template <typename...> class F>
+        using if_empty_else_transfer = F<T...>;
     };
 
-    /*template <>
+    template <>
     struct type_pack<>
     {
         static const std::size_t size = 0;
@@ -184,8 +187,12 @@ namespace boost { namespace spirit { namespace x3 { namespace detail
         template <typename... T>
         using append = type_pack<T...>;
 
+        template <template <typename...> class F>
+        using transfer = F<>;
 
-    };*/
+        template <typename T, template <typename...> class F>
+        using if_empty_else_transfer = T;
+    };
 
     template <typename T>
     struct if_not_unused
@@ -235,15 +242,7 @@ namespace boost { namespace spirit { namespace x3 { namespace detail
     {
         // Get all alternative attribute types
         using asd = typename get_alternative_types<L, R, C>::template append_to<type_pack<>>;
-
-        // Build a variant if filtered_types is not empty,
-        // else just return unused_type
-        typedef typename
-            mpl::if_c<asd::size == 0
-              , unused_type
-              , typename asd::template transfer<variant>
-            >::type
-        type;
+        using type = typename asd::template if_empty_else_transfer<unused_type, variant>;
     };
 
     template <typename IsAlternative>

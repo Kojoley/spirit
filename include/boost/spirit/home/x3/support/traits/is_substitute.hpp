@@ -14,6 +14,7 @@
 #include <boost/fusion/include/value_at_key.hpp>
 #include <boost/fusion/adapted/mpl.hpp>
 #include <boost/mpl/placeholders.hpp>
+#include <boost/mpl/eval_if.hpp>
 #include <boost/mpl/equal.hpp>
 #include <boost/mpl/apply.hpp>
 #include <boost/mpl/filter_view.hpp>

@@ -9,6 +9,13 @@
 #define BOOST_SPIRIT_X3_VARIANT_HAS_SUBSTITUTE_APR_18_2014_925AM
 
 #include <boost/spirit/home/x3/support/traits/is_substitute.hpp>
+#include <boost/mpl/bool.hpp>
+#include <boost/mpl/end.hpp>
+#include <boost/mpl/eval_if.hpp>
+#include <boost/mpl/find_if.hpp>
+#include <boost/mpl/identity.hpp>
+#include <boost/mpl/not.hpp>
+#include <boost/type_traits/is_same.hpp>
 
 namespace boost { namespace spirit { namespace x3 { namespace traits
 {

@@ -164,59 +164,84 @@ namespace boost { namespace spirit { namespace x3 { namespace detail
         typedef typename mpl::true_ is_alternative;
     };
 
+    template <typename... T>
+    struct type_pack
+    {
+        static const std::size_t size = sizeof...(T);
+
+        template <typename... U>
+        using append = type_pack<T..., U...>;
+
+        template <template <typename...> class F>
+        using transfer = F<T...>;
+    };
+
+    /*template <>
+    struct type_pack<>
+    {
+        static const std::size_t size = 0;
+
+        template <typename... T>
+        using append = type_pack<T...>;
+
+
+    };*/
+
+    template <typename T>
+    struct if_not_unused
+    {
+        template <typename TypePack>
+        using append_to = typename TypePack::template append<T>;
+    };
+
+    template <>
+    struct if_not_unused<unused_type>
+    {
+        template <typename TypePack>
+        using append_to = TypePack;
+    };
+
     template <typename L, typename R, typename C>
     struct get_alternative_types
     {
-        typedef
-            mpl::vector<
-                typename traits::attribute_of<L, C>::type
-              , typename traits::attribute_of<R, C>::type
-            >
-        type;
+        template <typename TypePack>
+        //using append_to = typename TypePack::template append<typename traits::attribute_of<L, C>::type, typename traits::attribute_of<R, C>::type>;
+        using append_to = typename if_not_unused<typename traits::attribute_of<R, C>::type>::template append_to<typename if_not_unused<typename traits::attribute_of<L, C>::type>::template append_to<TypePack>>;
     };
 
     template <typename LL, typename LR, typename R, typename C>
     struct get_alternative_types<alternative<LL, LR>, R, C>
-        : mpl::push_back< typename get_alternative_types<LL, LR, C>::type
-                        , typename traits::attribute_of<R, C>::type> {};
+    {
+        template <typename TypePack>
+        using append_to = typename get_alternative_types<LL, LR, C>::template append_to<TypePack>::template append<typename traits::attribute_of<R, C>::type>;
+    };
 
     template <typename L, typename RL, typename RR, typename C>
     struct get_alternative_types<L, alternative<RL, RR>, C>
-        : mpl::push_front< typename get_alternative_types<RL, RR, C>::type
-                         , typename traits::attribute_of<L, C>::type> {};
+    {
+        template <typename TypePack>
+        using append_to = typename get_alternative_types<RL, RR, C>::template append_to<TypePack::template append<typename traits::attribute_of<L, C>::type>>;
+    };
 
     template <typename LL, typename LR, typename RL, typename RR, typename C>
     struct get_alternative_types<alternative<LL, LR>, alternative<RL, RR>, C>
     {
-        typedef typename get_alternative_types<LL, LR, C>::type left;
-        typedef typename get_alternative_types<RL, RR, C>::type right;
-        typedef typename
-            mpl::insert_range<left, typename mpl::end<left>::type, right>::type
-        type;
+        template <typename TypePack>
+        using append_to = typename get_alternative_types<RL, RR, C>::template append_to<get_alternative_types<LL, LR, C>::template append_to<TypePack>>;
     };
 
     template <typename L, typename R, typename C>
     struct attribute_of_alternative
     {
         // Get all alternative attribute types
-        typedef typename get_alternative_types<L, R, C>::type all_types;
-
-        // Filter all unused_types
-        typedef typename
-            mpl::copy_if<
-                all_types
-              , mpl::not_<is_same<mpl::_1, unused_type>>
-              , mpl::back_inserter<mpl::vector<>>
-            >::type
-        filtered_types;
+        using asd = typename get_alternative_types<L, R, C>::template append_to<type_pack<>>;
 
         // Build a variant if filtered_types is not empty,
         // else just return unused_type
         typedef typename
-            mpl::eval_if<
-                mpl::empty<filtered_types>
-              , mpl::identity<unused_type>
-              , make_variant_over<filtered_types>
+            mpl::if_c<asd::size == 0
+              , unused_type
+              , typename asd::template transfer<variant>
             >::type
         type;
     };

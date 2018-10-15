@@ -16,33 +16,14 @@
 #include <boost/mpl/identity.hpp>
 #include <boost/mpl/not.hpp>
 #include <boost/type_traits/is_same.hpp>
+#include <boost/type_traits/declval.hpp>
 
 namespace boost { namespace spirit { namespace x3 { namespace traits
 {
+    template <typename Variant, typename Attribute, typename Enabled = void>
+    struct variant_has_substitute_impl : mpl::false_ {};
     template <typename Variant, typename Attribute>
-    struct variant_has_substitute_impl
-    {
-        // Find a type from the variant that can be a substitute for Attribute.
-        // return true_ if one is found, else false_
-
-        typedef Variant variant_type;
-        typedef typename variant_type::types types;
-        typedef typename mpl::end<types>::type end;
-
-        typedef typename
-            mpl::find_if<types, is_same<mpl::_1, Attribute>>::type
-        iter_1;
-
-        typedef typename
-            mpl::eval_if<
-                is_same<iter_1, end>,
-                mpl::find_if<types, traits::is_substitute<mpl::_1, Attribute>>,
-                mpl::identity<iter_1>
-            >::type
-        iter;
-
-        typedef mpl::not_<is_same<iter, end>> type;
-    };
+    struct variant_has_substitute_impl<Variant, Attribute, decltype(void(Variant{boost::declval<Attribute>()}))> : mpl::true_ {};
 
     template <typename Variant, typename Attribute>
     struct variant_has_substitute

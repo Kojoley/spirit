@@ -13,7 +13,6 @@
 
 #include <boost/assert.hpp>
 #include <boost/config.hpp>
-#include <boost/function.hpp>
 #include <boost/mpl/vector.hpp>
 #include <boost/type_traits/add_reference.hpp>
 #include <boost/type_traits/is_same.hpp>
@@ -37,6 +36,14 @@
 #include <boost/spirit/home/qi/nonterminal/detail/parser_binder.hpp>
 #include <boost/spirit/home/qi/nonterminal/nonterminal_fwd.hpp>
 #include <boost/spirit/home/qi/skip_over.hpp>
+
+#ifdef BOOST_NO_CXX11_HDR_FUNCTIONAL
+#  include <boost/function.hpp>
+#  define BOOST_SPIRIT_FUNCTION_NS ::boost
+#else
+#  include <functional>
+#  define BOOST_SPIRIT_FUNCTION_NS ::std
+#endif
 
 #if defined(BOOST_MSVC)
 # pragma warning(push)
@@ -140,7 +147,7 @@ namespace boost { namespace spirit { namespace qi
           , locals_type>
         context_type;
 
-        typedef function<
+        typedef BOOST_SPIRIT_FUNCTION_NS::function<
             bool(Iterator& first, Iterator const& last
               , context_type& context
               , skipper_type const& skipper
@@ -436,5 +443,7 @@ namespace boost { namespace spirit { namespace traits
 #if defined(BOOST_MSVC)
 # pragma warning(pop)
 #endif
+
+#undef BOOST_SPIRIT_FUNCTION_NS
 
 #endif

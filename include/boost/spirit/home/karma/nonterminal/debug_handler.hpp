@@ -11,14 +11,22 @@
 #pragma once
 #endif
 
+#include <boost/config.hpp>
 #include <boost/spirit/home/support/unused.hpp>
 #include <boost/spirit/home/karma/nonterminal/rule.hpp>
 #include <boost/spirit/home/karma/nonterminal/debug_handler_state.hpp>
-#include <boost/function.hpp>
 #include <boost/fusion/include/at.hpp>
 #include <boost/fusion/include/vector.hpp>
 #include <boost/fusion/include/out.hpp>
 #include <iostream>
+
+#ifdef BOOST_NO_CXX11_HDR_FUNCTIONAL
+#  include <boost/function.hpp>
+#  define BOOST_SPIRIT_FUNCTION_NS ::boost
+#else
+#  include <functional>
+#  define BOOST_SPIRIT_FUNCTION_NS ::std
+#endif
 
 namespace boost { namespace spirit { namespace karma
 {
@@ -31,7 +39,8 @@ namespace boost { namespace spirit { namespace karma
             output_iterator;
         typedef detail::enable_buffering<output_iterator> buffer_type;
 
-        typedef function<bool(output_iterator&, Context&, Delimiter const&)>
+        typedef BOOST_SPIRIT_FUNCTION_NS::function<
+                bool(output_iterator&, Context&, Delimiter const&)>
             function_type;
 
         debug_handler(function_type subject, F f, std::string const& rule_name)
@@ -130,5 +139,7 @@ namespace boost { namespace spirit { namespace karma
     #define BOOST_SPIRIT_DEBUG_NODE(r)  r.name(#r);
   #endif
 #endif
+
+#undef BOOST_SPIRIT_FUNCTION_NS
 
 #endif

@@ -13,7 +13,6 @@
 
 #include <boost/assert.hpp>
 #include <boost/config.hpp>
-#include <boost/function.hpp>
 #include <boost/mpl/vector.hpp>
 #include <boost/type_traits/add_const.hpp>
 #include <boost/type_traits/add_reference.hpp>
@@ -39,6 +38,14 @@
 #include <boost/spirit/home/karma/nonterminal/nonterminal_fwd.hpp>
 #include <boost/spirit/home/karma/nonterminal/detail/generator_binder.hpp>
 #include <boost/spirit/home/karma/nonterminal/detail/parameterized.hpp>
+
+#ifdef BOOST_NO_CXX11_HDR_FUNCTIONAL
+#  include <boost/function.hpp>
+#  define BOOST_SPIRIT_FUNCTION_NS ::boost
+#else
+#  include <functional>
+#  define BOOST_SPIRIT_FUNCTION_NS ::std
+#endif
 
 #if defined(BOOST_MSVC)
 # pragma warning(push)
@@ -152,7 +159,7 @@ namespace boost { namespace spirit { namespace karma
           , locals_type>
         context_type;
 
-        typedef function<
+        typedef BOOST_SPIRIT_FUNCTION_NS::function<
             bool(output_iterator&, context_type&, delimiter_type const&)>
         function_type;
 
@@ -444,5 +451,7 @@ namespace boost { namespace spirit { namespace traits
 #if defined(BOOST_MSVC)
 # pragma warning(pop)
 #endif
+
+#undef BOOST_SPIRIT_FUNCTION_NS
 
 #endif

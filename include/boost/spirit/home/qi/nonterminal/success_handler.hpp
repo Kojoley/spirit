@@ -11,8 +11,16 @@
 #pragma once
 #endif
 
+#include <boost/config.hpp>
 #include <boost/spirit/home/qi/nonterminal/rule.hpp>
-#include <boost/function.hpp>
+
+#ifdef BOOST_NO_CXX11_HDR_FUNCTIONAL
+#  include <boost/function.hpp>
+#  define BOOST_SPIRIT_FUNCTION_NS ::boost
+#else
+#  include <functional>
+#  define BOOST_SPIRIT_FUNCTION_NS ::std
+#endif
 
 namespace boost { namespace spirit { namespace qi
 {
@@ -22,7 +30,7 @@ namespace boost { namespace spirit { namespace qi
     >
     struct success_handler
     {
-        typedef function<
+        typedef BOOST_SPIRIT_FUNCTION_NS::function<
             bool(Iterator& first, Iterator const& last
               , Context& context
               , Skipper const& skipper
@@ -79,5 +87,7 @@ namespace boost { namespace spirit { namespace qi
         r.f = success_handler(r.f, f);
     }
 }}}
+
+#undef BOOST_SPIRIT_FUNCTION_NS
 
 #endif

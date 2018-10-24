@@ -15,6 +15,14 @@
 #include <boost/function.hpp>
 #include <vector>
 
+#ifdef BOOST_NO_CXX11_HDR_FUNCTIONAL
+#  include <boost/function.hpp>
+#  define BOOST_SPIRIT_FUNCTION_NS ::boost
+#else
+#  include <functional>
+#  define BOOST_SPIRIT_FUNCTION_NS ::std
+#endif
+
 namespace boost { namespace spirit { namespace lex { namespace lexertl
 { 
     namespace detail
@@ -32,7 +40,8 @@ namespace boost { namespace spirit { namespace lex { namespace lexertl
         {
             typedef void functor_type(Iterator&, Iterator&
               , BOOST_SCOPED_ENUM(pass_flags)&, std::size_t&, Data&);
-            typedef boost::function<functor_type> functor_wrapper_type;
+            typedef BOOST_SPIRIT_FUNCTION_NS::function<functor_type>
+                functor_wrapper_type;
 
             // add a semantic action function object
             template <typename F>
@@ -117,5 +126,7 @@ namespace boost { namespace spirit { namespace lex { namespace lexertl
     }
 
 }}}}
+
+#undef BOOST_SPIRIT_FUNCTION_NS
 
 #endif

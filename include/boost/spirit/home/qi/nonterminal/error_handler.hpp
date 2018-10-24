@@ -11,11 +11,19 @@
 #pragma once
 #endif
 
+#include <boost/config.hpp>
 #include <boost/spirit/home/qi/operator/expect.hpp>
 #include <boost/spirit/home/qi/nonterminal/rule.hpp>
 #include <boost/spirit/home/support/multi_pass_wrapper.hpp>
-#include <boost/function.hpp>
 #include <boost/assert.hpp>
+
+#ifdef BOOST_NO_CXX11_HDR_FUNCTIONAL
+#  include <boost/function.hpp>
+#  define BOOST_SPIRIT_FUNCTION_NS ::boost
+#else
+#  include <functional>
+#  define BOOST_SPIRIT_FUNCTION_NS ::std
+#endif
 
 namespace boost { namespace spirit { namespace qi
 {
@@ -69,7 +77,7 @@ namespace boost { namespace spirit { namespace qi
     >
     struct error_handler
     {
-        typedef function<
+        typedef BOOST_SPIRIT_FUNCTION_NS::function<
             bool(Iterator& first, Iterator const& last
               , Context& context
               , Skipper const& skipper
@@ -172,5 +180,7 @@ namespace boost { namespace spirit { namespace qi
         on_error<fail>(r, f);
     }
 }}}
+
+#undef BOOST_SPIRIT_FUNCTION_NS
 
 #endif

@@ -19,7 +19,6 @@
 #include <boost/spirit/home/support/detail/hold_any.hpp>
 #include <boost/spirit/home/support/detail/as_variant.hpp>
 #include <boost/optional/optional_fwd.hpp>
-#include <boost/none.hpp>
 #include <boost/fusion/include/transform.hpp>
 #include <boost/fusion/include/filter_if.hpp>
 #include <boost/fusion/include/as_vector.hpp>
@@ -1163,8 +1162,7 @@ namespace boost { namespace spirit { namespace traits
     {
         static void call(boost::optional<T>& val)
         {
-            if (val)
-                val = none;   // leave optional uninitialized
+            val.reset();   // leave optional uninitialized
         }
     };
 

@@ -11,6 +11,9 @@
 #include <boost/spirit/home/support/attributes_fwd.hpp>
 #include <boost/spirit/home/support/attributes.hpp>
 
+#include <boost/type_traits/is_same.hpp>
+#include <boost/static_assert.hpp>
+
 ///////////////////////////////////////////////////////////////////////////////
 namespace boost { namespace spirit { namespace karma
 {
@@ -32,6 +35,7 @@ namespace boost { namespace spirit { namespace karma
         typedef Transformed const& type;
         static Transformed const& pre(boost::optional<Exposed> const& val)
         {
+            BOOST_STATIC_ASSERT((is_same<Exposed const, Transformed const>::value));
             return *val;
         }
     };

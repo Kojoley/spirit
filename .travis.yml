@@ -15,9 +15,10 @@ addon_shortcuts:
     apt:
       sources:
         - llvm-toolchain-trusty-5.0
+        - ubuntu-toolchain-r-test
       packages:
         - clang-5.0
-        - libc++-dev
+        - libstdc++-7-dev
 
   gcc6: &gcc6
     apt:
@@ -87,7 +88,6 @@ cache: ccache
 before_install:
   - export CACHE_NAME=$TRAVIS_OS_NAME-$TOOLSET-$STD-$JOB
   - export PATH=$BOOST_ROOT:$PATH
-  - if [[ "$TOOLSET" =~ ^clang- ]]; then export STDLIB=stdlib=libc++ ; fi
   - |
     # Creating ~/user-config.jam file
     sed 's/^  //' > ~/user-config.jam << 'EOF'

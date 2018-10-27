@@ -12,8 +12,6 @@
 #pragma once
 #endif
 
-#include <boost/ref.hpp>
-
 #include <boost/spirit/home/support/handles_container.hpp>
 #include <boost/spirit/home/qi/parser.hpp>
 
@@ -45,18 +43,22 @@ namespace boost { namespace spirit { namespace qi
         {
             // Forward to subject, passing the additional
             // params argument to parse.
-            return ref.get().parse(first, last, context, skipper, attr_, params);
+            return ref.parse(first, last, context, skipper, attr_, params);
         }
 
         template <typename Context>
         info what(Context& context) const
         {
             // Forward to subject.
-            return ref.get().what(context);
+            return ref.what(context);
         }
 
-        boost::reference_wrapper<Subject const> ref;
+        Subject const& ref;
         Params params;
+
+    private:
+        // silence MSVC warning C4512: assignment operator could not be generated
+        parameterized_nonterminal& operator= (parameterized_nonterminal const&);
     };
 }}}
 

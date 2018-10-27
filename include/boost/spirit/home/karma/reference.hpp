@@ -16,7 +16,6 @@
 #include <boost/spirit/home/support/info.hpp>
 #include <boost/spirit/home/support/handles_container.hpp>
 #include <boost/type_traits/remove_const.hpp>
-#include <boost/ref.hpp>
 
 namespace boost { namespace spirit { namespace karma
 {
@@ -43,7 +42,7 @@ namespace boost { namespace spirit { namespace karma
         bool generate(OutputIterator& sink, Context& context
           , Delimiter const& delim, Attribute const& attr) const
         {
-            return ref.get().generate(sink, context, delim, attr);
+            return ref.generate(sink, context, delim, attr);
         }
 
         // This overload gets called from an aliased rule only, we take the 
@@ -53,7 +52,7 @@ namespace boost { namespace spirit { namespace karma
         bool generate(OutputIterator& sink, Context& context
           , Delimiter const& delim, unused_type) const
         {
-            return ref.get().generate(sink, context, delim, context.attributes);
+            return ref.generate(sink, context, delim, context.attributes);
         }
 
         // This overload is used whenever no attribute is given and it is used
@@ -62,17 +61,21 @@ namespace boost { namespace spirit { namespace karma
         bool generate(OutputIterator& sink, unused_type
           , Delimiter const& delim, unused_type) const
         {
-            return ref.get().generate(sink, unused, delim, unused);
+            return ref.generate(sink, unused, delim, unused);
         }
 
         template <typename Context>
         info what(Context& context) const
         {
             // the reference is transparent (does not add any info)
-            return ref.get().what(context);
+            return ref.what(context);
         }
 
-        boost::reference_wrapper<Subject> ref;
+        Subject& ref;
+
+    private:
+        // silence MSVC warning C4512: assignment operator could not be generated
+        reference& operator= (reference const&);
     };
 }}}
 

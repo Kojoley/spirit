@@ -39,13 +39,13 @@ namespace boost { namespace spirit { namespace lex
         void collect(LexerDef& lexdef, String const& state
           , String const& targetstate) const
         {
-            this->ref.get().collect(lexdef, state, targetstate);
+            this->ref.collect(lexdef, state, targetstate);
         }
 
         template <typename LexerDef>
         void add_actions(LexerDef& lexdef) const 
         {
-            this->ref.get().add_actions(lexdef);
+            this->ref.add_actions(lexdef);
         }
     };
 
@@ -57,15 +57,15 @@ namespace boost { namespace spirit { namespace lex
 
         IdType id() const 
         { 
-            return this->ref.get().id(); 
+            return this->ref.id(); 
         }
         std::size_t unique_id() const 
         { 
-            return this->ref.get().unique_id(); 
+            return this->ref.unique_id(); 
         }
         std::size_t state() const 
         { 
-            return this->ref.get().state(); 
+            return this->ref.state(); 
         }
     };
 }}}

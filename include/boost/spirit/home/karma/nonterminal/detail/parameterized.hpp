@@ -12,8 +12,6 @@
 #pragma once
 #endif
 
-#include <boost/ref.hpp>
-
 #include <boost/spirit/home/support/handles_container.hpp>
 #include <boost/spirit/home/karma/generator.hpp>
 
@@ -46,18 +44,22 @@ namespace boost { namespace spirit { namespace karma
         {
             // Forward to subject, passing the additional
             // params argument to generate.
-            return ref.get().generate(sink, context, delim, attr, params);
+            return ref.generate(sink, context, delim, attr, params);
         }
 
         template <typename Context>
         info what(Context& context) const
         {
             // Forward to subject.
-            return ref.get().what(context);
+            return ref.what(context);
         }
 
-        boost::reference_wrapper<Subject const> ref;
+        Subject const& ref;
         Params params;
+
+    private:
+        // silence MSVC warning C4512: assignment operator could not be generated
+        parameterized_nonterminal& operator= (parameterized_nonterminal const&);
     };
 }}}
 

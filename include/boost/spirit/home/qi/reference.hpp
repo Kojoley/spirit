@@ -16,7 +16,6 @@
 #include <boost/spirit/home/support/info.hpp>
 #include <boost/spirit/home/support/handles_container.hpp>
 #include <boost/type_traits/remove_const.hpp>
-#include <boost/ref.hpp>
 
 namespace boost { namespace spirit { namespace qi
 {
@@ -40,17 +39,21 @@ namespace boost { namespace spirit { namespace qi
           , Context& context, Skipper const& skipper
           , Attribute& attr_) const
         {
-            return ref.get().parse(first, last, context, skipper, attr_);
+            return ref.parse(first, last, context, skipper, attr_);
         }
 
         template <typename Context>
         info what(Context& context) const
         {
             // the reference is transparent (does not add any info)
-            return ref.get().what(context);
+            return ref.what(context);
         }
 
-        boost::reference_wrapper<Subject> ref;
+        Subject& ref;
+
+    private:
+        // silence MSVC warning C4512: assignment operator could not be generated
+        reference& operator= (reference const&);
     };
 }}}
 

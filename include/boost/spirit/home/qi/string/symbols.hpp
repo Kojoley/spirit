@@ -410,7 +410,7 @@ public:
 
         result_type operator()(reference_ ref, unused_type) const
         {
-            return result_type(ref.ref.get());
+            return result_type(ref.ref);
         }
     };
 }}}

@@ -104,7 +104,7 @@ namespace boost { namespace spirit { namespace qi
 
         // bring in the operator() overloads
         start_type const& get_parameterized_subject() const
-        { return this->proto_base().child0.ref.get(); }
+        { return this->proto_base().child0.ref; }
         typedef start_type parameterized_subject_type;
         #include <boost/spirit/home/qi/nonterminal/detail/fcall.hpp>
 

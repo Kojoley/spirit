@@ -109,19 +109,21 @@ compare(T n, double expected)
 // A custom real type
 struct custom_real
 {
-    double n;
     custom_real() : n(0) {}
-    custom_real(double n_) : n(n_) {}
+    explicit custom_real(int n_) : n(n_) {}
     friend bool operator==(custom_real a, custom_real b) 
         { return a.n == b.n; }
-    friend bool operator==(custom_real a, double b) 
-        { return a.n == b; }
     friend custom_real operator*(custom_real a, custom_real b) 
         { return custom_real(a.n * b.n); }
     friend custom_real operator+(custom_real a, custom_real b) 
         { return custom_real(a.n + b.n); }
     friend custom_real operator-(custom_real a, custom_real b) 
         { return custom_real(a.n - b.n); }
+
+private:
+    explicit custom_real(double n_) : n(n_) {}
+
+    double n;
 };
 
 #endif

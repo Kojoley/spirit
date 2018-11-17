@@ -133,7 +133,7 @@ before_install:
     toolset.flags clang-linux.link OPTIONS <sanitize>address : -fsanitize=address -fsanitize-address-use-after-scope : unchecked ;
     # UBSAN
     toolset.flags gcc.compile OPTIONS <sanitize>undefined : -fsanitize=undefined -fno-sanitize-recover=undefined : unchecked ;
-    toolset.flags gcc.link OPTIONS <sanitize>undefined : -fsanitize=undefined : unchecked ;
+    toolset.flags gcc.link OPTIONS <sanitize>undefined : -fsanitize=undefined <ld>gold : unchecked ;
     toolset.flags clang-linux.compile OPTIONS <sanitize>undefined : -fsanitize=undefined -fno-sanitize-recover=undefined : unchecked ;
     toolset.flags clang-linux.link OPTIONS <sanitize>undefined : -fsanitize=undefined : unchecked ;
 

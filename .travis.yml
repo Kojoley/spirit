@@ -120,22 +120,19 @@ before_install:
         -Wno-uninitialized -Wno-invalid-source-encoding : unchecked ;
 
     # LD
-    feature.feature ld : : free optional ;
+    #feature.feature ld : : free optional ;
     #local ld = [ feature.values <ld> ] ;
-    toolset.flags gcc.link OPTIONS <ld> : -fuse-ld=<ld> : unchecked ;
+    #toolset.flags gcc.link OPTIONS <ld> : -fuse-ld=$(ld) : unchecked ;
 
     # Sanitizers
-    feature.feature sanitize : no address undefined : propagated optional implicit ;
-    # ASAN
-    toolset.flags gcc.compile OPTIONS <sanitize>address : -fsanitize=address -fsanitize-address-use-after-scope : unchecked ;
-    toolset.flags gcc.link OPTIONS <sanitize>address : -fsanitize=address -fsanitize-address-use-after-scope <ld>gold : unchecked ;
-    toolset.flags clang-linux.compile OPTIONS <sanitize>address : -fsanitize=address -fsanitize-address-use-after-scope : unchecked ;
-    toolset.flags clang-linux.link OPTIONS <sanitize>address : -fsanitize=address -fsanitize-address-use-after-scope : unchecked ;
-    # UBSAN
-    toolset.flags gcc.compile OPTIONS <sanitize>undefined : -fsanitize=undefined -fno-sanitize-recover=undefined : unchecked ;
-    toolset.flags gcc.link OPTIONS <sanitize>undefined : -fsanitize=undefined <ld>gold : unchecked ;
-    toolset.flags clang-linux.compile OPTIONS <sanitize>undefined : -fsanitize=undefined -fno-sanitize-recover=undefined : unchecked ;
-    toolset.flags clang-linux.link OPTIONS <sanitize>undefined : -fsanitize=undefined : unchecked ;
+    feature.feature sanitize : address undefined : propagated optional implicit ;
+    for local sanitizer in [ feature.values <sanitize> ]
+    {
+        toolset.flags gcc.compile OPTIONS <sanitize>$(sanitizer) : -fsanitize=$(sanitizer) : unchecked ;
+        toolset.flags gcc.link OPTIONS <sanitize>$(sanitizer) : -fsanitize=$(sanitizer) : unchecked ;
+        toolset.flags clang-linux.compile OPTIONS <sanitize>$(sanitizer) : -fsanitize=$(sanitizer) : unchecked ;
+        toolset.flags clang-linux.link OPTIONS <sanitize>$(sanitizer) : -fsanitize=$(sanitizer) : unchecked ;
+    }
 
   - |
     # Determining the root branch
@@ -187,4 +184,3 @@ script:
       toolset=$TOOLSET cxxstd=$STD
       warnings=on known-warnings=suppress warnings-as-errors=on
       sanitize=undefined debug-symbols=on inlining=off cxxflags="-fno-omit-frame-pointer -fno-optimize-sibling-calls"
-      ld=gold

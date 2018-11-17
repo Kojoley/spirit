@@ -15,7 +15,7 @@
 #include <boost/spirit/home/qi/nonterminal/rule.hpp>
 #include <boost/spirit/home/qi/nonterminal/debug_handler_state.hpp>
 #include <boost/spirit/home/qi/detail/expectation_failure.hpp>
-#include <boost/function.hpp>
+#include <boost/spirit/home/support/compat/function.hpp>
 #include <boost/fusion/include/at.hpp>
 #include <boost/fusion/include/vector.hpp>
 #include <boost/fusion/include/out.hpp>
@@ -28,7 +28,7 @@ namespace boost { namespace spirit { namespace qi
       , typename Skipper, typename F>
     struct debug_handler
     {
-        typedef function<
+        typedef compat::function<
             bool(Iterator& first, Iterator const& last
               , Context& context
               , Skipper const& skipper

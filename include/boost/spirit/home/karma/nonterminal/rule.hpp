@@ -13,7 +13,6 @@
 
 #include <boost/assert.hpp>
 #include <boost/config.hpp>
-#include <boost/function.hpp>
 #include <boost/mpl/vector.hpp>
 #include <boost/type_traits/add_const.hpp>
 #include <boost/type_traits/add_reference.hpp>
@@ -39,6 +38,7 @@
 #include <boost/spirit/home/karma/nonterminal/nonterminal_fwd.hpp>
 #include <boost/spirit/home/karma/nonterminal/detail/generator_binder.hpp>
 #include <boost/spirit/home/karma/nonterminal/detail/parameterized.hpp>
+#include <boost/spirit/home/support/compat/function.hpp>
 
 #if defined(BOOST_MSVC)
 # pragma warning(push)
@@ -152,7 +152,7 @@ namespace boost { namespace spirit { namespace karma
           , locals_type>
         context_type;
 
-        typedef function<
+        typedef compat::function<
             bool(output_iterator&, context_type&, delimiter_type const&)>
         function_type;
 

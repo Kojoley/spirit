@@ -14,7 +14,7 @@
 #include <boost/spirit/home/qi/operator/expect.hpp>
 #include <boost/spirit/home/qi/nonterminal/rule.hpp>
 #include <boost/spirit/home/support/multi_pass_wrapper.hpp>
-#include <boost/function.hpp>
+#include <boost/spirit/home/support/compat/function.hpp>
 #include <boost/assert.hpp>
 
 namespace boost { namespace spirit { namespace qi
@@ -69,7 +69,7 @@ namespace boost { namespace spirit { namespace qi
     >
     struct error_handler
     {
-        typedef function<
+        typedef compat::function<
             bool(Iterator& first, Iterator const& last
               , Context& context
               , Skipper const& skipper

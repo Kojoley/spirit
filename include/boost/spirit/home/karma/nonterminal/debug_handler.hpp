@@ -14,7 +14,7 @@
 #include <boost/spirit/home/support/unused.hpp>
 #include <boost/spirit/home/karma/nonterminal/rule.hpp>
 #include <boost/spirit/home/karma/nonterminal/debug_handler_state.hpp>
-#include <boost/function.hpp>
+#include <boost/spirit/home/support/compat/function.hpp>
 #include <boost/fusion/include/at.hpp>
 #include <boost/fusion/include/vector.hpp>
 #include <boost/fusion/include/out.hpp>
@@ -31,7 +31,8 @@ namespace boost { namespace spirit { namespace karma
             output_iterator;
         typedef detail::enable_buffering<output_iterator> buffer_type;
 
-        typedef function<bool(output_iterator&, Context&, Delimiter const&)>
+        typedef compat::function<
+                bool(output_iterator&, Context&, Delimiter const&)>
             function_type;
 
         debug_handler(function_type subject, F f, std::string const& rule_name)

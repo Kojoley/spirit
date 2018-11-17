@@ -13,7 +13,6 @@
 
 #include <boost/assert.hpp>
 #include <boost/config.hpp>
-#include <boost/function.hpp>
 #include <boost/mpl/vector.hpp>
 #include <boost/type_traits/add_reference.hpp>
 #include <boost/type_traits/is_same.hpp>
@@ -37,6 +36,7 @@
 #include <boost/spirit/home/qi/nonterminal/detail/parser_binder.hpp>
 #include <boost/spirit/home/qi/nonterminal/nonterminal_fwd.hpp>
 #include <boost/spirit/home/qi/skip_over.hpp>
+#include <boost/spirit/home/support/compat/function.hpp>
 
 #if defined(BOOST_MSVC)
 # pragma warning(push)
@@ -140,7 +140,7 @@ namespace boost { namespace spirit { namespace qi
           , locals_type>
         context_type;
 
-        typedef function<
+        typedef compat::function<
             bool(Iterator& first, Iterator const& last
               , context_type& context
               , skipper_type const& skipper

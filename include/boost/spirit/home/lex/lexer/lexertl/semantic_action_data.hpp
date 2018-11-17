@@ -12,7 +12,7 @@
 
 #include <boost/spirit/home/lex/lexer/pass_flags.hpp>
 #include <boost/mpl/bool.hpp>
-#include <boost/function.hpp>
+#include <boost/spirit/home/support/compat/function.hpp>
 #include <vector>
 
 namespace boost { namespace spirit { namespace lex { namespace lexertl
@@ -32,7 +32,7 @@ namespace boost { namespace spirit { namespace lex { namespace lexertl
         {
             typedef void functor_type(Iterator&, Iterator&
               , BOOST_SCOPED_ENUM(pass_flags)&, std::size_t&, Data&);
-            typedef boost::function<functor_type> functor_wrapper_type;
+            typedef compat::function<functor_type> functor_wrapper_type;
 
             // add a semantic action function object
             template <typename F>
@@ -72,7 +72,7 @@ namespace boost { namespace spirit { namespace lex { namespace lexertl
         {
             typedef void functor_type(Iterator&, Iterator&
               , BOOST_SCOPED_ENUM(pass_flags)&, std::size_t&, Data&);
-            typedef boost::function<functor_type> functor_wrapper_type;
+            typedef compat::function<functor_type> functor_wrapper_type;
 
             // add a semantic action function object
             template <typename F>

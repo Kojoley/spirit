@@ -23,8 +23,10 @@ addon_shortcuts:
   gcc8: &gcc8
     apt:
       sources:
+        - llvm-toolchain-trusty-6.0
         - ubuntu-toolchain-r-test
       packages:
+        - lld-6
         - gcc-8
         - g++-8
 
@@ -119,21 +121,6 @@ before_install:
         -Wno-nested-anon-types # Boost.Random
         -Wno-uninitialized -Wno-invalid-source-encoding : unchecked ;
 
-    # LD
-    #feature.feature ld : : free optional ;
-    #local ld = [ feature.values <ld> ] ;
-    #toolset.flags gcc.link OPTIONS <ld> : -fuse-ld=$(ld) : unchecked ;
-
-    # Sanitizers
-    feature.feature sanitize : address undefined : propagated optional implicit ;
-    for local sanitizer in [ feature.values <sanitize> ]
-    {
-        toolset.flags gcc.compile OPTIONS <sanitize>$(sanitizer) : -fsanitize=$(sanitizer) : unchecked ;
-        toolset.flags gcc.link OPTIONS <sanitize>$(sanitizer) : -fsanitize=$(sanitizer) : unchecked ;
-        toolset.flags clang-linux.compile OPTIONS <sanitize>$(sanitizer) : -fsanitize=$(sanitizer) : unchecked ;
-        toolset.flags clang-linux.link OPTIONS <sanitize>$(sanitizer) : -fsanitize=$(sanitizer) : unchecked ;
-    }
-
   - |
     # Determining the root branch
     if [[ "$TRAVIS_PULL_REQUEST" == "false" ]]; then
@@ -183,4 +170,6 @@ script:
   - b2 -j`nproc` link=shared threading=multi variant=release
       toolset=$TOOLSET cxxstd=$STD
       warnings=on known-warnings=suppress warnings-as-errors=on
-      sanitize=undefined debug-symbols=on inlining=off cxxflags="-fno-omit-frame-pointer -fno-optimize-sibling-calls"
+      debug-symbols=on # inlining=off cxxflags="-fno-omit-frame-pointer -fno-optimize-sibling-calls"
+      cxxflags="-fsanitize=undefined,address,leak"
+      linkflags="-fsanitize=undefined,address,leak -fuse-ld=lld"

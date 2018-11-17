@@ -121,7 +121,7 @@ before_install:
 
     # LD
     feature.feature ld : : free optional ;
-    toolset.flags gcc.link OPTIONS <ld> : -fuse-ld=[ feature.values <ld> ] : unchecked ;
+    toolset.flags gcc.link OPTIONS <ld> : "-fuse-ld="[ feature.values <ld> ] : unchecked ;
 
     # Sanitizers
     feature.feature sanitize : no address undefined : propagated optional implicit ;

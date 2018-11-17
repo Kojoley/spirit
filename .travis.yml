@@ -120,15 +120,14 @@ before_install:
         -Wno-uninitialized -Wno-invalid-source-encoding : unchecked ;
 
     # LD
-    #feature.feature ld : : free optional ;
-    #toolset.flags gcc.link OPTIONS <ld> : -fuse-ld=[ feature.get-values <ld> ] : unchecked ;
+    feature.feature ld : : free optional ;
+    toolset.flags gcc.link OPTIONS <ld> : -fuse-ld=[ feature.values <ld> ] : unchecked ;
 
     # Sanitizers
-    # !TODO: GCC -fuse-ld=gold handle with <ld>gold
     feature.feature sanitize : no address undefined : propagated optional implicit ;
     # ASAN
     toolset.flags gcc.compile OPTIONS <sanitize>address : -fsanitize=address -fsanitize-address-use-after-scope : unchecked ;
-    toolset.flags gcc.link OPTIONS <sanitize>address : -fsanitize=address -fsanitize-address-use-after-scope -fuse-ld=gold : unchecked ;
+    toolset.flags gcc.link OPTIONS <sanitize>address : -fsanitize=address -fsanitize-address-use-after-scope <ld>gold : unchecked ;
     toolset.flags clang-linux.compile OPTIONS <sanitize>address : -fsanitize=address -fsanitize-address-use-after-scope : unchecked ;
     toolset.flags clang-linux.link OPTIONS <sanitize>address : -fsanitize=address -fsanitize-address-use-after-scope : unchecked ;
     # UBSAN

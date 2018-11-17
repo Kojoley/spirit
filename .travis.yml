@@ -187,3 +187,4 @@ script:
       toolset=$TOOLSET cxxstd=$STD
       warnings=on known-warnings=suppress warnings-as-errors=on
       sanitize=undefined debug-symbols=on inlining=off cxxflags="-fno-omit-frame-pointer -fno-optimize-sibling-calls"
+      ld=gold

@@ -139,21 +139,19 @@ namespace boost { namespace spirit { namespace qi { namespace detail
         template <typename T, typename Char>
         inline static bool add(T& n, Char ch, mpl::true_) // checked add
         {
-            // Ensure n *= Radix will not overflow
             typedef constexpr_int<T, boost::integer_traits<T>::const_max> max;
-            typedef constexpr_int<T, max::value / Radix> val;
+            typedef constexpr_int<T, max::value / T(Radix)> safe_radix_mul;
+            typedef constexpr_int<T, max::value % T(Radix)> max_last_digit;
 
-            if (n > val::value)
+            const T digit = static_cast<T>(radix_traits<Radix>::digit(ch));
+
+            // Ensure n * Radix + digit will not overflow
+            if (n > safe_radix_mul::value ||
+                  (n == safe_radix_mul::value && digit > max_last_digit::value))
                 return false;
 
-            n *= Radix;
+            n = n * Radix + digit;
 
-            // Ensure n += digit will not overflow
-            const int digit = radix_traits<Radix>::digit(ch);
-            if (n > max::value - digit)
-                return false;
-
-            n += static_cast<T>(digit);
             return true;
         }
     };
@@ -171,21 +169,19 @@ namespace boost { namespace spirit { namespace qi { namespace detail
         template <typename T, typename Char>
         inline static bool add(T& n, Char ch, mpl::true_) // checked subtract
         {
-            // Ensure n *= Radix will not underflow
             typedef constexpr_int<T, boost::integer_traits<T>::const_min> min;
-            typedef constexpr_int<T, (min::value + 1) / T(Radix)> val;
+            typedef constexpr_int<T, min::value / T(Radix)> safe_radix_mul;
+            typedef constexpr_int<T, -(min::value % T(Radix))> max_last_digit;
 
-            if (n < val::value)
+            const T digit = static_cast<T>(radix_traits<Radix>::digit(ch));
+
+            // Ensure n * Radix - digit will not underflow
+            if (n < safe_radix_mul::value || 
+                  (n == safe_radix_mul::value && digit > max_last_digit::value))
                 return false;
 
-            n *= Radix;
+            n = n * Radix - digit;
 
-            // Ensure n -= digit will not underflow
-            int const digit = radix_traits<Radix>::digit(ch);
-            if (n < min::value + digit)
-                return false;
-
-            n -= static_cast<T>(digit);
             return true;
         }
     };

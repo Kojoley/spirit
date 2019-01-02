@@ -11,6 +11,7 @@
 #include <boost/spirit/home/support/attributes_fwd.hpp>
 #include <boost/spirit/home/support/attributes.hpp>
 #include <boost/spirit/home/support/utree/utree_traits_fwd.hpp>
+#include <boost/optional/optional_fwd.hpp>
 
 ///////////////////////////////////////////////////////////////////////////////
 namespace boost { namespace spirit { namespace qi
@@ -85,12 +86,12 @@ namespace boost { namespace spirit { namespace qi
         {
             if (!val)
                 val = Transformed();
-            return boost::get<Transformed>(val);
+            return *val;
         }
         static void post(boost::optional<Exposed>&, Transformed const&) {}
         static void fail(boost::optional<Exposed>& val)
         {
-             val = none;    // leave optional uninitialized if rhs failed
+             val.reset();    // leave optional uninitialized if rhs failed
         }
     };
 

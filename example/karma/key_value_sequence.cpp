@@ -13,6 +13,7 @@
 #include <boost/spirit/include/karma_stream.hpp>
 #include <boost/spirit/include/phoenix.hpp>
 #include <boost/fusion/include/std_pair.hpp>
+#include <boost/optional.hpp>
 
 #include <iostream>
 #include <map>

@@ -11,9 +11,6 @@
 #include <boost/spirit/home/support/attributes_fwd.hpp>
 #include <boost/spirit/home/support/attributes.hpp>
 
-#include <boost/type_traits/is_same.hpp>
-#include <boost/static_assert.hpp>
-
 ///////////////////////////////////////////////////////////////////////////////
 namespace boost { namespace spirit { namespace karma
 {
@@ -28,6 +25,7 @@ namespace boost { namespace spirit { namespace karma
         // Karma only, no post() and no fail() required
     };
 
+    // TODO: The specialization looks suspicious and it should not be here
     template <typename Exposed, typename Transformed>
     struct transform_attribute<boost::optional<Exposed> const, Transformed
       , typename disable_if<is_same<boost::optional<Exposed>, Transformed> >::type>
@@ -35,7 +33,6 @@ namespace boost { namespace spirit { namespace karma
         typedef Transformed const& type;
         static Transformed const& pre(boost::optional<Exposed> const& val)
         {
-            BOOST_STATIC_ASSERT((is_same<Exposed const, Transformed const>::value));
             return *val;
         }
     };

@@ -87,6 +87,7 @@ namespace boost { namespace spirit { namespace traits
     template <typename Attribute, typename Exposed>
     struct extract_from_attribute<boost::optional<Attribute>, Exposed>
     {
+        // TODO: This looks wrong, should be extract_from<...>::type
         typedef Attribute const& type;
 
         template <typename Context>
@@ -99,6 +100,7 @@ namespace boost { namespace spirit { namespace traits
     template <typename Attribute, typename Exposed>
     struct extract_from_attribute<boost::optional<Attribute const>, Exposed>
     {
+        // TODO: This looks wrong, should be extract_from<...>::type
         typedef Attribute const& type;
 
         template <typename Context>
@@ -112,6 +114,7 @@ namespace boost { namespace spirit { namespace traits
     template <typename Attribute, typename Exposed>
     struct extract_from_attribute<reference_wrapper<Attribute>, Exposed>
     {
+        // TODO: This looks wrong, should be extract_from<...>::type
         typedef Attribute const& type;
 
         template <typename Context>

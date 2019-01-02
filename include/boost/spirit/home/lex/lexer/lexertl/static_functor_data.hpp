@@ -18,6 +18,7 @@
 #include <boost/spirit/home/lex/lexer/lexertl/wrap_action.hpp>
 #include <boost/mpl/bool.hpp>
 #include <boost/algorithm/string/predicate.hpp>
+#include <boost/optional.hpp>
 #include <iterator> // for std::iterator_traits
 
 namespace boost { namespace spirit { namespace lex { namespace lexertl

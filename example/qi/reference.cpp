@@ -17,6 +17,7 @@
 #include <boost/spirit/include/phoenix_operator.hpp>
 #include <boost/fusion/include/adapt_struct.hpp>
 #include <boost/assert.hpp>
+#include <boost/optional.hpp>
 #include <boost/predef/other/endian.h>
 #include <iostream>
 #include <string>

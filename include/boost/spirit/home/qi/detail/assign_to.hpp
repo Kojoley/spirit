@@ -19,6 +19,7 @@
 #include <boost/spirit/home/support/container.hpp>
 #include <boost/fusion/include/copy.hpp>
 #include <boost/fusion/adapted/struct/detail/extension.hpp>
+#include <boost/optional/optional_fwd.hpp>
 #include <boost/ref.hpp>
 #include <boost/range/iterator_range.hpp>
 
@@ -200,7 +201,7 @@ namespace boost { namespace spirit { namespace traits
         static void
         call(boost::optional<T> const& val, Attribute& attr)
         {
-            assign_to(val.get(), attr);
+            assign_to(*val, attr);
         }
     };
 
@@ -344,7 +345,7 @@ namespace boost { namespace spirit { namespace traits
         static void
         call(boost::optional<T> const& val, Attribute& attr)
         {
-            assign_to(val.get(), attr);
+            assign_to(*val, attr);
         }
     };
 

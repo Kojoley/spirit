@@ -16,6 +16,7 @@
 
 #include <boost/spirit/include/qi.hpp>
 #include <boost/fusion/include/std_pair.hpp>
+#include <boost/optional.hpp>
 
 #include <iostream>
 #include <map>

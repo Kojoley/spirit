@@ -36,7 +36,6 @@ namespace boost { namespace spirit { namespace x3 { namespace traits
     struct make_attribute : make_attribute_base<Attribute>
     {
         typedef ActualAttribute& type;
-        typedef ActualAttribute value_type;
     };
 
     template <typename Attribute>
@@ -45,8 +44,11 @@ namespace boost { namespace spirit { namespace x3 { namespace traits
     {
         typedef typename remove_const<Attribute>::type attribute_type;
         typedef attribute_type type;
-        typedef attribute_type value_type;
     };
+
+    template <typename Attribute>
+    struct make_attribute<Attribute, unused_type const>
+      : make_attribute<Attribute, unused_type> {};
 
     template <typename Attribute, typename ActualAttribute>
     struct make_attribute<Attribute&, ActualAttribute>
@@ -56,27 +58,31 @@ namespace boost { namespace spirit { namespace x3 { namespace traits
     struct make_attribute<Attribute const&, ActualAttribute>
       : make_attribute<Attribute const, ActualAttribute> {};
 
-    template <typename ActualAttribute>
-    struct make_attribute<unused_type, ActualAttribute>
-    {
-        typedef unused_type type;
-        typedef unused_type value_type;
-        static unused_type call(unused_type)
-        {
-            return unused;
-        }
-    };
-    
     template <>
     struct make_attribute<unused_type, unused_type>
     {
         typedef unused_type type;
-        typedef unused_type value_type;
         static unused_type call(unused_type)
         {
             return unused;
         }
     };
+
+    template <typename ActualAttribute>
+    struct make_attribute<unused_type, ActualAttribute>
+        : make_attribute<unused_type, unused_type> {};
+
+    template <typename ActualAttribute>
+    struct make_attribute<unused_type const, ActualAttribute>
+        : make_attribute<unused_type, unused_type> {};
+
+    template <>
+    struct make_attribute<unused_type, unused_type const>
+      : make_attribute<unused_type, unused_type> {};
+
+    template <>
+    struct make_attribute<unused_type const, unused_type const>
+      : make_attribute<unused_type, unused_type> {};
 }}}}
 
 #endif

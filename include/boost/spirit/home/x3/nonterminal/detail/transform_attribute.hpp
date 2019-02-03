@@ -102,7 +102,7 @@ namespace boost { namespace spirit { namespace x3 { namespace traits
     template <typename Exposed, typename Transformed>
     void post_transform(Exposed& dest, Transformed&& attr)
     {
-        return transform_attribute<Exposed, Transformed, x3::parser_id>
+        return transform_attribute<Exposed, std::remove_reference_t<Transformed>, x3::parser_id>
             ::post(dest, std::forward<Transformed>(attr));
     }
 }}}}

@@ -17,6 +17,24 @@
 #include <iostream>
 #include "test.hpp"
 
+
+struct op_counter
+{
+    op_counter() : i{}, j{} { ++default_costructed; }
+    // TODO: fix unneded move in alternative and make move assignment deleted
+    op_counter& operator=(op_counter&&)
+    { std::abort(); return *this; }
+
+    int i, j;
+    static int default_costructed;
+};
+static_assert(!std::is_move_constructible<op_counter>::value, "");
+
+int op_counter::default_costructed = 0;
+
+BOOST_FUSION_ADAPT_STRUCT(op_counter, i, j)
+
+
 using boost::spirit::x3::_val;
 
 struct f
@@ -35,7 +53,9 @@ int main()
 
     using namespace boost::spirit::x3::ascii;
     using boost::spirit::x3::rule;
+    using boost::spirit::x3::int_;
     using boost::spirit::x3::lit;
+    using boost::spirit::x3::eps;
 
 
     { // synth attribute value-init
@@ -66,6 +86,27 @@ int main()
 
         BOOST_TEST(test_attr("abcdef", +rdef, s));
         BOOST_TEST(s == "abcdef");
+    }
+
+    { // ensure no unneded synthesization, copying and moving occured
+        auto a = rule<class a_r, op_counter>{} = '{' >> int_ >> ':' >> int_ >> '}';
+        auto b = rule<class b_r, op_counter>{} = eps >> (a | a);
+        auto c = rule<class c_r, op_counter, true>{} = eps >> (a[([] {})] | a);
+
+        BOOST_TEST(test("{123:456}", b));
+        // TODO: can be reduced to zero if remove synthesization for rcontext while actual attr is unused
+        BOOST_TEST_EQ(boost::exchange(op_counter::default_costructed, 0), 1);
+        BOOST_TEST(test("{123:456}", c));
+        // TODO: can be reduced to zero if remove synthesization for rcontext while actual attr is unused
+        BOOST_TEST_EQ(boost::exchange(op_counter::default_costructed, 0), 1);
+
+        op_counter oc;
+        BOOST_TEST_EQ(boost::exchange(op_counter::default_costructed, 0), 1);
+        BOOST_TEST(test_attr("{123:456}", b, oc));
+        BOOST_TEST(test_attr("{123:456}", b[([] {})], oc));
+        BOOST_TEST(test_attr("{123:456}", c, oc));
+        BOOST_TEST(test_attr("{123:456}", c[([] {})], oc));
+        BOOST_TEST_EQ(boost::exchange(op_counter::default_costructed, 0), 0);
     }
 
     return boost::report_errors();

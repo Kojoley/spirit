@@ -311,9 +311,9 @@ namespace boost { namespace spirit { namespace x3 { namespace detail
                 typename make_attribute::type, Attribute, parser_id>
             transform;
 
-            typedef typename make_attribute::value_type value_type;
+            typedef typename make_attribute::type attr_type;
             typedef typename transform::type transform_attr;
-            value_type made_attr = make_attribute::call(attr);
+            attr_type made_attr = make_attribute::call(attr);
             transform_attr attr_ = transform::pre(made_attr);
 
             bool ok_parse

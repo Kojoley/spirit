@@ -147,9 +147,9 @@ before_install:
   - ./bootstrap.sh --with-toolset=clang --with-libraries=$TEST_LINK_DEPS
     || ( echo === bootstrap.log === ; cat bootstrap.log ; exit 1 ; )
   - ./b2 headers
-  - ./b2 -j`nproc` link=shared threading=multi variant=release
-      toolset=$TOOLSET cxxstd=${STD#*,} $STDLIB
-      warnings=off
+  - for CURSTD in ${STD//,/$IFS}; do ./b2 -j`nproc` link=shared threading=multi variant=release
+      toolset=$TOOLSET cxxstd=$CURSTD $STDLIB
+      warnings=off; done
 
   # Move the repository to boost/libs and make a link to previous place
   - mv $TRAVIS_BUILD_DIR $PROJECT

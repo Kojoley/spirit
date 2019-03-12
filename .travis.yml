@@ -40,38 +40,24 @@ env:
 matrix:
   include:
     ### Spirit 3
-    - { env: 'STD=14  JOB=test/x3          TOOLSET=clang-7', compiler: clang-7, addons: *clang-7 }
-    - { env: 'STD=14  JOB=test/x3          TOOLSET=gcc-8', compiler: gcc-8, addons: *gcc-8 }
+    - { env: 'STD=2a,17,14  JOB=test/x3          TOOLSET=clang-7', compiler: clang-7, addons: *clang-7 }
+    - { env: 'STD=2a,17,14  JOB=test/x3          TOOLSET=gcc-8', compiler: gcc-8, addons: *gcc-8 }
     ### Spirit 2
     ## Clang
-    # 11
-    - { env: 'STD=11  JOB=test/qi          TOOLSET=clang-7', compiler: clang-7, addons: *clang-7 }
-    - { env: 'STD=11  JOB=test/karma       TOOLSET=clang-7', compiler: clang-7, addons: *clang-7 }
-    - { env: 'STD=11  JOB=test/lex         TOOLSET=clang-7', compiler: clang-7, addons: *clang-7 }
-    - { env: 'STD=11  JOB=test/support     TOOLSET=clang-7', compiler: clang-7, addons: *clang-7 }
-    - { env: 'STD=11  JOB=repository/test  TOOLSET=clang-7', compiler: clang-7, addons: *clang-7 }
-    # 03
-    - { env: 'STD=03  JOB=test/qi          TOOLSET=clang-7', compiler: clang-7, addons: *clang-7 }
-    - { env: 'STD=03  JOB=test/karma       TOOLSET=clang-7', compiler: clang-7, addons: *clang-7 }
-    - { env: 'STD=03  JOB=test/lex         TOOLSET=clang-7', compiler: clang-7, addons: *clang-7 }
-    - { env: 'STD=03  JOB=test/support     TOOLSET=clang-7', compiler: clang-7, addons: *clang-7 }
-    - { env: 'STD=03  JOB=repository/test  TOOLSET=clang-7', compiler: clang-7, addons: *clang-7 }
+    - { env: 'STD=2a,11,03  JOB=test/qi          TOOLSET=clang-7', compiler: clang-7, addons: *clang-7 }
+    - { env: 'STD=2a,11,03  JOB=test/karma       TOOLSET=clang-7', compiler: clang-7, addons: *clang-7 }
+    - { env: 'STD=2a,11,03  JOB=test/lex         TOOLSET=clang-7', compiler: clang-7, addons: *clang-7 }
+    - { env: 'STD=2a,11,03  JOB=test/support     TOOLSET=clang-7', compiler: clang-7, addons: *clang-7 }
+    - { env: 'STD=2a,11,03  JOB=repository/test  TOOLSET=clang-7', compiler: clang-7, addons: *clang-7 }
     ## GCC
-    # 11
-    - { env: 'STD=11  JOB=test/qi          TOOLSET=gcc-8', compiler: gcc-8, addons: *gcc-8 }
-    - { env: 'STD=11  JOB=test/karma       TOOLSET=gcc-8', compiler: gcc-8, addons: *gcc-8 }
-    - { env: 'STD=11  JOB=test/lex         TOOLSET=gcc-8', compiler: gcc-8, addons: *gcc-8 }
-    - { env: 'STD=11  JOB=test/support     TOOLSET=gcc-8', compiler: gcc-8, addons: *gcc-8 }
-    - { env: 'STD=11  JOB=repository/test  TOOLSET=gcc-8', compiler: gcc-8, addons: *gcc-8 }
-    # 03
-    - { env: 'STD=03  JOB=test/qi          TOOLSET=gcc-8', compiler: gcc-8, addons: *gcc-8 }
-    - { env: 'STD=03  JOB=test/karma       TOOLSET=gcc-8', compiler: gcc-8, addons: *gcc-8 }
-    - { env: 'STD=03  JOB=test/lex         TOOLSET=gcc-8', compiler: gcc-8, addons: *gcc-8 }
-    - { env: 'STD=03  JOB=test/support     TOOLSET=gcc-8', compiler: gcc-8, addons: *gcc-8 }
-    - { env: 'STD=03  JOB=repository/test  TOOLSET=gcc-8', compiler: gcc-8, addons: *gcc-8 }
+    - { env: 'STD=2a,11,03  JOB=test/qi          TOOLSET=gcc-8', compiler: gcc-8, addons: *gcc-8 }
+    - { env: 'STD=2a,11,03  JOB=test/karma       TOOLSET=gcc-8', compiler: gcc-8, addons: *gcc-8 }
+    - { env: 'STD=2a,11,03  JOB=test/lex         TOOLSET=gcc-8', compiler: gcc-8, addons: *gcc-8 }
+    - { env: 'STD=2a,11,03  JOB=test/support     TOOLSET=gcc-8', compiler: gcc-8, addons: *gcc-8 }
+    - { env: 'STD=2a,11,03  JOB=repository/test  TOOLSET=gcc-8', compiler: gcc-8, addons: *gcc-8 }
     ### Spirit 1
-    - { env: 'STD=03  JOB=classic/test     TOOLSET=clang-7', compiler: clang-7, addons: *clang-7 }
-    - { env: 'STD=03  JOB=classic/test     TOOLSET=gcc-8', compiler: gcc-8, addons: *gcc-8 }
+    - { env: 'STD=2a,11,03  JOB=classic/test     TOOLSET=clang-7', compiler: clang-7, addons: *clang-7 }
+    - { env: 'STD=2a,11,03  JOB=classic/test     TOOLSET=gcc-8', compiler: gcc-8, addons: *gcc-8 }
 
 cache: ccache
 
@@ -157,8 +143,9 @@ before_install:
     || ( echo === bootstrap.log === ; cat bootstrap.log ; exit 1 ; )
   - ./b2 headers
   - ./b2 -j`nproc` link=shared threading=multi variant=release
-      toolset=$TOOLSET cxxstd=${STD#*,} $STDLIB
+      toolset=$TOOLSET cxxstd=$STD $STDLIB
       warnings=off
+      ${TEST_LINK_DEPS//,/ }
 
   # Move the repository to boost/libs and make a link to previous place
   - mv $TRAVIS_BUILD_DIR $PROJECT

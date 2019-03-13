@@ -36,28 +36,32 @@ env:
     - BOOST_ROOT=$HOME/boost
     - BOOST_BUILD_PATH=$HOME/build-boost
     - TEST_LINK_DEPS=date_time,filesystem,regex,thread
+    - UBSAN_OPTIONS=print_stacktrace=1
+    - ASAN_OPTIONS=print_stacktrace=1
 
 matrix:
   include:
-    ### Spirit 3
-    - { env: 'STD=2a,17,14        JOB=test/x3          TOOLSET=clang-7', compiler: clang-7, addons: *clang-7 }
-    - { env: 'STD=2a,17,14        JOB=test/x3          TOOLSET=gcc-8', compiler: gcc-8, addons: *gcc-8 }
-    ### Spirit 2
-    ## Clang
-    - { env: 'STD=2a,17,14,11,03  JOB=test/qi          TOOLSET=clang-7', compiler: clang-7, addons: *clang-7 }
-    - { env: 'STD=2a,17,14,11,03  JOB=test/karma       TOOLSET=clang-7', compiler: clang-7, addons: *clang-7 }
-    - { env: 'STD=2a,17,14,11,03  JOB=test/lex         TOOLSET=clang-7', compiler: clang-7, addons: *clang-7 }
-    - { env: 'STD=2a,17,14,11,03  JOB=test/support     TOOLSET=clang-7', compiler: clang-7, addons: *clang-7 }
-    - { env: 'STD=2a,17,14,11,03  JOB=repository/test  TOOLSET=clang-7', compiler: clang-7, addons: *clang-7 }
-    ## GCC
-    - { env: 'STD=2a,17,14,11,03  JOB=test/qi          TOOLSET=gcc-8', compiler: gcc-8, addons: *gcc-8 }
-    - { env: 'STD=2a,17,14,11,03  JOB=test/karma       TOOLSET=gcc-8', compiler: gcc-8, addons: *gcc-8 }
-    - { env: 'STD=2a,17,14,11,03  JOB=test/lex         TOOLSET=gcc-8', compiler: gcc-8, addons: *gcc-8 }
-    - { env: 'STD=2a,17,14,11,03  JOB=test/support     TOOLSET=gcc-8', compiler: gcc-8, addons: *gcc-8 }
-    - { env: 'STD=2a,17,14,11,03  JOB=repository/test  TOOLSET=gcc-8', compiler: gcc-8, addons: *gcc-8 }
-    ### Spirit 1
-    - { env: 'STD=2a,17,14,11,03  JOB=classic/test     TOOLSET=clang-7', compiler: clang-7, addons: *clang-7 }
-    - { env: 'STD=2a,17,14,11,03  JOB=classic/test     TOOLSET=gcc-8', compiler: gcc-8, addons: *gcc-8 }
+    - { env: 'STD=03  JOB=test/lex  SAN=undefined  TOOLSET=clang-7', compiler: clang-7, addons: *clang-7 }
+    - { env: 'STD=03  JOB=test/lex  SAN=undefined  TOOLSET=gcc-8', compiler: gcc-8, addons: *gcc-8 }
+    - { env: 'STD=11  JOB=test/lex  SAN=undefined  TOOLSET=clang-7', compiler: clang-7, addons: *clang-7 }
+    - { env: 'STD=11  JOB=test/lex  SAN=undefined  TOOLSET=gcc-8', compiler: gcc-8, addons: *gcc-8 }
+    - { env: 'STD=14  JOB=test/lex  SAN=undefined  TOOLSET=clang-7', compiler: clang-7, addons: *clang-7 }
+    - { env: 'STD=14  JOB=test/lex  SAN=undefined  TOOLSET=gcc-8', compiler: gcc-8, addons: *gcc-8 }
+    - { env: 'STD=17  JOB=test/lex  SAN=undefined  TOOLSET=clang-7', compiler: clang-7, addons: *clang-7 }
+    - { env: 'STD=17  JOB=test/lex  SAN=undefined  TOOLSET=gcc-8', compiler: gcc-8, addons: *gcc-8 }
+    - { env: 'STD=2a  JOB=test/lex  SAN=undefined  TOOLSET=clang-7', compiler: clang-7, addons: *clang-7 }
+    - { env: 'STD=2a  JOB=test/lex  SAN=undefined  TOOLSET=gcc-8', compiler: gcc-8, addons: *gcc-8 }
+
+    - { env: 'STD=03  JOB=test/lex  SAN=address    TOOLSET=clang-7', compiler: clang-7, addons: *clang-7 }
+    - { env: 'STD=03  JOB=test/lex  SAN=address    TOOLSET=gcc-8', compiler: gcc-8, addons: *gcc-8 }
+    - { env: 'STD=11  JOB=test/lex  SAN=address    TOOLSET=clang-7', compiler: clang-7, addons: *clang-7 }
+    - { env: 'STD=11  JOB=test/lex  SAN=address    TOOLSET=gcc-8', compiler: gcc-8, addons: *gcc-8 }
+    - { env: 'STD=14  JOB=test/lex  SAN=address    TOOLSET=clang-7', compiler: clang-7, addons: *clang-7 }
+    - { env: 'STD=14  JOB=test/lex  SAN=address    TOOLSET=gcc-8', compiler: gcc-8, addons: *gcc-8 }
+    - { env: 'STD=17  JOB=test/lex  SAN=address    TOOLSET=clang-7', compiler: clang-7, addons: *clang-7 }
+    - { env: 'STD=17  JOB=test/lex  SAN=address    TOOLSET=gcc-8', compiler: gcc-8, addons: *gcc-8 }
+    - { env: 'STD=2a  JOB=test/lex  SAN=address    TOOLSET=clang-7', compiler: clang-7, addons: *clang-7 }
+    - { env: 'STD=2a  JOB=test/lex  SAN=address    TOOLSET=gcc-8', compiler: gcc-8, addons: *gcc-8 }
 
 cache: ccache
 
@@ -97,7 +101,14 @@ before_install:
     feature.extend stdlib : libc++ ;
     feature.compose <stdlib>libc++ : <cxxflags>-stdlib=libc++ <linkflags>-stdlib=libc++ ;
 
-
+    feature.feature sanitize : no address undefined : optional propagated composite ;
+    feature.compose <sanitize>address : <cxxflags>-fsanitize=address <cxxflags>-fno-sanitize-recover=address <linkflags>-fsanitize=address ;
+    switch $(toolset-name) {
+        case gcc   : feature.compose <sanitize>undefined : <cxxflags>-fsanitize=undefined <cxxflags>-fno-sanitize-recover=undefined <linkflags>-fsanitize=undefined <linkflags>-fuse-ld=gold ;
+        case clang : feature.compose <sanitize>undefined : <cxxflags>-fsanitize=undefined <cxxflags>-fno-sanitize-recover=undefined <linkflags>-fsanitize=undefined ;
+        case *     : EXIT "user-config: Unsupported toolset $(toolset-name)" ;
+    }
+    
     # Ignore some warnings
     feature.feature known-warnings : suppress : optional incidental propagated ;
     toolset.flags gcc.compile OPTIONS <known-warnings>suppress :
@@ -145,6 +156,7 @@ before_install:
   - ./b2 -j`nproc` link=shared threading=multi variant=release
       toolset=$TOOLSET cxxstd=$STD $STDLIB
       warnings=off
+      sanitize=$SAN debug-symbols=on
       ${TEST_LINK_DEPS//,/ }
 
   # Move the repository to boost/libs and make a link to previous place
@@ -157,4 +169,5 @@ before_install:
 script:
   - b2 -j`nproc` link=shared threading=multi variant=release
       toolset=$TOOLSET cxxstd=$STD $STDLIB
-      warnings=on known-warnings=suppress warnings-as-errors=on
+      warnings=on known-warnings=suppress warnings-as-errors=off
+      sanitize=$SAN debug-symbols=on

@@ -217,10 +217,9 @@ namespace boost { namespace spirit { namespace qi
         template <typename Context>
         info what(Context& /*context*/) const
         {
-            info result("char-range", char_encoding::toucs4(from));
-            boost::get<std::string>(result.value) += '-';
-            boost::get<std::string>(result.value) += to_utf8(char_encoding::toucs4(to));
-            return result;
+            ucs4_char str[] = { char_encoding::toucs4(from), '-',
+                                char_encoding::toucs4(to), '\0' };
+            return info("char-range", str);
         }
 
         char_type from, to;
@@ -255,10 +254,9 @@ namespace boost { namespace spirit { namespace qi
         template <typename Context>
         info what(Context& /*context*/) const
         {
-            info result("no-case-char-range", char_encoding::toucs4(from_lo));
-            boost::get<std::string>(result.value) += '-';
-            boost::get<std::string>(result.value) += to_utf8(char_encoding::toucs4(to_lo));
-            return result;
+            ucs4_char str[] = { char_encoding::toucs4(from_lo), '-',
+                                char_encoding::toucs4(to_lo), '\0' };
+            return info("no-case-char-range", str);
         }
 
         char_type from_lo, to_lo, from_hi, to_hi;

@@ -16,6 +16,7 @@
 project spirit-classic
     : requirements
         <include>.
+        <toolset>msvc:<cxxflags>/wd4512  # assignment operator could not be generated
     ;
 
 ###############################################################################

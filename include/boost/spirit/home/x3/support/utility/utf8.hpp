@@ -19,8 +19,85 @@ namespace boost { namespace spirit { namespace x3
     typedef std::basic_string<ucs4_char> ucs4_string;
     typedef std::basic_string<utf8_char> utf8_string;
 
+namespace detail2
+{
+
+enum class encoding
+{
+    utf8,
+    utf16,
+    utf32,
+    unknown,
+};
+
+namespace traits
+{
+
+template <typename Char>
+struct char_encoding;
+
+// FIXME: get_info<literal_string<...>> should not rely on this
+template <>
+struct char_encoding<char>
+{
+    static encoding const value = encoding::utf32;
+};
+
+#ifdef __cpp_char8_t
+template <>
+struct char_encoding<char8_t>
+{
+    static encoding const value = encoding::utf8;
+};
+#endif
+
+template <>
+struct char_encoding<char16_t>
+{
+    static encoding const value = encoding::utf16;
+};
+
+template <>
+struct char_encoding<char32_t>
+{
+    static encoding const value = encoding::utf32;
+};
+
+template <>
+struct char_encoding<wchar_t>
+{
+private:
+    static make_unsigned<wchar_t>::type const uwcp = L"\U0010FFFF"[0];
+    static unsigned char const u8cp = u8"\U0010FFFF"[0];
+
+public:
+    static_assert(U"\U0010FFFF"[0] != u"\U0010FFFF"[0], "");
+    static_assert(U"\U0010FFFF"[0] != u8cp, "");
+
+    static encoding const value =
+        uwcp == U"\U0010FFFF"[0] ? encoding::utf32
+      : uwcp == u"\U0010FFFF"[0] ? encoding::utf16
+      : uwcp == u8cp ? encoding::utf8
+      : encoding::unknown;
+};
+
+template <>
+struct char_encoding<ucs4_char>
+{
+    static encoding const value = encoding::utf32;
+};
+
+} // namespace traits
+
+
+template <encoding Encoding>
+struct string_conversion;
+
+template <>
+struct string_conversion<encoding::utf32>
+{
     template <typename Char>
-    inline utf8_string to_utf8(Char value)
+    static utf8_string to_utf8(Char value)
     {
         // always store as UTF8
         utf8_string result;
@@ -33,7 +110,7 @@ namespace boost { namespace spirit { namespace x3
     }
 
     template <typename Char>
-    inline utf8_string to_utf8(Char const* str)
+    static utf8_string to_utf8(Char const* str)
     {
         // always store as UTF8
         utf8_string result;
@@ -47,7 +124,7 @@ namespace boost { namespace spirit { namespace x3
     }
 
     template <typename Char, typename Traits, typename Allocator>
-    inline utf8_string
+    static utf8_string
     to_utf8(std::basic_string<Char, Traits, Allocator> const& str)
     {
         // always store as UTF8
@@ -62,30 +139,34 @@ namespace boost { namespace spirit { namespace x3
         }
         return result;
     }
+};
 
-    // Assume wchar_t content is UTF-16 on Windows and UCS-4 on Unix
-#if defined(_WIN32) || defined(__CYGWIN__)
-    inline utf8_string to_utf8(wchar_t value)
+template <>
+struct string_conversion<encoding::utf16>
+{
+    template <typename Char>
+    static utf8_string to_utf8(Char value)
     {
         utf8_string result;
         typedef std::back_insert_iterator<utf8_string> insert_iter;
         insert_iter out_iter(result);
         utf8_output_iterator<insert_iter> utf8_iter(out_iter);
 
-        u16_to_u32_iterator<wchar_t const*, ucs4_char> ucs4_iter(&value);
+        u16_to_u32_iterator<Char const*, ucs4_char> ucs4_iter(&value);
         *utf8_iter++ = *ucs4_iter;
 
         return result;
     }
 
-    inline utf8_string to_utf8(wchar_t const* str)
+    template <typename Char>
+    static utf8_string to_utf8(Char const* str)
     {
         utf8_string result;
         typedef std::back_insert_iterator<utf8_string> insert_iter;
         insert_iter out_iter(result);
         utf8_output_iterator<insert_iter> utf8_iter(out_iter);
 
-        u16_to_u32_iterator<wchar_t const*, ucs4_char> ucs4_iter(str);
+        u16_to_u32_iterator<Char const*, ucs4_char> ucs4_iter(str);
         for (ucs4_char c; (c = *ucs4_iter) != ucs4_char(); ++ucs4_iter) {
             *utf8_iter++ = c;
         }
@@ -93,13 +174,64 @@ namespace boost { namespace spirit { namespace x3
         return result;
     }
 
-    template <typename Traits, typename Allocator>
-    inline utf8_string
-    to_utf8(std::basic_string<wchar_t, Traits, Allocator> const& str)
+    template <typename Char, typename Traits, typename Allocator>
+    static utf8_string
+    to_utf8(std::basic_string<Char, Traits, Allocator> const& str)
     {
         return to_utf8(str.c_str());
     }
+};
+
+template <>
+struct string_conversion<encoding::utf8>
+{
+#if 0 // TODO: when utf8_char will be char8_t
+    static utf8_string to_utf8(utf8_string str)
+    {
+        return str;
+    }
+#else
+    template <typename Char>
+    static utf8_string to_utf8(Char value)
+    {
+        return { 1, value };
+    }
+
+    template <typename Char>
+    static utf8_string to_utf8(Char const* str)
+    {
+        return { str };
+    }
+
+    template <typename Char, typename Traits, typename Allocator>
+    static utf8_string
+    to_utf8(std::basic_string<Char, Traits, Allocator> const& str)
+    {
+        return { str.begin(), str.end() };
+    }
 #endif
+};
+
+} // namespace detail2
+
+    template <typename Char>
+    inline utf8_string to_utf8(Char value)
+    {
+        return detail2::string_conversion<detail2::traits::char_encoding<Char>::value>::to_utf8(value);
+    }
+
+    template <typename Char>
+    inline utf8_string to_utf8(Char const* str)
+    {
+        return detail2::string_conversion<detail2::traits::char_encoding<Char>::value>::to_utf8(str);
+    }
+
+    template <typename Char, typename Traits, typename Allocator>
+    inline utf8_string
+    to_utf8(std::basic_string<Char, Traits, Allocator> const& str)
+    {
+        return detail2::string_conversion<detail2::traits::char_encoding<Char>::value>::to_utf8(str);
+    }
 }}}
 
 #endif

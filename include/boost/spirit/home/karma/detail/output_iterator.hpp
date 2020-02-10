@@ -22,8 +22,9 @@
 #include <boost/spirit/home/support/iterators/ostream_iterator.hpp>
 #include <boost/spirit/home/support/unused.hpp>
 
-#if defined(BOOST_MSVC) && defined(BOOST_SPIRIT_UNICODE)
+#if defined(BOOST_SPIRIT_UNICODE)
 #include <boost/spirit/home/support/char_encoding/unicode.hpp>
+#include <boost/spirit/home/support/utf8.hpp>
 #endif
 
 namespace boost { namespace spirit { namespace karma { namespace detail 
@@ -191,8 +192,8 @@ namespace boost { namespace spirit { namespace karma { namespace detail
        // wchar_t is only 16-bits on Windows. If BOOST_SPIRIT_UNICODE is
        // defined, the character type is 32-bits wide so we need to make
        // sure the buffer is at least that wide.
-#if (defined(_WIN32) || defined(__CYGWIN__)) && defined(BOOST_SPIRIT_UNICODE)
-       typedef spirit::char_encoding::unicode::char_type buffer_char_type;
+#if defined(BOOST_SPIRIT_UNICODE)
+       typedef mpl::if_c<detail2::traits::char_encoding<wchar_t>::value == detail2::encoding::utf32, wchar_t, spirit::char_encoding::unicode::char_type>::type buffer_char_type;
 #else
        typedef wchar_t buffer_char_type;
 #endif

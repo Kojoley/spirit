@@ -13,6 +13,7 @@ environment:
     PROJECT: libs\spirit
     APPVEYOR_SAVE_CACHE_ON_ERROR: true
     CLCACHE_HARDLINK: 1
+    WARNS: extra
     APPVEYOR_CACHE_ENTRY_ZIP_ARGS: "-t7z -m0=lzma2 -mx=3 -md=32m -ms=on"
     CLCACHE_CACHESIZE: 2123123123  # Appveyor allows us to store 1Gb of 7zipped cache but
                                    # object files compress ratio is 20:1 in our case
@@ -24,6 +25,8 @@ environment:
     - { APPVEYOR_BUILD_WORKER_IMAGE: 'Visual Studio 2015', ADDRMDL: 64, TOOLSET: 'msvc-12.0' }
     - { APPVEYOR_BUILD_WORKER_IMAGE: 'Visual Studio 2015', ADDRMDL: 32, TOOLSET: 'msvc-11.0' }
     - { APPVEYOR_BUILD_WORKER_IMAGE: 'Visual Studio 2015', ADDRMDL: 32, TOOLSET: 'msvc-10.0' }
+    - { APPVEYOR_BUILD_WORKER_IMAGE: 'Visual Studio 2019', ADDRMDL: 64, TOOLSET: 'clang-win', WARNS: on }
+    - { APPVEYOR_BUILD_WORKER_IMAGE: 'Visual Studio 2019', ADDRMDL: 64, TOOLSET: 'gcc', PATH: 'C:\msys64\mingw64\bin;%PATH%', WARNS: on }
 
 cache:
   - '%USERPROFILE%\clcache'
@@ -34,7 +37,7 @@ init:
   - set BOOST_BUILD_PATH=%BOOST_ROOT%\..\boost-build
   - set B2_ARGS=link=shared threading=multi variant=release
                 address-model=%ADDRMDL% toolset=%TOOLSET%
-                define=BOOST_ALL_NO_LIB
+                define=BOOST_ALL_NO_LIB embed-manifest=off
 
 before_build:
   - set PATH=%BOOST_ROOT%;C:\Python36-x64\Scripts;%PATH%
@@ -46,8 +49,9 @@ before_build:
       
       # clcache
       local toolset = [ regex.split [ os.environ TOOLSET ] "-" ] ;
-      
-      using $(toolset[1]) : $(toolset[2-]:J="-") : : <compiler>clcache ;
+      if $(toolset[1]) = msvc {
+          using $(toolset[1]) : $(toolset[2-]:J="-") : : <compiler>clcache ;
+      }
       
       # Ignore some warnings
       feature.feature known-warnings : suppress : optional incidental propagated ;
@@ -66,6 +70,13 @@ before_build:
           -wd4701  # potentially uninitialized local variable 'varname' used
           -wd4709  # msvc bug https://stackoverflow.com/questions/6012068
           -wd4714  # function 'x' marked as __forceinline not inlined
+        : unchecked ;
+      toolset.flags gcc.compile OPTIONS <known-warnings>suppress :
+          -Wno-maybe-uninitialized  # this warning is known to give false positives
+          -Wno-sign-compare
+        # -Wextra warnings:
+          -Wno-deprecated-copy      # Proto, Phoenix, GCC bug 92145
+          -Wno-type-limits
         : unchecked ;
       
       # A subfeature that tells Spirit tests to use PCH
@@ -115,4 +126,4 @@ build_script:
 
 test_script:
   - b2 %B2_ARGS% %PROJECT%\classic\test %PROJECT%\repository\test %PROJECT%\test
-      warnings=extra known-warnings=suppress warnings-as-errors=on pch=on-spirit 
+      warnings=%WARNS% known-warnings=suppress warnings-as-errors=on pch=on-spirit 

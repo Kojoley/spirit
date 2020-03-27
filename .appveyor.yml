@@ -12,11 +12,6 @@ environment:
   global:
     PROJECT: libs\spirit
     TEST_LINK_DEPS: date_time,filesystem,regex,thread
-    APPVEYOR_SAVE_CACHE_ON_ERROR: true
-    CLCACHE_HARDLINK: 1
-    APPVEYOR_CACHE_ENTRY_ZIP_ARGS: "-t7z -m0=lzma2 -mx=3 -md=32m -ms=on"
-    CLCACHE_CACHESIZE: 2123123123  # Appveyor allows us to store 1Gb of 7zipped cache but
-                                   # object files compress ratio is 20:1 in our case
 
   matrix:
     - { APPVEYOR_BUILD_WORKER_IMAGE: 'Visual Studio 2017', ADDRMDL: 64, TOOLSET: 'msvc-14.1' }
@@ -24,10 +19,6 @@ environment:
     - { APPVEYOR_BUILD_WORKER_IMAGE: 'Visual Studio 2015', ADDRMDL: 64, TOOLSET: 'msvc-12.0' }
     - { APPVEYOR_BUILD_WORKER_IMAGE: 'Visual Studio 2015', ADDRMDL: 32, TOOLSET: 'msvc-11.0' }
     - { APPVEYOR_BUILD_WORKER_IMAGE: 'Visual Studio 2015', ADDRMDL: 32, TOOLSET: 'msvc-10.0' }
-
-cache:
-  - '%USERPROFILE%\clcache'
-  - '%LOCALAPPDATA%\pip\Cache'
 
 init:
   - set BOOST_ROOT=%APPVEYOR_BUILD_FOLDER%\..\boost
@@ -37,17 +28,11 @@ init:
                 define=BOOST_ALL_NO_LIB
 
 before_build:
-  - set PATH=%BOOST_ROOT%;C:\Python36-x64\Scripts;%PATH%
   - ps: |
       # Creating %USERPROFILE%/user-config.jam file
       @'
       
-      import feature os regex toolset pch ;
-      
-      # clcache
-      local toolset = [ regex.split [ os.environ TOOLSET ] "-" ] ;
-      
-      using $(toolset[1]) : $(toolset[2-]:J="-") : : <compiler>clcache ;
+      import feature toolset pch ;
       
       # Ignore some warnings
       feature.feature known-warnings : suppress : optional incidental propagated ;
@@ -98,13 +83,6 @@ before_build:
   # Move the repository to boost/libs and make a link to previous place
   - move %APPVEYOR_BUILD_FOLDER% %PROJECT%
   - mklink /J %APPVEYOR_BUILD_FOLDER% %PROJECT%
-
-  # Install clcache
-  - pip install clcache
-  - clcache -M %CLCACHE_CACHESIZE%
-  # Run clcache-server
-  - set CLCACHE_SERVER=1
-  - ps: Start-Process clcache-server.exe -PassThru
 
 build_script:
   - bootstrap.bat --with-toolset=msvc

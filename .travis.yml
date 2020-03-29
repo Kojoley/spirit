@@ -11,6 +11,11 @@ language: cpp
 sudo: false
 
 addon_shortcuts:
+  clang-3.6: &clang-3_6
+    apt:
+      packages:
+        - clang-3.6
+
   clang-7: &clang-7
     apt:
       sources:
@@ -19,6 +24,13 @@ addon_shortcuts:
         - clang-7
         - libc++-7-dev
         - libc++abi-7-dev
+
+  gcc-5: &gcc-5
+    apt:
+      sources:
+        - ubuntu-toolchain-r-test
+      packages:
+        - g++-5
 
   gcc-8: &gcc-8
     apt:
@@ -42,6 +54,8 @@ matrix:
     ### Spirit 3
     - { env: 'STD=14  JOB=test/x3',         compiler: clang-7, addons: *clang-7 }
     - { env: 'STD=14  JOB=test/x3',         compiler: gcc-8, addons: *gcc-8 }
+    - { env: 'STD=14  JOB=test/x3',         compiler: clang-3.6, addons: *clang-3_6 }
+    - { env: 'STD=14  JOB=test/x3',         compiler: gcc-5, addons: *gcc-5 }
     ### Spirit 2
     ## Clang
     # 11
@@ -78,7 +92,7 @@ cache: ccache
 before_install:
   - export CACHE_NAME=$TRAVIS_OS_NAME-$TOOLSET-$STD-$JOB
   - export PATH=$BOOST_ROOT:$PATH
-  - if [[ "$TRAVIS_COMPILER" =~ ^clang- ]]; then export STDLIB=stdlib=libc++ ; fi
+  - if [[ "$TRAVIS_COMPILER" =~ ^clang-7 ]]; then export STDLIB=stdlib=libc++ ; fi
   - |
     # Creating ~/user-config.jam file
     sed 's/^  //' > ~/user-config.jam << 'EOF'

@@ -44,6 +44,10 @@ main()
     (!defined(__clang__) || __clang_major__ >= 7)
     BOOST_SPIRIT_ASSERT_CONSTEXPR_CTORS(with<my_tag>(0)['x']);
 #endif
+    {
+        constexpr int i = 0;
+        BOOST_SPIRIT_ASSERT_CONSTEXPR_CTORS(with<my_tag>(i)['x']);
+    }
 
     { // injecting data into the context in the grammar
 

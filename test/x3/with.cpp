@@ -40,7 +40,8 @@ main()
     using boost::spirit::x3::int_;
     using boost::spirit::x3::with;
 
-#if !defined(_MSC_VER) || _MSC_VER >= 1910
+#if (!defined(_MSC_VER) || _MSC_VER >= 1910) && \
+    (!defined(__clang__) || __clang_major__ >= 7)
     BOOST_SPIRIT_ASSERT_CONSTEXPR_CTORS(with<my_tag>(0)['x']);
 #endif
 

@@ -13,14 +13,13 @@ environment:
     PROJECT: libs\spirit
     APPVEYOR_SAVE_CACHE_ON_ERROR: true
     CLCACHE_HARDLINK: 1
-    WARNS: extra
     APPVEYOR_CACHE_ENTRY_ZIP_ARGS: "-t7z -m0=lzma2 -mx=3 -md=32m -ms=on"
     CLCACHE_CACHESIZE: 2123123123  # Appveyor allows us to store 1Gb of 7zipped cache but
                                    # object files compress ratio is 20:1 in our case
 
   matrix:
-    - { APPVEYOR_BUILD_WORKER_IMAGE: 'Visual Studio 2019', ADDRMDL: 64, TOOLSET: 'clang-win', WARNS: on }
-    - { APPVEYOR_BUILD_WORKER_IMAGE: 'Visual Studio 2019', ADDRMDL: 64, TOOLSET: 'gcc', PATH: 'C:\msys64\mingw64\bin;%PATH%', WARNS: on }
+    - { APPVEYOR_BUILD_WORKER_IMAGE: 'Visual Studio 2019', ADDRMDL: 64, TOOLSET: 'clang-win' }
+    - { APPVEYOR_BUILD_WORKER_IMAGE: 'Visual Studio 2019', ADDRMDL: 64, TOOLSET: 'gcc', PATH: 'C:\msys64\mingw64\bin;%PATH%' }
 
 cache:
   - '%USERPROFILE%\clcache'
@@ -120,4 +119,4 @@ build_script:
 
 test_script:
   - b2 %B2_ARGS% %PROJECT%\classic\test %PROJECT%\repository\test %PROJECT%\test
-      warnings=%WARNS% known-warnings=suppress warnings-as-errors=on pch=on-spirit 
+      warnings=off

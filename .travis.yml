@@ -36,6 +36,7 @@ env:
     - PROJECT=libs/spirit
     - BOOST_ROOT=$HOME/boost
     - BOOST_BUILD_PATH=$HOME/build-boost
+    - ASAN_OPTIONS=detect_stack_use_after_return=1:strict_string_checks=1:check_initialization_order=1:strict_init_order=1
 
 matrix:
   include:
@@ -105,7 +106,9 @@ before_install:
 
     # Release variant with enabled asserts
     variant sanitize : <optimization>speed <debug-symbols>off <inlining>full
-                       <runtime-debugging>off ;
+                       <runtime-debugging>off
+                       <cxxflags>-fsanitize=address,undefined
+                       <linkflags>-fsanitize=address,undefined ;
 
     # Ignore some warnings
     feature.feature known-warnings : suppress : optional incidental propagated ;

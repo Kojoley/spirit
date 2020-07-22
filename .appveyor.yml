@@ -11,6 +11,8 @@ clone_depth: 50
 environment:
   global:
     PROJECT: libs\spirit
+    APPVEYOR_CACHE_SKIP_RESTORE: true  # do not restore cache on warning elimination branch
+    APPVEYOR_CACHE_SKIP_SAVE: true     # do not save cache on warning elimination branch
     APPVEYOR_SAVE_CACHE_ON_ERROR: true
     CLCACHE_HARDLINK: 1
     APPVEYOR_CACHE_ENTRY_ZIP_ARGS: "-t7z -m0=lzma2 -mx=3 -md=32m -ms=on"
@@ -52,18 +54,11 @@ before_build:
       # Ignore some warnings
       feature.feature known-warnings : suppress : optional incidental propagated ;
       toolset.flags msvc.compile OPTIONS <known-warnings>suppress :
-          -wd4244  # lit1.cpp(31): wchar_t to char truncation
-          -wd4996  # Call to 'std::copy' with parameters that may be unsafe
-          -wd4003  # Fusion adapt_adt: not enough actual parameters for macro
           -wd4100  # unreferenced formal parameter
-          -wd4310  # cast truncates constant value
           -wd4456  # declaration of 'varname' hides previous local declaration
           -wd4457  # declaration of 'varname' hides function parameter
           -wd4458  # declaration of 'varname' hides class member
           -wd4459  # declaration of 'varname' hides global declaration
-          -wd4512  # assignment operator could not be generated
-          -wd4702  # unreachable code
-          -wd4701  # potentially uninitialized local variable 'varname' used
           -wd4709  # msvc bug https://stackoverflow.com/questions/6012068
           -wd4714  # function 'x' marked as __forceinline not inlined
         : unchecked ;

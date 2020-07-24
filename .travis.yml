@@ -73,7 +73,6 @@ matrix:
     - { env: 'STD=03  JOB=classic/test',    compiler: clang-10, addons: *clang-10 }
     - { env: 'STD=03  JOB=classic/test',    compiler: gcc-10, addons: *gcc-10 }
 
-cache: ccache
 
 before_install:
   - export CACHE_NAME=$TRAVIS_OS_NAME-$TOOLSET-$STD-$JOB
@@ -163,3 +162,4 @@ script:
   - b2 link=shared threading=multi variant=release,sanitize
       toolset=$TRAVIS_COMPILER cxxstd=$STD $STDLIB
       warnings=extra known-warnings=suppress warnings-as-errors=on
+      cxxflags=-Wconversion

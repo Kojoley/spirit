@@ -141,18 +141,18 @@ namespace boost { namespace spirit { namespace char_encoding
     //  Simple character conversions
     ///////////////////////////////////////////////////////////////////////////////
 
-        static int
+        static char
         tolower(int ch)
         {
             BOOST_ASSERT(strict_ischar(ch));
-            return std::tolower(ch);
+            return static_cast<char>(std::tolower(ch));
         }
 
-        static int
+        static char
         toupper(int ch)
         {
             BOOST_ASSERT(strict_ischar(ch));
-            return std::toupper(ch);
+            return static_cast<char>(std::toupper(ch));
         }
 
         static ::boost::uint32_t

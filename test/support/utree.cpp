@@ -487,7 +487,7 @@ int main()
         utree u2;
         bool ok = true;
 
-        for (int t = min ; ok && t <= max ; ++t) {
+        for (short t = min ; ok && t < max ; ++t) {
             u.tag(t);
             u2 = u;
             BOOST_TEST_EQ(t, u.tag());

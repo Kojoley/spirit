@@ -17,6 +17,7 @@
 #include <boost/spirit/include/phoenix_core.hpp>
 #include <boost/spirit/include/phoenix_operator.hpp>
 #include <boost/fusion/include/std_pair.hpp>
+#include <boost/phoenix/object/static_cast.hpp>
 
 #include <string>
 #include <cstring>
@@ -77,8 +78,8 @@ main()
 
     { // context (w/arg) tests
 
-        char ch;
-        rule<char const*, char(int)> a; // 1 arg
+        int ch;
+        rule<char const*, int(int)> a; // 1 arg
         a = alpha[_val = _1 + _r1];
 
         BOOST_TEST(test("x", a(phx::val(1))[phx::ref(ch) = _1]));
@@ -87,7 +88,7 @@ main()
         BOOST_TEST(test_attr("a", a(1), ch)); // allow scalars as rule args too.
         BOOST_TEST(ch == 'a' + 1);
 
-        rule<char const*, char(int, int)> b; // 2 args
+        rule<char const*, int(int, int)> b; // 2 args
         b = alpha[_val = _1 + _r1 + _r2];
         BOOST_TEST(test_attr("a", b(1, 2), ch));
         BOOST_TEST(ch == 'a' + 1 + 2);
@@ -114,7 +115,7 @@ main()
     { // context (w/args and locals) tests
 
         rule<char const*, void(int), locals<char> > a; // 1 arg + 1 local
-        a = alpha[_a = _1 + _r1] >> char_(_a);
+        a = alpha[_a = phx::static_cast_<char>(_1 + _r1)] >> char_(_a);
         BOOST_TEST(test("ab", a(phx::val(1))));
         BOOST_TEST(test("xy", a(phx::val(1))));
         BOOST_TEST(!test("ax", a(phx::val(1))));

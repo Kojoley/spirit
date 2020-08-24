@@ -227,7 +227,7 @@ namespace boost { namespace spirit { namespace karma { namespace detail
         }
 
         template <typename OutputIterator_>
-        bool copy(OutputIterator_& sink, std::size_t maxwidth) const 
+        bool copy(OutputIterator_ sink, std::size_t maxwidth) const 
         {
 #if defined(BOOST_MSVC)
 #pragma warning(push)
@@ -239,14 +239,21 @@ namespace boost { namespace spirit { namespace karma { namespace detail
 #if defined(BOOST_MSVC)
 #pragma warning(disable: 4244) // conversion from 'x' to 'y', possible loss of data
 #endif
+#if !defined(BOOST_MSVC) || BOOST_MSVC >= 1910
             std::copy(buffer.begin(), end, sink);
+#else
+            // MSSTL is maddening with unsuppresable warnings coming from it
+            for (std::basic_string<buffer_char_type>::const_iterator
+                     it = buffer.begin(); it != end; ++it)
+                 *sink++ = *it;
+#endif
 #if defined(BOOST_MSVC)
 #pragma warning(pop)
 #endif
             return true;
         }
         template <typename RestIterator>
-        bool copy_rest(RestIterator& sink, std::size_t start_at) const 
+        bool copy_rest(RestIterator sink, std::size_t start_at) const 
         {
 #if defined(BOOST_MSVC)
 #pragma warning(push)
@@ -258,7 +265,14 @@ namespace boost { namespace spirit { namespace karma { namespace detail
 #if defined(BOOST_MSVC)
 #pragma warning(disable: 4244) // conversion from 'x' to 'y', possible loss of data
 #endif
+#if !defined(BOOST_MSVC) || BOOST_MSVC >= 1910
             std::copy(begin, buffer.end(), sink);
+#else
+            // MSSTL is maddening with unsuppresable warnings coming from it
+            for (std::basic_string<buffer_char_type>::const_iterator
+                     end = buffer.end(); begin != end; ++begin)
+                 *sink++ = *begin;
+#endif
 #if defined(BOOST_MSVC)
 #pragma warning(pop)
 #endif

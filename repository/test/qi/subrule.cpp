@@ -18,6 +18,7 @@
 #include <boost/spirit/include/phoenix_object.hpp>
 #include <boost/spirit/include/phoenix_bind.hpp>
 #include <boost/fusion/include/std_pair.hpp>
+#include <boost/phoenix/object/static_cast.hpp>
 
 #include <boost/spirit/repository/include/qi_subrule.hpp>
 
@@ -244,11 +245,11 @@ main()
 
     { // context (w/arg) tests
 
-        char ch;
+        int ch;
 
         // entry subrule with 1 arg
-        rule<char const*, char(int)> a;
-        subrule<1, char(int)> sr1;
+        rule<char const*, int(int)> a;
+        subrule<1, int(int)> sr1;
         a %= (
             sr1 = alpha[_val = _1 + _r1]
         )(_r1);
@@ -256,14 +257,14 @@ main()
         BOOST_TEST(ch == 'x' + 1);
 
         // other subrule with 1 arg
-        subrule<0, char()> sr0;
+        subrule<0, int()> sr0;
         a %= (
             sr0 %= sr1(1)
           , sr1 = alpha[_val = _1 + _r1]
         );
 
         // allow scalars as subrule args too
-        rule<char const*, char()> b;
+        rule<char const*, int()> b;
         b %= (
             sr1 = alpha[_val = _1 + _r1]
         )(1);
@@ -271,7 +272,7 @@ main()
         BOOST_TEST(ch == 'b' + 1);
 
         // entry subrule with 2 args
-        subrule<2, char(int, int)> sr2;
+        subrule<2, int(int, int)> sr2;
         BOOST_TEST(test_attr("a", (
             sr2 = alpha[_val = _1 + _r1 + _r2]
         )(1, 2), ch));
@@ -314,7 +315,7 @@ main()
         rule<char const*, void(int)> a;
         subrule<0, void(int), locals<char> > sr; // 1 arg + 1 local
         a = (
-            sr = alpha[_a = _1 + _r1] >> char_(_a)
+            sr = alpha[_a = phx::static_cast_<char>(_1 + _r1)] >> char_(_a)
         )(_r1);
         BOOST_TEST(test("ab", a(phx::val(1))));
         BOOST_TEST(test("xy", a(phx::val(1))));

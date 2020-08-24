@@ -684,20 +684,20 @@ namespace boost { namespace spirit { namespace char_encoding
     //  Simple character conversions
     ///////////////////////////////////////////////////////////////////////////
 
-        static int
+        static unsigned char
         tolower(int ch)
         {
             BOOST_ASSERT(strict_ischar(ch));
             return isupper(ch) && '\0' != iso8859_1_char_conversion[ch] ?
-                iso8859_1_char_conversion[ch] : ch;
+                iso8859_1_char_conversion[ch] : static_cast<unsigned char>(ch);
         }
 
-        static int
+        static unsigned char
         toupper(int ch)
         {
             BOOST_ASSERT(strict_ischar(ch));
             return islower(ch) && '\0' != iso8859_1_char_conversion[ch] ?
-                iso8859_1_char_conversion[ch] : ch;
+                iso8859_1_char_conversion[ch] : static_cast<unsigned char>(ch);
         }
 
         static ::boost::uint32_t

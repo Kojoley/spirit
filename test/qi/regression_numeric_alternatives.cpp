@@ -29,11 +29,11 @@ int main()
     using boost::spirit::qi::ulong_long;
 #endif
 
-    BOOST_TEST(test("-123", short_(0) | short_(-123)));
-    BOOST_TEST(test("-123", short_(-123) | short_(0)));
+    BOOST_TEST(test("-123", short_(short(0)) | short_(short(-123))));
+    BOOST_TEST(test("-123", short_(short(-123)) | short_(short(0))));
   
-    BOOST_TEST(test("123", ushort_(0) | ushort_(123)));
-    BOOST_TEST(test("123", ushort_(123) | ushort_(0)));
+    BOOST_TEST(test("123", ushort_(short(0)) | ushort_(short(123))));
+    BOOST_TEST(test("123", ushort_(short(123)) | ushort_(short(0))));
   
     BOOST_TEST(test("-123456", int_(0) | int_(-123456)));
     BOOST_TEST(test("-123456", int_(-123456) | int_(0)));

@@ -101,11 +101,12 @@ main()
         using boost::spirit::long_;
         int i;
 
-        BOOST_TEST(test("12345", short_(12345)));
-        BOOST_TEST(!test("12345", short_(54321)));
-        BOOST_TEST(test_attr("12345", short_(12345), i));
+        // casting to 'short' is done to avoid warnings
+        BOOST_TEST(test("12345", short_(short(12345))));
+        BOOST_TEST(!test("1234", short_(short(4321))));
+        BOOST_TEST(test_attr("12345", short_(short(12345)), i));
         BOOST_TEST(i == 12345);
-        BOOST_TEST(!test_attr("12345", short_(54321), i));
+        BOOST_TEST(!test_attr("1234", short_(short(4321)), i));
 
         BOOST_TEST(test("1234567890", long_(1234567890L)));
         BOOST_TEST(!test("1234567890", long_(987654321L)));

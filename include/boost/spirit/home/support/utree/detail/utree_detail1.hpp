@@ -120,8 +120,8 @@ namespace boost { namespace spirit { namespace detail
             heap_store heap;
         };
 
-        int get_type() const;
-        void set_type(int t);
+        char get_type() const;
+        void set_type(char t);
         bool is_heap_allocated() const;
 
         std::size_t size() const;

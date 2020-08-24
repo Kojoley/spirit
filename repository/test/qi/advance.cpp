@@ -86,12 +86,12 @@ int main()
         std::list<char> list;
 
         list.clear();
-        list += 1,2,'a','b','c';
+        list += '\1','x','a','b','c';
         start = byte_ [_a = _1] >> advance(_a) >> "abc";
         BOOST_TEST(test_c(list, start));
 
         list.clear();
-        list += 3,'q','i';
+        list += '\3','q','i';
         start = byte_ [_a = _1] >> advance(_a);
         BOOST_TEST(!test_c(list, start));
 

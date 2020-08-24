@@ -33,12 +33,12 @@ namespace boost { namespace spirit { namespace detail
         return buff[small_string_size];
     }
 
-    inline int fast_string::get_type() const
+    inline char fast_string::get_type() const
     {
         return info() >> 1;
     }
 
-    inline void fast_string::set_type(int t)
+    inline void fast_string::set_type(char t)
     {
         info() = (t << 1) | (info() & 1);
     }
@@ -1409,7 +1409,7 @@ namespace boost { namespace spirit
     inline void utree::set_type(type::info t)
     {
         // the fast string holds the type info
-        s.set_type(t);
+        s.set_type(static_cast<char>(t));
     }
 
     inline void utree::ensure_list_type(char const* failed_in)

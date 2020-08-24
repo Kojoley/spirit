@@ -145,18 +145,18 @@ main()
 
     { // attribute compatibility test
         using boost::spirit::x3::rule;
-        using boost::spirit::x3::int_;
+        using boost::spirit::x3::short_;
 
-        auto const expr = int_;
+        auto const expr = short_;
 
-        short i;
+        int i;
         BOOST_TEST(test_attr("1", expr, i) && i == 1); // ok
 
-        const rule< class int_rule, int > int_rule( "int_rule" );
-        auto const int_rule_def = int_;
+        const rule< class int_rule, short > int_rule( "int_rule" );
+        auto const int_rule_def = short_;
         auto const start  = int_rule = int_rule_def;
 
-        short j;
+        int j;
         BOOST_TEST(test_attr("1", start, j) && j == 1); // error
     }
 

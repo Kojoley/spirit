@@ -70,7 +70,15 @@ main()
         BOOST_TEST((test_attr("kimpo", string("kimpo"), s)));
         BOOST_TEST(s == "kimpo");
         s.clear();
+#if defined(_MSC_VER)
+# pragma warning(push)
+# pragma warning(disable: 4244) // conversion from 'wchar_t' to 'char', possible loss of data
+#endif
+        // TODO: Should this even be allowed?
         BOOST_TEST((test_attr(L"kimpo", string(L"kimpo"), s)));
+#if defined(_MSC_VER)
+# pragma warning(pop)
+#endif
         BOOST_TEST(s == "kimpo");
         s.clear();
         BOOST_TEST((test_attr("x", string("x"), s)));

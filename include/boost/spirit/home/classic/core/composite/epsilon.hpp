@@ -51,6 +51,9 @@ BOOST_SPIRIT_CLASSIC_NAMESPACE_BEGIN
         typename parser_result<self_t, ScannerT>::type
         parse(ScannerT const& scan) const
         {
+#if defined(_MSC_VER) && _MSC_VER < 1910
+            (void)scan; // silence msvc<14.1 bogus C4100
+#endif
             if (positive_ == bool(cond())) // allow cond to return int
                 return scan.empty_match();
             else

@@ -36,6 +36,9 @@
 #if defined(BOOST_MSVC)
 # pragma warning(push)
 # pragma warning(disable: 4127) // conditional expression is constant
+# if _MSC_VER < 1910
+#  pragma warning(disable: 4100) // unreferenced formal parameter
+# endif
 #endif
 
 #if !defined(SPIRIT_NUMERICS_LOOP_UNROLL)

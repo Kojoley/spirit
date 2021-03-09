@@ -101,6 +101,10 @@ namespace boost { namespace spirit { namespace traits
             }
         };
 
+#if defined(_MSC_VER) && _MSC_VER < 1910
+# pragma warning(push)
+# pragma warning(disable: 4100) // unreferenced formal parameter
+#endif
         // SFINAE for our calling syntax, the forwarders are stored based
         // on what function call gives a proper result
         // this code can probably be more generic once implementations are
@@ -138,6 +142,9 @@ namespace boost { namespace spirit { namespace traits
         {
             return {};
         }
+#if defined(_MSC_VER) && _MSC_VER < 1910
+# pragma warning(pop)
+#endif
 
         // this function calls the forwarder and is responsible for
         // stripping the tail of the parameters

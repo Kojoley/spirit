@@ -140,6 +140,7 @@ int main()
     {
         auto r = rule<class r, int>{} = eps[([] (auto& ctx) {
             using boost::spirit::x3::_val;
+            (void)ctx; // silence msvc<14.1 bogus C4100
             static_assert(std::is_same<std::decay_t<decltype(_val(ctx))>, unused_type>::value,
                 "Attribute must not be synthesized");
         })];

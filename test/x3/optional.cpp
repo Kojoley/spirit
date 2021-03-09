@@ -28,6 +28,7 @@ struct test_attribute_type
     template <typename Context>
     void operator()(Context& ctx) const
     {
+        (void)ctx; // silence msvc<14.1 bogus C4100
         BOOST_TEST(typeid(decltype(_attr(ctx))).name() == typeid(boost::optional<int>).name());
     }
 };

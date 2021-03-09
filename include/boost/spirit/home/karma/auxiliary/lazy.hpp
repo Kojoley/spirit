@@ -52,6 +52,10 @@ namespace boost { namespace spirit { namespace karma
 
     namespace detail
     {
+#if defined(_MSC_VER) && _MSC_VER < 1910
+# pragma warning(push)
+# pragma warning(disable: 4100) // unreferenced formal parameter
+#endif
         template <typename Generator, typename OutputIterator, typename Context
           , typename Delimiter, typename Attribute>
         bool lazy_generate_impl(Generator const& g, OutputIterator& sink
@@ -71,6 +75,9 @@ namespace boost { namespace spirit { namespace karma
             // component's attribute is unused.
             return g.generate(sink, context, delim, unused);
         }
+#if defined(_MSC_VER) && _MSC_VER < 1910
+# pragma warning(pop)
+#endif
 
         template <typename Generator, typename OutputIterator, typename Context
           , typename Delimiter, typename Attribute>

@@ -22,6 +22,9 @@ namespace boost { namespace spirit { namespace karma
     template <typename OutputIterator, typename Delimiter>
     inline bool delimit_out(OutputIterator& sink, Delimiter const& d)
     {
+#if defined(_MSC_VER) && _MSC_VER < 1910
+        (void)d; // silence msvc<14.1 bogus C4100
+#endif
         return d.generate(sink, unused, unused, unused);
     }
 

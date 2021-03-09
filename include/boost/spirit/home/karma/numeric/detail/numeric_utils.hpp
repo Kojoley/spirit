@@ -298,6 +298,9 @@ namespace boost { namespace spirit { namespace traits
     {
         static bool call(T n)
         {
+#if defined(_MSC_VER) && _MSC_VER < 1910
+            (void)n; // silence msvc<14.1 bogus C4100
+#endif
             return std::numeric_limits<T>::has_infinity
                 && n == std::numeric_limits<T>::infinity();
         }

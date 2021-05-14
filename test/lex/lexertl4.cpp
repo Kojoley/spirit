@@ -38,7 +38,7 @@ int main()
     {
         // initialize lexer
         lexer_def lex;
-        token_def ws_tok ("[\\v\\f\\n\\r]+", TOKEN_ID_WS);
+
         lex.self.add
             (c_comment)(cpp_comment) 
             ('1')('2')('3')
@@ -60,7 +60,6 @@ int main()
     {
         // initialize lexer
         lexer_def lex;
-        token_def ws_tok ("[\\v\\f\\n\\r]+", TOKEN_ID_WS);
 
         lex.self.add
             (c_comment)(cpp_comment) 

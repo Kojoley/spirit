@@ -601,16 +601,16 @@ namespace boost { namespace spirit { namespace karma
             int ch = radix_type::call(remainder_type::call(n));
             n = divide_type::call(n, num, ++exp);
 
-            BOOST_PP_REPEAT(
+            /*BOOST_PP_REPEAT(
                 BOOST_KARMA_NUMERICS_LOOP_UNROLL,
-                BOOST_KARMA_NUMERICS_INNER_LOOP_PREFIX, _);
+                BOOST_KARMA_NUMERICS_INNER_LOOP_PREFIX, _);*/
 
             if (!traits::test_zero(n))
                 call(sink, n, num, exp);
 
-            BOOST_PP_REPEAT(
+            /*BOOST_PP_REPEAT(
                 BOOST_KARMA_NUMERICS_LOOP_UNROLL,
-                BOOST_KARMA_NUMERICS_INNER_LOOP_SUFFIX, _);
+                BOOST_KARMA_NUMERICS_INNER_LOOP_SUFFIX, _);*/
 
             *sink = char(ch);
             ++sink;
